@@ -42,14 +42,16 @@
     </section>
 
     <form data-form>
+      <span class="field-title">Pega aqui el enlace publico</span>
       <input data-url type="url" placeholder="Pega aqui el enlace publico del ZIP" required>
       <button type="submit">Crear enlace</button>
     </form>
 
     <div class="output-row">
-      <section class="output" data-output>
-        Enlace para compartir
-      </section>
+      <div class="output-group">
+        <span class="field-title">Enlace para compartir</span>
+        <section class="output" data-output>Enlace para compartir</section>
+      </div>
       <div class="actions">
         <button type="button" data-copy disabled>Copiar enlace</button>
         <a class="open-link" data-open href="#" target="_blank" rel="noopener" aria-disabled="true">Abrir vista previa</a>
