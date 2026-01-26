@@ -349,6 +349,7 @@
   function loadZip(zipUrl, options) {
     var opts = options || {};
     var autoOpen = !!opts.autoOpen;
+    var showProgress = opts.showProgress !== false;
     if (autoOpen) {
       setLoading(true);
       setProgress(5);
@@ -356,6 +357,9 @@
     }
     if (!GAS_WEBAPP_URL) {
       setStatus('Configura GAS_WEBAPP_URL en docs/config.js.');
+      if (showProgress && !autoOpen) {
+        setLoading(false);
+      }
       return Promise.resolve();
     }
     setStatus('Preparando ZIP...');
@@ -385,17 +389,29 @@
               setProgress(100);
               window.location.assign(siteUrl);
             }
+            if (showProgress && !autoOpen) {
+              setLoading(false);
+            }
             return { siteId: result.siteId, siteUrl: siteUrl };
           });
         }
 
         setStatus('Descargando ZIP...');
+        if (showProgress && !autoOpen) {
+          setLoading(true);
+          setLoadingMessage('Descargando ZIP...');
+        }
         if (autoOpen) {
+          startProgress(20);
+        } else if (showProgress) {
           startProgress(20);
         }
         return fetchZipBundle(zipUrl).then(function (bundle) {
           setStatus('Descomprimiendo...');
           if (autoOpen) {
+            stopProgress();
+            setProgress(70);
+          } else if (showProgress) {
             stopProgress();
             setProgress(70);
           }
@@ -437,6 +453,9 @@
           if (autoOpen) {
             stopProgress();
             setProgress(85);
+          } else if (showProgress) {
+            stopProgress();
+            setProgress(85);
           }
 
           return deleteSite(result.siteId).catch(function () {
@@ -458,6 +477,11 @@
                   if (autoOpen) {
                     window.location.assign(siteUrl);
                   }
+                  if (showProgress && !autoOpen) {
+                    setProgress(100);
+                    stopProgress();
+                    setLoading(false);
+                  }
                   return { siteId: result.siteId, siteUrl: siteUrl };
                 });
               });
@@ -472,6 +496,10 @@
         setShareLink('');
         setStatus(err.message || 'No se pudo cargar el ZIP.');
         if (autoOpen) {
+          setLoading(false);
+        }
+        if (showProgress && !autoOpen) {
+          stopProgress();
           setLoading(false);
         }
         setSiteUrl('');
