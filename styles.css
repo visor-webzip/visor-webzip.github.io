@@ -1,3 +1,7 @@
+[hidden] {
+  display: none !important;
+}
+
 :root {
   color-scheme: light;
   font-family: "IBM Plex Sans", "Segoe UI", sans-serif;

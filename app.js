@@ -528,6 +528,7 @@
     loadZip(urlParam, { force: false, autoOpen: autoOpen });
   } else {
     setViewerEmpty(true);
+    setLoading(false);
     if (viewerNote) {
       viewerNote.textContent = 'Pega el enlace al ZIP para ver la web.';
     }
