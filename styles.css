@@ -154,12 +154,6 @@ button {
   box-shadow: 0 12px 22px rgba(21, 24, 27, 0.2);
 }
 
-.ghost-button {
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--ink);
-  box-shadow: none;
-}
 
 .output-row {
   display: grid;
@@ -315,39 +309,6 @@ button[disabled] {
   line-height: 1.6;
 }
 
-.storage-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 16px 0;
-}
-
-.storage-list {
-  display: grid;
-  gap: 10px;
-}
-
-.storage-item {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 12px;
-  align-items: center;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: var(--surface-muted);
-  border: 1px solid var(--border);
-}
-
-.storage-item__title {
-  font-weight: 600;
-  color: var(--ink);
-  font-size: 0.95rem;
-}
-
-.storage-item__meta {
-  font-size: 0.85rem;
-  color: var(--ink-muted);
-}
 
 
 

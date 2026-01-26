@@ -13,13 +13,6 @@
   var helpOpen = document.querySelector('[data-help-open]');
   var helpModal = document.querySelector('[data-help-modal]');
   var helpCloseButtons = document.querySelectorAll('[data-help-close]');
-  var storageModal = document.querySelector('[data-storage-modal]');
-  var storageList = document.querySelector('[data-storage-list]');
-  var storageNote = document.querySelector('[data-storage-note]');
-  var storageDeleteOldest = document.querySelector('[data-storage-delete-oldest]');
-  var storageDeleteSelected = document.querySelector('[data-storage-delete-selected]');
-  var storageCancel = document.querySelector('[data-storage-cancel]');
-  var storageCloseButtons = document.querySelectorAll('[data-storage-close]');
 
   var currentShareLink = '';
   var loadingActive = false;
@@ -360,18 +353,6 @@
     return sha1Hex(normalizeZipUrl(zipUrl));
   }
 
-  function formatBytes(bytes) {
-    if (!bytes) return '0 B';
-    var units = ['B', 'KB', 'MB', 'GB'];
-    var idx = 0;
-    var value = bytes;
-    while (value >= 1024 && idx < units.length - 1) {
-      value /= 1024;
-      idx += 1;
-    }
-    return value.toFixed(value >= 10 || idx === 0 ? 0 : 1) + ' ' + units[idx];
-  }
-
   function sumSiteBytes(sites) {
     return sites.reduce(function (sum, site) {
       return sum + (site.totalBytes || 0);
@@ -385,79 +366,6 @@
       });
     }
     return Promise.resolve(null);
-  }
-
-  function renderStorageList(sites) {
-    if (!storageList) return;
-    storageList.innerHTML = '';
-    sites.forEach(function (site) {
-      var item = document.createElement('label');
-      item.className = 'storage-item';
-      var checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.checked = false;
-      checkbox.setAttribute('data-site-id', site.id);
-      var info = document.createElement('div');
-      var title = document.createElement('div');
-      title.className = 'storage-item__title';
-      title.textContent = site.url || 'Sitio sin URL';
-      var meta = document.createElement('div');
-      meta.className = 'storage-item__meta';
-      var date = site.updatedAt ? new Date(site.updatedAt).toLocaleString() : 'sin fecha';
-      meta.textContent = formatBytes(site.totalBytes || 0) + ' · ' + date;
-      info.appendChild(title);
-      info.appendChild(meta);
-      item.appendChild(checkbox);
-      item.appendChild(info);
-      storageList.appendChild(item);
-    });
-  }
-
-  function openStorageModal(state) {
-    if (!storageModal) {
-      return Promise.resolve(false);
-    }
-    renderStorageList(state.sites);
-    if (storageNote && state.note) {
-      storageNote.textContent = state.note;
-    }
-    storageModal.removeAttribute('hidden');
-    return new Promise(function (resolve) {
-      var closed = false;
-      var finish = function (result) {
-        if (closed) return;
-        closed = true;
-        storageModal.setAttribute('hidden', '');
-        resolve(result);
-      };
-      var handleClose = function () {
-        finish(false);
-      };
-      var handleDeleteOldest = function () {
-        finish('oldest');
-      };
-      var handleDeleteSelected = function () {
-        finish('selected');
-      };
-      storageCloseButtons.forEach(function (btn) {
-        btn.addEventListener('click', handleClose, { once: true });
-      });
-      if (storageCancel) {
-        storageCancel.addEventListener('click', handleClose, { once: true });
-      }
-      if (storageDeleteOldest) {
-        storageDeleteOldest.addEventListener('click', handleDeleteOldest, { once: true });
-      }
-      if (storageDeleteSelected) {
-        storageDeleteSelected.addEventListener('click', handleDeleteSelected, { once: true });
-      }
-      document.addEventListener('keydown', function onKey(event) {
-        if (event.key === 'Escape') {
-          document.removeEventListener('keydown', onKey);
-          finish(false);
-        }
-      });
-    });
   }
 
   function deleteSitesSequential(siteIds) {
@@ -492,33 +400,27 @@
         return true;
       }
       var projected = usage + (extraBytes || 0);
-      var limit = quota * 0.8;
+      var limit = quota * 0.7;
       if (projected < limit) {
         return true;
       }
-      var note = 'Has usado gran parte del espacio disponible. Puedes borrar webs antiguas.';
-      return openStorageModal({ sites: sites, note: note }).then(function (action) {
-        if (!action) return false;
-        if (action === 'oldest') {
-          var target = Math.max(0, limit - (extraBytes || 0));
-          var toDelete = chooseOldestSites(sites, target);
-          if (!toDelete.length) return false;
-          return deleteSitesSequential(toDelete).then(function () {
-            return ensureStorageCapacity(extraBytes);
-          });
-        }
-        if (action === 'selected') {
-          if (!storageList) return false;
-          var selected = Array.prototype.slice.call(storageList.querySelectorAll('input[type="checkbox"]:checked'))
-            .map(function (input) { return input.getAttribute('data-site-id'); })
-            .filter(Boolean);
-          if (!selected.length) return false;
-          return deleteSitesSequential(selected).then(function () {
-            return ensureStorageCapacity(extraBytes);
-          });
-        }
-        return false;
+      var target = Math.max(0, limit - (extraBytes || 0));
+      var toDelete = chooseOldestSites(sites, target);
+      if (!toDelete.length) return false;
+      return deleteSitesSequential(toDelete).then(function () {
+        return ensureStorageCapacity(extraBytes);
       });
+    });
+  }
+
+  function cleanupOldSites() {
+    var cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    return getAllSites().then(function (sites) {
+      var oldIds = sites.filter(function (site) {
+        return site.updatedAt && site.updatedAt < cutoff;
+      }).map(function (site) { return site.id; });
+      if (!oldIds.length) return;
+      return deleteSitesSequential(oldIds);
     });
   }
 
@@ -800,6 +702,7 @@
       }
     });
   }
+  cleanupOldSites();
   if (urlParam) {
     if (input) {
       input.value = urlParam;
