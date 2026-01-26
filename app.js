@@ -310,6 +310,9 @@
     if (driveId) {
       return 'https://drive.google.com/uc?export=download&id=' + driveId;
     }
+    if (url.indexOf('dropbox.com') !== -1) {
+      return url.replace(/([?&])dl=0\b/, '$1dl=1');
+    }
     return url;
   }
 
