@@ -58,6 +58,15 @@ button {
   cursor: pointer;
 }
 
+.actions {
+  margin: 12px 0 0;
+}
+
+button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .output {
   background: #fff;
   border-radius: 12px;
