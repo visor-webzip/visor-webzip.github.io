@@ -13,6 +13,13 @@
   var helpOpen = document.querySelector('[data-help-open]');
   var helpModal = document.querySelector('[data-help-modal]');
   var helpCloseButtons = document.querySelectorAll('[data-help-close]');
+  var tabButtons = document.querySelectorAll('[data-tab]');
+  var tabPanels = document.querySelectorAll('[data-tab-panel]');
+  var managerList = document.querySelector('[data-manager-list]');
+  var storageUsed = document.querySelector('[data-storage-used]');
+  var storageTotal = document.querySelector('[data-storage-total]');
+  var storageCount = document.querySelector('[data-storage-count]');
+  var deleteAllButton = document.querySelector('[data-delete-all]');
 
   var currentShareLink = '';
   var loadingActive = false;
@@ -328,9 +335,28 @@
     if (url.indexOf('dropbox.com') !== -1) {
       return url.replace(/([?&])dl=0\b/, '$1dl=1');
     }
-    if (url.indexOf('/s/') !== -1) {
+    var isNextcloud = serviceSelect && serviceSelect.value === 'nextcloud';
+    var host = '';
+    var path = '';
+    try {
+      var parsed = new URL(url);
+      host = parsed.hostname || '';
+      path = parsed.pathname || '';
+    } catch (e) {
+      // Ignore invalid URLs; fall back to simple checks.
+      path = url;
+    }
+    var looksLikeNextcloud = path.indexOf('/s/') !== -1 && host.indexOf('drive.google.com') === -1;
+    if (isNextcloud || looksLikeNextcloud) {
       if (url.indexOf('/download') === -1 && url.indexOf('download=1') === -1) {
-        return url.replace(/\/$/, '') + '/download';
+        var parts = url.split('#');
+        var baseAndQuery = parts[0];
+        var hash = parts.length > 1 ? '#' + parts.slice(1).join('#') : '';
+        var queryIndex = baseAndQuery.indexOf('?');
+        var base = queryIndex === -1 ? baseAndQuery : baseAndQuery.slice(0, queryIndex);
+        var query = queryIndex === -1 ? '' : baseAndQuery.slice(queryIndex);
+        base = base.replace(/\/$/, '') + '/download';
+        return base + query + hash;
       }
     }
     return url;
@@ -351,6 +377,18 @@
 
   function computeSiteId(zipUrl) {
     return sha1Hex(normalizeZipUrl(zipUrl));
+  }
+
+  function formatBytes(bytes) {
+    if (!bytes) return '0 B';
+    var units = ['B', 'KB', 'MB', 'GB'];
+    var idx = 0;
+    var value = bytes;
+    while (value >= 1024 && idx < units.length - 1) {
+      value /= 1024;
+      idx += 1;
+    }
+    return value.toFixed(value >= 10 || idx === 0 ? 0 : 1) + ' ' + units[idx];
   }
 
   function sumSiteBytes(sites) {
@@ -424,6 +462,76 @@
     });
   }
 
+  function renderManagerList(sites) {
+    if (!managerList) return;
+    managerList.innerHTML = '';
+    if (!sites.length) {
+      var empty = document.createElement('p');
+      empty.textContent = 'No hay webs guardadas en este navegador.';
+      managerList.appendChild(empty);
+      return;
+    }
+    sites.forEach(function (site) {
+      var item = document.createElement('div');
+      item.className = 'manager-item';
+      var info = document.createElement('div');
+      var title = document.createElement('div');
+      title.className = 'manager-item__title';
+      title.textContent = site.url || 'Sitio sin URL';
+      var meta = document.createElement('div');
+      meta.className = 'manager-item__meta';
+      var date = site.updatedAt ? new Date(site.updatedAt).toLocaleString() : 'sin fecha';
+      meta.textContent = formatBytes(site.totalBytes || 0) + ' · ' + date;
+      info.appendChild(title);
+      info.appendChild(meta);
+      var actions = document.createElement('div');
+      actions.className = 'manager-item__actions';
+      var delButton = document.createElement('button');
+      delButton.type = 'button';
+      delButton.className = 'ghost-button';
+      delButton.textContent = 'Eliminar';
+      delButton.setAttribute('data-delete-id', site.id);
+      actions.appendChild(delButton);
+      item.appendChild(info);
+      item.appendChild(actions);
+      managerList.appendChild(item);
+    });
+  }
+
+  function refreshManager() {
+    return Promise.all([getAllSites(), estimateStorage()]).then(function (result) {
+      var sites = result[0];
+      var estimate = result[1];
+      var totalBytes = sumSiteBytes(sites);
+      if (storageUsed) {
+        storageUsed.textContent = formatBytes(totalBytes);
+      }
+      if (storageTotal) {
+        storageTotal.textContent = estimate && estimate.quota ? formatBytes(estimate.quota) : '--';
+      }
+      if (storageCount) {
+        storageCount.textContent = String(sites.length);
+      }
+      renderManagerList(sites);
+    });
+  }
+
+  function setActiveTab(name) {
+    document.body.setAttribute('data-active-tab', name);
+    tabButtons.forEach(function (button) {
+      var isActive = button.getAttribute('data-tab') === name;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    tabPanels.forEach(function (panel) {
+      var isActive = panel.getAttribute('data-tab-panel') === name;
+      panel.classList.toggle('is-active', isActive);
+    });
+    if (name === 'manager') {
+      refreshManager();
+    }
+  }
+
   function buildShareLink(zipUrl, fullView) {
     var base = appBase() + '?url=' + encodeURIComponent(zipUrl);
     if (fullView) {
@@ -480,6 +588,18 @@
     var opts = options || {};
     var autoOpen = !!opts.autoOpen;
     var showProgress = opts.showProgress !== false;
+    var normalizedZipUrl = normalizeZipUrl(zipUrl);
+    var shouldUseNormalized = false;
+    if (serviceSelect && serviceSelect.value === 'nextcloud') {
+      shouldUseNormalized = true;
+    }
+    if (zipUrl.indexOf('dropbox.com') !== -1) {
+      shouldUseNormalized = true;
+    }
+    var effectiveZipUrl = shouldUseNormalized ? normalizedZipUrl : zipUrl;
+    if (shouldUseNormalized && input && input.value && input.value.trim() === zipUrl && normalizedZipUrl !== zipUrl) {
+      input.value = normalizedZipUrl;
+    }
     if (autoOpen) {
       setLoading(true);
       setProgress(5);
@@ -504,14 +624,14 @@
       return waitForServiceWorkerControl();
     });
 
-    return computeSiteId(zipUrl)
+    return computeSiteId(effectiveZipUrl)
       .then(function (siteId) {
         return getSite(siteId).then(function (site) {
           return { siteId: siteId, cached: !!site, site: site };
         });
       })
       .then(function (result) {
-        var shareLink = buildShareLink(zipUrl, true);
+        var shareLink = buildShareLink(effectiveZipUrl, true);
         setShareLink(shareLink);
 
         if (result.cached && !opts.force) {
@@ -538,7 +658,7 @@
         } else if (showProgress) {
           startProgress(20);
         }
-        return fetchZipBundle(zipUrl).then(function (bundle) {
+        return fetchZipBundle(effectiveZipUrl).then(function (bundle) {
           setStatus('Descomprimiendo...');
           if (autoOpen) {
             stopProgress();
@@ -601,7 +721,7 @@
           }).then(function () {
             var site = {
               id: result.siteId,
-              url: normalizeZipUrl(zipUrl),
+              url: effectiveZipUrl,
               indexPath: indexPath,
               updatedAt: Date.now(),
               fileCount: files.length,
@@ -619,6 +739,7 @@
                     stopProgress();
                     setLoading(false);
                   }
+                  refreshManager();
                   return { siteId: result.siteId, siteUrl: siteUrl };
                 });
               });
@@ -687,6 +808,35 @@
     serviceSelect.addEventListener('change', updateServiceInfo);
     updateServiceInfo();
   }
+  if (tabButtons.length && tabPanels.length) {
+    tabButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        setActiveTab(button.getAttribute('data-tab'));
+      });
+    });
+    setActiveTab('main');
+  }
+  if (managerList) {
+    managerList.addEventListener('click', function (event) {
+      var target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      var siteId = target.getAttribute('data-delete-id');
+      if (!siteId) return;
+      deleteSite(siteId).then(function () {
+        refreshManager();
+      });
+    });
+  }
+  if (deleteAllButton) {
+    deleteAllButton.addEventListener('click', function () {
+      getAllSites().then(function (sites) {
+        var ids = sites.map(function (site) { return site.id; });
+        return deleteSitesSequential(ids);
+      }).then(function () {
+        refreshManager();
+      });
+    });
+  }
   if (helpOpen && helpModal) {
     helpOpen.addEventListener('click', function () {
       helpModal.removeAttribute('hidden');
@@ -703,6 +853,7 @@
     });
   }
   cleanupOldSites();
+  refreshManager();
   if (urlParam) {
     if (input) {
       input.value = urlParam;

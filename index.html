@@ -29,35 +29,69 @@
       <button class="link-button" type="button" data-help-open>Que se puede subir?</button>
     </header>
 
-    <section class="source-picker">
-      <label for="service">Origen del ZIP</label>
-      <select id="service" data-service>
-        <option value="drive">Google Drive</option>
-        <option value="dropbox">Dropbox</option>
-        <option value="nextcloud">Nextcloud</option>
-        <option value="onedrive">OneDrive</option>
-        <option value="github">GitHub</option>
-        <option value="other">Otros servicios</option>
-      </select>
-      <div class="service-note" data-service-note></div>
+    <div class="tabs" role="tablist" aria-label="Secciones">
+      <button class="tab-button is-active" type="button" role="tab" aria-selected="true" data-tab="main">Inicio</button>
+      <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="manager">Gestor de webs</button>
+    </div>
+
+    <section class="tab-panel is-active" role="tabpanel" data-tab-panel="main">
+      <section class="source-picker">
+        <label for="service">Origen del ZIP</label>
+        <select id="service" data-service>
+          <option value="drive">Google Drive</option>
+          <option value="dropbox">Dropbox</option>
+          <option value="nextcloud">Nextcloud</option>
+          <option value="onedrive">OneDrive</option>
+          <option value="github">GitHub</option>
+          <option value="other">Otros servicios</option>
+        </select>
+        <div class="service-note" data-service-note></div>
+      </section>
+
+      <form data-form>
+        <span class="field-title">Pega aqui el enlace publico</span>
+        <input data-url type="url" placeholder="Pega aqui el enlace publico del ZIP" required>
+        <button type="submit">Crear enlace</button>
+      </form>
+
+      <div class="output-row">
+        <div class="output-group">
+          <span class="field-title">Enlace para compartir</span>
+          <section class="output" data-output>Enlace para compartir</section>
+        </div>
+        <div class="actions">
+          <button type="button" data-copy disabled>Copiar enlace</button>
+          <a class="open-link" data-open href="#" target="_blank" rel="noopener" aria-disabled="true">Abrir vista previa</a>
+        </div>
+      </div>
     </section>
 
-    <form data-form>
-      <span class="field-title">Pega aqui el enlace publico</span>
-      <input data-url type="url" placeholder="Pega aqui el enlace publico del ZIP" required>
-      <button type="submit">Crear enlace</button>
-    </form>
-
-    <div class="output-row">
-      <div class="output-group">
-        <span class="field-title">Enlace para compartir</span>
-        <section class="output" data-output>Enlace para compartir</section>
+    <section class="tab-panel" role="tabpanel" data-tab-panel="manager">
+      <div class="manager-card">
+        <div class="manager-header">
+          <div>
+            <h2>Webs guardadas</h2>
+            <p class="manager-subtitle">Gestiona el espacio que ocupan los materiales guardados en este navegador.</p>
+          </div>
+          <button class="ghost-button" type="button" data-delete-all>Eliminar todas</button>
+        </div>
+        <div class="manager-stats">
+          <div class="stat">
+            <span class="stat-label">Espacio usado</span>
+            <span class="stat-value" data-storage-used>0 MB</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Espacio total</span>
+            <span class="stat-value" data-storage-total>--</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Webs guardadas</span>
+            <span class="stat-value" data-storage-count>0</span>
+          </div>
+        </div>
+        <div class="manager-list" data-manager-list></div>
       </div>
-      <div class="actions">
-        <button type="button" data-copy disabled>Copiar enlace</button>
-        <a class="open-link" data-open href="#" target="_blank" rel="noopener" aria-disabled="true">Abrir vista previa</a>
-      </div>
-    </div>
+    </section>
 
     <div class="modal" data-help-modal hidden>
       <div class="modal__overlay" data-help-close></div>
