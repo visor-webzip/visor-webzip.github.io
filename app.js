@@ -96,14 +96,14 @@
     if (copyButton) {
       copyButton.disabled = !link;
     }
+    if (openLink) {
+      openLink.href = link || '#';
+      openLink.setAttribute('aria-disabled', link ? 'false' : 'true');
+    }
   }
 
   function setSiteUrl(url) {
     currentSiteUrl = url;
-    if (openLink) {
-      openLink.href = url || '#';
-      openLink.setAttribute('aria-disabled', url ? 'false' : 'true');
-    }
     if (!iframe) return;
     if (!url) {
       iframe.removeAttribute('src');
@@ -469,6 +469,7 @@
         setStatus(currentShareLink);
       })
       .catch(function (err) {
+        setShareLink('');
         setStatus(err.message || 'No se pudo cargar el ZIP.');
         if (autoOpen) {
           setLoading(false);

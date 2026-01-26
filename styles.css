@@ -39,6 +39,8 @@ p {
 
 form {
   display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
   gap: 12px;
   margin: 20px 0 16px;
 }
@@ -52,7 +54,6 @@ input[type="url"] {
 }
 
 button {
-  justify-self: start;
   padding: 10px 16px;
   border-radius: 999px;
   border: none;
@@ -62,12 +63,18 @@ button {
   cursor: pointer;
 }
 
+.output-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
 .actions {
   display: flex;
   gap: 12px;
   align-items: center;
   flex-wrap: wrap;
-  margin: 12px 0 0;
 }
 
 .open-link {
@@ -106,8 +113,12 @@ button[disabled] {
   word-break: break-all;
 }
 
+.viewer-title {
+  margin: 24px 0 12px;
+  font-size: 1.1rem;
+}
+
 .viewer {
-  margin-top: 24px;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid #ddd6cf;
@@ -187,4 +198,15 @@ button[disabled] {
 
 body[data-loading="true"] main {
   display: none;
+}
+
+@media (max-width: 720px) {
+  form,
+  .output-row {
+    grid-template-columns: 1fr;
+  }
+
+  form button {
+    width: 100%;
+  }
 }

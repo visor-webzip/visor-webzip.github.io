@@ -32,15 +32,17 @@
       <button type="submit">Crear enlace</button>
     </form>
 
-    <section class="output" data-output>
-      Pega un enlace para generar la URL de visionado.
-    </section>
-
-    <div class="actions">
-      <button type="button" data-copy disabled>Copiar enlace</button>
-      <a class="open-link" data-open href="#" target="_blank" rel="noopener" aria-disabled="true">Abrir en pestana completa</a>
+    <div class="output-row">
+      <section class="output" data-output>
+        Pega un enlace para generar la URL de visionado.
+      </section>
+      <div class="actions">
+        <button type="button" data-copy disabled>Copiar enlace</button>
+        <a class="open-link" data-open href="#" target="_blank" rel="noopener" aria-disabled="true">Abrir enlace compartido</a>
+      </div>
     </div>
 
+    <h2 class="viewer-title">Vista previa</h2>
     <section class="viewer viewer--empty" data-viewer>
       <div class="viewer__note" data-note>La web se cargara aqui cuando el ZIP este listo.</div>
       <iframe data-view title="Vista previa" loading="lazy"></iframe>
