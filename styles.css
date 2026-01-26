@@ -129,10 +129,9 @@ form {
 
 .field-title {
   grid-column: 1 / -1;
-  font-size: 0.9rem;
-  color: var(--ink-muted);
+  font-size: 1rem;
+  color: var(--ink);
   font-weight: 600;
-  letter-spacing: 0.02em;
 }
 
 input[type="url"] {
