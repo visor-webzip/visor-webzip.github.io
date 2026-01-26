@@ -31,11 +31,14 @@
     }
   }
 
-  function buildFixedUrl(siteId) {
+  function buildFixedUrl(siteId, indexPath) {
     if (!GAS_WEBAPP_URL) {
       return '';
     }
     var base = GAS_WEBAPP_URL.replace(/\/exec\/?$/, '/exec');
+    if (indexPath) {
+      return base + '/site/' + siteId + '/' + encodeURI(indexPath);
+    }
     return base + '/site/' + siteId + '/';
   }
 
@@ -99,7 +102,7 @@
           output.textContent = data.error;
           return;
         }
-        var link = buildFixedUrl(data.siteId);
+        var link = buildFixedUrl(data.siteId, data.indexPath);
         setLink(link);
       })
       .catch(function () {
