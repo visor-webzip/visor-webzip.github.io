@@ -2,9 +2,6 @@
   var form = document.querySelector('[data-form]');
   var input = document.querySelector('[data-url]');
   var output = document.querySelector('[data-output]');
-  var iframe = document.querySelector('[data-view]');
-  var viewer = document.querySelector('[data-viewer]');
-  var viewerNote = document.querySelector('[data-note]');
   var copyButton = document.querySelector('[data-copy]');
   var openLink = document.querySelector('[data-open]');
   var loadingScreen = document.querySelector('[data-loading]');
@@ -15,7 +12,6 @@
   var serviceNote = document.querySelector('[data-service-note]');
 
   var currentShareLink = '';
-  var currentSiteUrl = '';
   var loadingActive = false;
   var progressTimer = null;
 
@@ -110,15 +106,6 @@
     return window.location.origin + path;
   }
 
-  function setViewerEmpty(isEmpty) {
-    if (!viewer) return;
-    if (isEmpty) {
-      viewer.classList.add('viewer--empty');
-    } else {
-      viewer.classList.remove('viewer--empty');
-    }
-  }
-
   function setStatus(message) {
     output.textContent = message;
     if (loadingActive) {
@@ -138,18 +125,6 @@
     }
   }
 
-  function setSiteUrl(url) {
-    currentSiteUrl = url;
-    if (!iframe) return;
-    if (!url) {
-      iframe.removeAttribute('src');
-      setViewerEmpty(true);
-      return;
-    }
-    setViewerEmpty(false);
-    iframe.src = url;
-  }
-
   function flashMessage(message) {
     output.textContent = message;
     if (currentShareLink) {
@@ -166,32 +141,6 @@
     return navigator.serviceWorker.register('sw.js', { scope: './' }).then(function () {
       return navigator.serviceWorker.ready;
     });
-  }
-
-  function delay(ms) {
-    return new Promise(function (resolve) {
-      setTimeout(resolve, ms);
-    });
-  }
-
-  function warmSiteUrl(siteUrl) {
-    var attempts = 0;
-    var maxAttempts = 6;
-    function tryFetch() {
-      return fetch(siteUrl, { cache: 'no-store' })
-        .then(function (res) {
-          if (res.ok) return true;
-          if (attempts >= maxAttempts) return false;
-          attempts += 1;
-          return delay(300).then(tryFetch);
-        })
-        .catch(function () {
-          if (attempts >= maxAttempts) return false;
-          attempts += 1;
-          return delay(300).then(tryFetch);
-        });
-    }
-    return tryFetch();
   }
 
   function waitForServiceWorkerControl() {
@@ -474,9 +423,6 @@
         if (result.cached && !opts.force) {
           var siteUrl = buildSiteUrl(result.siteId, result.site.indexPath);
           return controlPromise.then(function () {
-            return warmSiteUrl(siteUrl);
-          }).then(function () {
-            setSiteUrl(siteUrl);
             if (autoOpen) {
               setProgress(100);
               window.location.assign(siteUrl);
@@ -565,9 +511,6 @@
               return saveFiles(files).then(function () {
                 var siteUrl = buildSiteUrl(result.siteId, indexPath);
                 return controlPromise.then(function () {
-                  return warmSiteUrl(siteUrl);
-                }).then(function () {
-                  setSiteUrl(siteUrl);
                   if (autoOpen) {
                     window.location.assign(siteUrl);
                   }
@@ -596,7 +539,6 @@
           stopProgress();
           setLoading(false);
         }
-        setSiteUrl('');
       });
   }
 
@@ -635,7 +577,6 @@
       if (!zipUrl) {
         return;
       }
-      setSiteUrl('');
       loadZip(zipUrl, { force: true });
     });
   }
@@ -654,10 +595,6 @@
     var autoOpen = viewParam === 'full' || viewParam === '1';
     loadZip(urlParam, { force: false, autoOpen: autoOpen });
   } else {
-    setViewerEmpty(true);
     setLoading(false);
-    if (viewerNote) {
-      viewerNote.textContent = 'Pega el enlace al ZIP para ver la web.';
-    }
   }
 })();

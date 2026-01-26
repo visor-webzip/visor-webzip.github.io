@@ -119,14 +119,6 @@ button {
   pointer-events: none;
 }
 
-.viewer__note {
-  padding: 16px;
-  color: #4b4742;
-  background: #fff;
-  border-radius: 12px;
-  border: 1px dashed #d4c9bf;
-}
-
 button[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
@@ -141,32 +133,13 @@ button[disabled] {
   word-break: break-all;
 }
 
-.viewer-title {
-  margin: 24px 0 12px;
-  font-size: 1.1rem;
-}
-
-.viewer {
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid #ddd6cf;
-  min-height: 380px;
-}
-
-.viewer iframe {
-  width: 100%;
-  height: 70vh;
-  border: 0;
-  display: block;
+.viewer-note {
+  margin: 24px 0 0;
+  padding: 12px 16px;
+  color: #4b4742;
   background: #fff;
-}
-
-.viewer--empty iframe {
-  display: none;
-}
-
-.viewer:not(.viewer--empty) .viewer__note {
-  display: none;
+  border-radius: 12px;
+  border: 1px dashed #d4c9bf;
 }
 
 
