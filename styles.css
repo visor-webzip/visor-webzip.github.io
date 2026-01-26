@@ -277,6 +277,8 @@ button[disabled] {
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   padding: 24px;
+  max-height: calc(100vh - 48px);
+  overflow: auto;
 }
 
 .modal__header {
@@ -422,5 +424,19 @@ body[data-loading="true"] main {
   form,
   .output-row {
     padding: 18px;
+  }
+
+  .modal {
+    padding: 16px;
+  }
+
+  .modal__card {
+    padding: 18px;
+    max-height: calc(100vh - 32px);
+    border-radius: 16px;
+  }
+
+  .modal__content ul {
+    margin-left: 16px;
   }
 }
