@@ -182,6 +182,40 @@ button[disabled] {
   color: var(--ink);
 }
 
+.site-footer {
+  margin-top: 12px;
+  padding: 10px 4px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: var(--ink);
+}
+
+.footer-icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.footer-sep {
+  color: rgba(21, 24, 27, 0.35);
+}
+
 
 
 .loading-screen {
