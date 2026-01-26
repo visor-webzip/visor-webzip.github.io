@@ -32,6 +32,34 @@ h1 {
   margin: 0;
 }
 
+.source-picker {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 12px;
+}
+
+.source-picker label {
+  font-weight: 600;
+}
+
+.source-picker select {
+  padding: 10px 14px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #c9c2bc;
+  background: #fff;
+}
+
+.service-note {
+  background: #fff;
+  border: 1px dashed #d4c9bf;
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #4b4742;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
 p {
   margin: 0;
   line-height: 1.5;

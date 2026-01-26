@@ -11,6 +11,8 @@
   var loadingMessage = document.querySelector('[data-loading-message]');
   var loadingBar = document.querySelector('[data-loading-bar]');
   var mainContent = document.querySelector('[data-main]');
+  var serviceSelect = document.querySelector('[data-service]');
+  var serviceNote = document.querySelector('[data-service-note]');
 
   var currentShareLink = '';
   var currentSiteUrl = '';
@@ -22,6 +24,40 @@
   var STORE_SITES = 'sites';
   var STORE_FILES = 'files';
 
+  var SERVICE_INFO = {
+    drive: {
+      placeholder: 'https://drive.google.com/...',
+      note: 'Google Drive:\n- Comparte el ZIP como "Cualquiera con el enlace".\n- Usa un enlace de archivo o de compartir.\n- El sistema convierte el enlace a descarga directa.'
+    },
+    dropbox: {
+      placeholder: 'https://www.dropbox.com/...',
+      note: 'Dropbox:\n- Asegura que el archivo sea publico o con enlace compartido.\n- Cambia ?dl=0 por ?dl=1 para descarga directa.'
+    },
+    onedrive: {
+      placeholder: 'https://1drv.ms/...',
+      note: 'OneDrive:\n- Comparte el ZIP para que cualquiera con el enlace pueda verlo.\n- Usa el enlace de descarga directa (suele incluir download=1).'
+    },
+    github: {
+      placeholder: 'https://github.com/usuario/repo/archive/refs/heads/main.zip',
+      note: 'GitHub:\n- Usa un enlace directo a un ZIP.\n- Ejemplo: https://github.com/usuario/repo/archive/refs/heads/main.zip'
+    },
+    other: {
+      placeholder: 'https://servidor.com/archivo.zip',
+      note: 'Otros servicios:\n- Debe ser un enlace directo al ZIP.\n- Evita enlaces que requieran login o cookies.'
+    }
+  };
+
+  function updateServiceInfo() {
+    if (!serviceSelect) return;
+    var key = serviceSelect.value || 'drive';
+    var info = SERVICE_INFO[key] || SERVICE_INFO.other;
+    if (serviceNote) {
+      serviceNote.textContent = info.note;
+    }
+    if (input) {
+      input.placeholder = info.placeholder;
+    }
+  }
 
   function setLoading(active) {
     loadingActive = !!active;
@@ -548,6 +584,10 @@
 
   var params = new URLSearchParams(window.location.search);
   var urlParam = params.get('url');
+  if (serviceSelect) {
+    serviceSelect.addEventListener('change', updateServiceInfo);
+    updateServiceInfo();
+  }
   if (urlParam) {
     if (input) {
       input.value = urlParam;

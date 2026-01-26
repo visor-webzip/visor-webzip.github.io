@@ -27,6 +27,18 @@
       <p>Pega el enlace al ZIP. Se genera una URL fija para compartir con tu alumnado.</p>
     </header>
 
+    <section class="source-picker">
+      <label for="service">Origen del ZIP</label>
+      <select id="service" data-service>
+        <option value="drive">Google Drive</option>
+        <option value="dropbox">Dropbox</option>
+        <option value="onedrive">OneDrive</option>
+        <option value="github">GitHub</option>
+        <option value="other">Otros servicios</option>
+      </select>
+      <div class="service-note" data-service-note></div>
+    </section>
+
     <form data-form>
       <input data-url type="url" placeholder="https://drive.google.com/..." required>
       <button type="submit">Crear enlace</button>
