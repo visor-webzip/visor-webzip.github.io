@@ -13,6 +13,13 @@
   var helpOpen = document.querySelector('[data-help-open]');
   var helpModal = document.querySelector('[data-help-modal]');
   var helpCloseButtons = document.querySelectorAll('[data-help-close]');
+  var storageModal = document.querySelector('[data-storage-modal]');
+  var storageList = document.querySelector('[data-storage-list]');
+  var storageNote = document.querySelector('[data-storage-note]');
+  var storageDeleteOldest = document.querySelector('[data-storage-delete-oldest]');
+  var storageDeleteSelected = document.querySelector('[data-storage-delete-selected]');
+  var storageCancel = document.querySelector('[data-storage-cancel]');
+  var storageCloseButtons = document.querySelectorAll('[data-storage-close]');
 
   var currentShareLink = '';
   var loadingActive = false;
@@ -225,6 +232,14 @@
     });
   }
 
+  function getAllSites() {
+    return withStore(STORE_SITES, 'readonly', function (store) {
+      return store.getAll();
+    }).then(function (sites) {
+      return sites || [];
+    });
+  }
+
   function saveFiles(files) {
     if (!files.length) {
       return Promise.resolve();
@@ -343,6 +358,168 @@
 
   function computeSiteId(zipUrl) {
     return sha1Hex(normalizeZipUrl(zipUrl));
+  }
+
+  function formatBytes(bytes) {
+    if (!bytes) return '0 B';
+    var units = ['B', 'KB', 'MB', 'GB'];
+    var idx = 0;
+    var value = bytes;
+    while (value >= 1024 && idx < units.length - 1) {
+      value /= 1024;
+      idx += 1;
+    }
+    return value.toFixed(value >= 10 || idx === 0 ? 0 : 1) + ' ' + units[idx];
+  }
+
+  function sumSiteBytes(sites) {
+    return sites.reduce(function (sum, site) {
+      return sum + (site.totalBytes || 0);
+    }, 0);
+  }
+
+  function estimateStorage() {
+    if (navigator.storage && navigator.storage.estimate) {
+      return navigator.storage.estimate().catch(function () {
+        return null;
+      });
+    }
+    return Promise.resolve(null);
+  }
+
+  function renderStorageList(sites) {
+    if (!storageList) return;
+    storageList.innerHTML = '';
+    sites.forEach(function (site) {
+      var item = document.createElement('label');
+      item.className = 'storage-item';
+      var checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = false;
+      checkbox.setAttribute('data-site-id', site.id);
+      var info = document.createElement('div');
+      var title = document.createElement('div');
+      title.className = 'storage-item__title';
+      title.textContent = site.url || 'Sitio sin URL';
+      var meta = document.createElement('div');
+      meta.className = 'storage-item__meta';
+      var date = site.updatedAt ? new Date(site.updatedAt).toLocaleString() : 'sin fecha';
+      meta.textContent = formatBytes(site.totalBytes || 0) + ' · ' + date;
+      info.appendChild(title);
+      info.appendChild(meta);
+      item.appendChild(checkbox);
+      item.appendChild(info);
+      storageList.appendChild(item);
+    });
+  }
+
+  function openStorageModal(state) {
+    if (!storageModal) {
+      return Promise.resolve(false);
+    }
+    renderStorageList(state.sites);
+    if (storageNote && state.note) {
+      storageNote.textContent = state.note;
+    }
+    storageModal.removeAttribute('hidden');
+    return new Promise(function (resolve) {
+      var closed = false;
+      var finish = function (result) {
+        if (closed) return;
+        closed = true;
+        storageModal.setAttribute('hidden', '');
+        resolve(result);
+      };
+      var handleClose = function () {
+        finish(false);
+      };
+      var handleDeleteOldest = function () {
+        finish('oldest');
+      };
+      var handleDeleteSelected = function () {
+        finish('selected');
+      };
+      storageCloseButtons.forEach(function (btn) {
+        btn.addEventListener('click', handleClose, { once: true });
+      });
+      if (storageCancel) {
+        storageCancel.addEventListener('click', handleClose, { once: true });
+      }
+      if (storageDeleteOldest) {
+        storageDeleteOldest.addEventListener('click', handleDeleteOldest, { once: true });
+      }
+      if (storageDeleteSelected) {
+        storageDeleteSelected.addEventListener('click', handleDeleteSelected, { once: true });
+      }
+      document.addEventListener('keydown', function onKey(event) {
+        if (event.key === 'Escape') {
+          document.removeEventListener('keydown', onKey);
+          finish(false);
+        }
+      });
+    });
+  }
+
+  function deleteSitesSequential(siteIds) {
+    return siteIds.reduce(function (promise, siteId) {
+      return promise.then(function () {
+        return deleteSite(siteId);
+      });
+    }, Promise.resolve());
+  }
+
+  function chooseOldestSites(sites, targetBytes) {
+    var sorted = sites.slice().sort(function (a, b) {
+      return (a.updatedAt || 0) - (b.updatedAt || 0);
+    });
+    var total = sumSiteBytes(sorted);
+    var toDelete = [];
+    for (var i = 0; i < sorted.length && total > targetBytes; i += 1) {
+      var site = sorted[i];
+      total -= site.totalBytes || 0;
+      toDelete.push(site.id);
+    }
+    return toDelete;
+  }
+
+  function ensureStorageCapacity(extraBytes) {
+    return Promise.all([getAllSites(), estimateStorage()]).then(function (result) {
+      var sites = result[0];
+      var estimate = result[1];
+      var quota = estimate && estimate.quota ? estimate.quota : 0;
+      var usage = estimate && estimate.usage ? estimate.usage : sumSiteBytes(sites);
+      if (!quota) {
+        return true;
+      }
+      var projected = usage + (extraBytes || 0);
+      var limit = quota * 0.8;
+      if (projected < limit) {
+        return true;
+      }
+      var note = 'Has usado gran parte del espacio disponible. Puedes borrar webs antiguas.';
+      return openStorageModal({ sites: sites, note: note }).then(function (action) {
+        if (!action) return false;
+        if (action === 'oldest') {
+          var target = Math.max(0, limit - (extraBytes || 0));
+          var toDelete = chooseOldestSites(sites, target);
+          if (!toDelete.length) return false;
+          return deleteSitesSequential(toDelete).then(function () {
+            return ensureStorageCapacity(extraBytes);
+          });
+        }
+        if (action === 'selected') {
+          if (!storageList) return false;
+          var selected = Array.prototype.slice.call(storageList.querySelectorAll('input[type="checkbox"]:checked'))
+            .map(function (input) { return input.getAttribute('data-site-id'); })
+            .filter(Boolean);
+          if (!selected.length) return false;
+          return deleteSitesSequential(selected).then(function () {
+            return ensureStorageCapacity(extraBytes);
+          });
+        }
+        return false;
+      });
+    });
   }
 
   function buildShareLink(zipUrl, fullView) {
@@ -511,8 +688,14 @@
             setProgress(85);
           }
 
-          return deleteSite(result.siteId).catch(function () {
-            // Ignore delete errors.
+          var totalBytes = files.reduce(function (sum, item) { return sum + item.size; }, 0);
+          return ensureStorageCapacity(totalBytes).then(function (canProceed) {
+            if (!canProceed) {
+              throw new Error('No hay espacio suficiente en el navegador.');
+            }
+            return deleteSite(result.siteId).catch(function () {
+              // Ignore delete errors.
+            });
           }).then(function () {
             var site = {
               id: result.siteId,
@@ -520,7 +703,7 @@
               indexPath: indexPath,
               updatedAt: Date.now(),
               fileCount: files.length,
-              totalBytes: files.reduce(function (sum, item) { return sum + item.size; }, 0)
+              totalBytes: totalBytes
             };
             return saveSite(site).then(function () {
               return saveFiles(files).then(function () {
