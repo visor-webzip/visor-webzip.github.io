@@ -32,6 +32,10 @@
       placeholder: 'https://www.dropbox.com/...',
       note: 'Dropbox:\n- Asegura que el archivo sea publico o con enlace compartido.\n- Cambia ?dl=0 por ?dl=1 para descarga directa.'
     },
+    nextcloud: {
+      placeholder: 'https://tu-servidor/s/...',
+      note: 'Nextcloud:\n- Comparte el ZIP con enlace publico.\n- Usa el enlace que termina en /download o el sistema lo ajusta.'
+    },
     onedrive: {
       placeholder: 'https://1drv.ms/...',
       note: 'OneDrive:\n- Comparte el ZIP para que cualquiera con el enlace pueda verlo.\n- Usa el enlace de descarga directa (suele incluir download=1).'
@@ -315,6 +319,11 @@
     }
     if (url.indexOf('dropbox.com') !== -1) {
       return url.replace(/([?&])dl=0\b/, '$1dl=1');
+    }
+    if (url.indexOf('/s/') !== -1) {
+      if (url.indexOf('/download') === -1 && url.indexOf('download=1') === -1) {
+        return url.replace(/\/$/, '') + '/download';
+      }
     }
     return url;
   }
