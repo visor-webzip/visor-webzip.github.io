@@ -326,6 +326,57 @@ body[data-active-tab="manager"] .tab-panel[data-tab-panel="manager"] {
   gap: 8px;
 }
 
+.icon-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: none;
+  padding: 0;
+  position: relative;
+  transition: transform 0.08s ease, box-shadow 0.12s ease;
+}
+
+.icon-button svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+}
+
+.icon-button:active,
+.icon-button.is-active {
+  transform: scale(0.96);
+  box-shadow: 0 6px 12px rgba(31, 95, 89, 0.18);
+}
+
+.icon-button::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1b1f23;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+}
+
+.icon-button:hover::after,
+.icon-button:focus-visible::after {
+  opacity: 1;
+}
+
 .actions {
   display: flex;
   gap: 12px;

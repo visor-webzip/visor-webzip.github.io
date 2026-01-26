@@ -488,9 +488,12 @@
       actions.className = 'manager-item__actions';
       var delButton = document.createElement('button');
       delButton.type = 'button';
-      delButton.className = 'ghost-button';
-      delButton.textContent = 'Eliminar';
-      delButton.setAttribute('data-delete-id', site.id);
+      delButton.className = 'icon-button';
+      delButton.setAttribute('data-action', 'delete');
+      delButton.setAttribute('data-site-id', site.id);
+      delButton.setAttribute('aria-label', 'Eliminar');
+      delButton.setAttribute('data-tooltip', 'Eliminar');
+      delButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>';
       actions.appendChild(delButton);
       item.appendChild(info);
       item.appendChild(actions);
@@ -820,11 +823,20 @@
     managerList.addEventListener('click', function (event) {
       var target = event.target;
       if (!(target instanceof HTMLElement)) return;
-      var siteId = target.getAttribute('data-delete-id');
-      if (!siteId) return;
-      deleteSite(siteId).then(function () {
-        refreshManager();
-      });
+      var button = target.closest('button');
+      if (!button) return;
+      var action = button.getAttribute('data-action');
+      var siteId = button.getAttribute('data-site-id');
+      var siteUrl = button.getAttribute('data-site-url') || '';
+      if (action === 'delete' && siteId) {
+        button.classList.add('is-active');
+        deleteSite(siteId).then(function () {
+          refreshManager();
+        }).finally(function () {
+          button.classList.remove('is-active');
+        });
+        return;
+      }
     });
   }
   if (deleteAllButton) {
