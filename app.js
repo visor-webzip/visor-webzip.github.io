@@ -4,14 +4,21 @@
   var output = document.querySelector('[data-output]');
   var iframe = document.querySelector('[data-view]');
   var copyButton = document.querySelector('[data-copy]');
+  var openLink = document.querySelector('[data-open]');
   var currentLink = '';
 
   function setLink(link) {
     currentLink = link;
     output.textContent = link;
-    iframe.src = link;
+    if (iframe) {
+      iframe.src = link;
+    }
     if (copyButton) {
       copyButton.disabled = !link;
+    }
+    if (openLink) {
+      openLink.href = link;
+      openLink.setAttribute('aria-disabled', link ? 'false' : 'true');
     }
   }
 
@@ -72,12 +79,18 @@
       if (copyButton) {
         copyButton.disabled = true;
       }
+      if (openLink) {
+        openLink.setAttribute('aria-disabled', 'true');
+      }
       return;
     }
 
     output.textContent = 'Creando...';
     if (copyButton) {
       copyButton.disabled = true;
+    }
+    if (openLink) {
+      openLink.setAttribute('aria-disabled', 'true');
     }
     fetch(GAS_WEBAPP_URL + '?url=' + encodeURIComponent(zipUrl) + '&json=1')
       .then(function (res) { return res.json(); })
@@ -93,6 +106,9 @@
         output.textContent = 'No se pudo generar el enlace.';
         if (copyButton) {
           copyButton.disabled = true;
+        }
+        if (openLink) {
+          openLink.setAttribute('aria-disabled', 'true');
         }
       });
   });

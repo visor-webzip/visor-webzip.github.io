@@ -59,7 +59,33 @@ button {
 }
 
 .actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
   margin: 12px 0 0;
+}
+
+.open-link {
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid #1c1c1c;
+  color: #1c1c1c;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.open-link[aria-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.viewer__note {
+  padding: 16px;
+  color: #4b4742;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px dashed #d4c9bf;
 }
 
 button[disabled] {
@@ -84,15 +110,4 @@ button[disabled] {
   min-height: 380px;
 }
 
-.viewer iframe {
-  width: 100%;
-  height: 520px;
-  border: none;
-  background: #fff;
-}
 
-@media (max-width: 700px) {
-  .viewer iframe {
-    height: 420px;
-  }
-}
