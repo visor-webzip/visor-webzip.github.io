@@ -168,6 +168,32 @@
     });
   }
 
+  function delay(ms) {
+    return new Promise(function (resolve) {
+      setTimeout(resolve, ms);
+    });
+  }
+
+  function warmSiteUrl(siteUrl) {
+    var attempts = 0;
+    var maxAttempts = 6;
+    function tryFetch() {
+      return fetch(siteUrl, { cache: 'no-store' })
+        .then(function (res) {
+          if (res.ok) return true;
+          if (attempts >= maxAttempts) return false;
+          attempts += 1;
+          return delay(300).then(tryFetch);
+        })
+        .catch(function () {
+          if (attempts >= maxAttempts) return false;
+          attempts += 1;
+          return delay(300).then(tryFetch);
+        });
+    }
+    return tryFetch();
+  }
+
   function waitForServiceWorkerControl() {
     if (!('serviceWorker' in navigator)) {
       return Promise.resolve();
@@ -189,7 +215,7 @@
         }
       };
       navigator.serviceWorker.addEventListener('controllerchange', onChange);
-      setTimeout(finish, 1500);
+      setTimeout(finish, 5000);
     });
   }
 
@@ -448,6 +474,8 @@
         if (result.cached && !opts.force) {
           var siteUrl = buildSiteUrl(result.siteId, result.site.indexPath);
           return controlPromise.then(function () {
+            return warmSiteUrl(siteUrl);
+          }).then(function () {
             setSiteUrl(siteUrl);
             if (autoOpen) {
               setProgress(100);
@@ -537,6 +565,8 @@
               return saveFiles(files).then(function () {
                 var siteUrl = buildSiteUrl(result.siteId, indexPath);
                 return controlPromise.then(function () {
+                  return warmSiteUrl(siteUrl);
+                }).then(function () {
                   setSiteUrl(siteUrl);
                   if (autoOpen) {
                     window.location.assign(siteUrl);
