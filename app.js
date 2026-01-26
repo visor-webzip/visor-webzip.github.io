@@ -3,43 +3,201 @@
   var input = document.querySelector('[data-url]');
   var output = document.querySelector('[data-output]');
   var iframe = document.querySelector('[data-view]');
+  var viewer = document.querySelector('[data-viewer]');
+  var viewerNote = document.querySelector('[data-note]');
   var copyButton = document.querySelector('[data-copy]');
   var openLink = document.querySelector('[data-open]');
-  var currentLink = '';
 
-  function setLink(link) {
-    currentLink = link;
-    output.textContent = link;
-    if (iframe) {
-      iframe.src = link;
+  var currentShareLink = '';
+  var currentSiteUrl = '';
+
+  var DB_NAME = 'visor-web-sites';
+  var DB_VERSION = 1;
+  var STORE_SITES = 'sites';
+  var STORE_FILES = 'files';
+
+  function appBase() {
+    var path = window.location.pathname;
+    if (!path.endsWith('/')) {
+      path = path.replace(/[^/]+$/, '');
     }
+    return window.location.origin + path;
+  }
+
+  function setViewerEmpty(isEmpty) {
+    if (!viewer) return;
+    if (isEmpty) {
+      viewer.classList.add('viewer--empty');
+    } else {
+      viewer.classList.remove('viewer--empty');
+    }
+  }
+
+  function setStatus(message) {
+    output.textContent = message;
+  }
+
+  function setShareLink(link) {
+    currentShareLink = link;
+    output.textContent = link;
     if (copyButton) {
       copyButton.disabled = !link;
     }
     if (openLink) {
-      openLink.href = link;
+      openLink.href = link || '#';
       openLink.setAttribute('aria-disabled', link ? 'false' : 'true');
     }
   }
 
+  function setSiteUrl(url) {
+    currentSiteUrl = url;
+    if (!iframe) return;
+    if (!url) {
+      iframe.removeAttribute('src');
+      setViewerEmpty(true);
+      return;
+    }
+    setViewerEmpty(false);
+    iframe.src = url;
+  }
+
   function flashMessage(message) {
     output.textContent = message;
-    if (currentLink) {
+    if (currentShareLink) {
       setTimeout(function () {
-        output.textContent = currentLink;
-      }, 1200);
+        output.textContent = currentShareLink;
+      }, 1500);
     }
   }
 
-  function buildFixedUrl(siteId, indexPath) {
-    if (!GAS_WEBAPP_URL) {
-      return '';
+  function registerServiceWorker() {
+    if (!('serviceWorker' in navigator)) {
+      return Promise.reject(new Error('Service worker no disponible.'));
     }
-    var base = GAS_WEBAPP_URL.replace(/\/exec\/?$/, '/exec');
-    if (indexPath) {
-      return base + '/site/' + siteId + '/' + encodeURI(indexPath);
+    return navigator.serviceWorker.register('sw.js', { scope: './' }).then(function () {
+      return navigator.serviceWorker.ready;
+    });
+  }
+
+  function openDb() {
+    return new Promise(function (resolve, reject) {
+      var request = window.indexedDB.open(DB_NAME, DB_VERSION);
+      request.onupgradeneeded = function () {
+        var db = request.result;
+        if (!db.objectStoreNames.contains(STORE_SITES)) {
+          db.createObjectStore(STORE_SITES, { keyPath: 'id' });
+        }
+        if (!db.objectStoreNames.contains(STORE_FILES)) {
+          var store = db.createObjectStore(STORE_FILES, { keyPath: 'key' });
+          store.createIndex('siteId', 'siteId', { unique: false });
+        }
+      };
+      request.onsuccess = function () {
+        resolve(request.result);
+      };
+      request.onerror = function () {
+        reject(request.error);
+      };
+    });
+  }
+
+  function withStore(storeName, mode, action) {
+    return openDb().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(storeName, mode);
+        var store = tx.objectStore(storeName);
+        var request = action(store);
+        request.onsuccess = function () {
+          resolve(request.result);
+        };
+        request.onerror = function () {
+          reject(request.error);
+        };
+      });
+    });
+  }
+
+  function getSite(siteId) {
+    return withStore(STORE_SITES, 'readonly', function (store) {
+      return store.get(siteId);
+    });
+  }
+
+  function saveSite(site) {
+    return withStore(STORE_SITES, 'readwrite', function (store) {
+      return store.put(site);
+    });
+  }
+
+  function saveFiles(files) {
+    if (!files.length) {
+      return Promise.resolve();
     }
-    return base + '/site/' + siteId + '/';
+    return openDb().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(STORE_FILES, 'readwrite');
+        var store = tx.objectStore(STORE_FILES);
+        files.forEach(function (file) {
+          store.put(file);
+        });
+        tx.oncomplete = function () {
+          resolve();
+        };
+        tx.onerror = function () {
+          reject(tx.error);
+        };
+      });
+    });
+  }
+
+  function deleteSite(siteId) {
+    return openDb().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction([STORE_SITES, STORE_FILES], 'readwrite');
+        tx.objectStore(STORE_SITES).delete(siteId);
+        var fileStore = tx.objectStore(STORE_FILES);
+        var index = fileStore.index('siteId');
+        var request = index.getAllKeys(IDBKeyRange.only(siteId));
+        request.onsuccess = function () {
+          var keys = request.result || [];
+          keys.forEach(function (key) {
+            fileStore.delete(key);
+          });
+        };
+        tx.oncomplete = function () {
+          resolve();
+        };
+        tx.onerror = function () {
+          reject(tx.error);
+        };
+      });
+    });
+  }
+
+  function normalizePath(path) {
+    return path.replace(/\\/g, '/').replace(/^\.?\//, '');
+  }
+
+  function guessMimeType(path) {
+    var lower = path.toLowerCase();
+    if (lower.endsWith('.html') || lower.endsWith('.htm')) return 'text/html';
+    if (lower.endsWith('.css')) return 'text/css';
+    if (lower.endsWith('.js')) return 'text/javascript';
+    if (lower.endsWith('.json')) return 'application/json';
+    if (lower.endsWith('.svg')) return 'image/svg+xml';
+    if (lower.endsWith('.png')) return 'image/png';
+    if (lower.endsWith('.jpg') || lower.endsWith('.jpeg')) return 'image/jpeg';
+    if (lower.endsWith('.gif')) return 'image/gif';
+    if (lower.endsWith('.webp')) return 'image/webp';
+    if (lower.endsWith('.woff')) return 'font/woff';
+    if (lower.endsWith('.woff2')) return 'font/woff2';
+    if (lower.endsWith('.ttf')) return 'font/ttf';
+    if (lower.endsWith('.otf')) return 'font/otf';
+    if (lower.endsWith('.ico')) return 'image/x-icon';
+    if (lower.endsWith('.mp3')) return 'audio/mpeg';
+    if (lower.endsWith('.mp4')) return 'video/mp4';
+    if (lower.endsWith('.webm')) return 'video/webm';
+    return 'application/octet-stream';
   }
 
   function extractDriveId(url) {
@@ -83,32 +241,169 @@
     return sha1Hex(normalizeZipUrl(zipUrl));
   }
 
-  function warmSite(zipUrl) {
+  function buildShareLink(zipUrl) {
+    return appBase() + '?url=' + encodeURIComponent(zipUrl);
+  }
+
+  function buildSiteUrl(siteId, indexPath) {
+    var base = appBase() + 'site/' + siteId + '/';
+    if (indexPath) {
+      return base + encodeURI(indexPath);
+    }
+    return base;
+  }
+
+  function base64ToBytes(base64) {
+    var binary = atob(base64);
+    var len = binary.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return bytes;
+  }
+
+  function fetchZipBundle(zipUrl) {
     if (!GAS_WEBAPP_URL) {
-      return;
+      return Promise.reject(new Error('Configura GAS_WEBAPP_URL en docs/config.js.'));
     }
-    var warmUrl = GAS_WEBAPP_URL + '?url=' + encodeURIComponent(zipUrl);
-    try {
-      fetch(warmUrl, { mode: 'no-cors' });
-    } catch (err) {
-      // Ignore warm-up errors.
+    var endpoint = GAS_WEBAPP_URL + '?url=' + encodeURIComponent(zipUrl) + '&bundle=1';
+    return fetch(endpoint)
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        return data;
+      });
+  }
+
+  function findIndexPath(paths) {
+    var lower = paths.map(function (path) { return path.toLowerCase(); });
+    var idx = lower.indexOf('index.html');
+    if (idx !== -1) return paths[idx];
+    idx = lower.indexOf('index.htm');
+    if (idx !== -1) return paths[idx];
+    var htmlIndex = lower.findIndex(function (p) { return p.endsWith('.html') || p.endsWith('.htm'); });
+    if (htmlIndex !== -1) return paths[htmlIndex];
+    return paths[0] || '';
+  }
+
+  function loadZip(zipUrl, options) {
+    var opts = options || {};
+    if (!GAS_WEBAPP_URL) {
+      setStatus('Configura GAS_WEBAPP_URL en docs/config.js.');
+      return Promise.resolve();
     }
+    setStatus('Preparando ZIP...');
+
+    var workerPromise = registerServiceWorker().catch(function () {
+      throw new Error('Este navegador no permite el visor offline.');
+    });
+
+    return computeSiteId(zipUrl)
+      .then(function (siteId) {
+        return getSite(siteId).then(function (site) {
+          return { siteId: siteId, cached: !!site, site: site };
+        });
+      })
+      .then(function (result) {
+        var shareLink = buildShareLink(zipUrl);
+        setShareLink(shareLink);
+
+        if (result.cached && !opts.force) {
+          var siteUrl = buildSiteUrl(result.siteId, result.site.indexPath);
+          return workerPromise.then(function () {
+            setSiteUrl(siteUrl);
+            return { siteId: result.siteId, siteUrl: siteUrl };
+          });
+        }
+
+        setStatus('Descargando ZIP...');
+        return fetchZipBundle(zipUrl).then(function (bundle) {
+          setStatus('Descomprimiendo...');
+          if (!window.fflate || !window.fflate.unzipSync) {
+            throw new Error('No se pudo cargar el motor ZIP (fflate).');
+          }
+          var bytes = base64ToBytes(bundle.base64);
+          var entries = window.fflate.unzipSync(bytes);
+          var files = [];
+          Object.keys(entries).forEach(function (entryPath) {
+            if (entryPath.endsWith('/') || entryPath.indexOf('__MACOSX/') === 0) {
+              return;
+            }
+            var normalized = normalizePath(entryPath);
+            var data = entries[entryPath];
+            var type = guessMimeType(normalized);
+            var blob = new Blob([data], { type: type });
+            files.push({
+              key: result.siteId + '::' + normalized,
+              siteId: result.siteId,
+              path: normalized,
+              blob: blob,
+              size: blob.size,
+              type: type
+            });
+          });
+
+          if (!files.length) {
+            throw new Error('El ZIP no contiene archivos web.');
+          }
+
+          var paths = files.map(function (file) { return file.path; });
+          var indexPath = findIndexPath(paths);
+          if (!indexPath) {
+            throw new Error('No se encontro un index.html.');
+          }
+
+          setStatus('Guardando en el navegador...');
+
+          return deleteSite(result.siteId).catch(function () {
+            // Ignore delete errors.
+          }).then(function () {
+            var site = {
+              id: result.siteId,
+              url: normalizeZipUrl(zipUrl),
+              indexPath: indexPath,
+              updatedAt: Date.now(),
+              fileCount: files.length,
+              totalBytes: files.reduce(function (sum, item) { return sum + item.size; }, 0)
+            };
+            return saveSite(site).then(function () {
+              return saveFiles(files).then(function () {
+                var siteUrl = buildSiteUrl(result.siteId, indexPath);
+                return workerPromise.then(function () {
+                  setSiteUrl(siteUrl);
+                  return { siteId: result.siteId, siteUrl: siteUrl };
+                });
+              });
+            });
+          });
+        });
+      })
+      .then(function () {
+        setStatus(currentShareLink);
+      })
+      .catch(function (err) {
+        setStatus(err.message || 'No se pudo cargar el ZIP.');
+        setSiteUrl('');
+      });
   }
 
   if (copyButton) {
     copyButton.addEventListener('click', function () {
-      if (!currentLink) {
+      if (!currentShareLink) {
         return;
       }
       var done = function () {
         flashMessage('Enlace copiado.');
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(currentLink).then(done, done);
+        navigator.clipboard.writeText(currentShareLink).then(done, done);
         return;
       }
       var textarea = document.createElement('textarea');
-      textarea.value = currentLink;
+      textarea.value = currentShareLink;
       textarea.setAttribute('readonly', '');
       textarea.style.position = 'absolute';
       textarea.style.left = '-9999px';
@@ -123,70 +418,29 @@
     });
   }
 
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    var zipUrl = input.value.trim();
-    if (!zipUrl) {
-      return;
-    }
-
-    if (!GAS_WEBAPP_URL) {
-      output.textContent = 'Configura GAS_WEBAPP_URL en docs/config.js.';
-      if (copyButton) {
-        copyButton.disabled = true;
+  if (form) {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var zipUrl = input.value.trim();
+      if (!zipUrl) {
+        return;
       }
-      if (openLink) {
-        openLink.setAttribute('aria-disabled', 'true');
-      }
-      return;
+      setSiteUrl('');
+      loadZip(zipUrl, { force: true });
+    });
+  }
+
+  var params = new URLSearchParams(window.location.search);
+  var urlParam = params.get('url');
+  if (urlParam) {
+    if (input) {
+      input.value = urlParam;
     }
-
-    output.textContent = 'Creando...';
-    if (copyButton) {
-      copyButton.disabled = true;
+    loadZip(urlParam, { force: false });
+  } else {
+    setViewerEmpty(true);
+    if (viewerNote) {
+      viewerNote.textContent = 'Pega el enlace al ZIP para ver la web.';
     }
-    if (openLink) {
-      openLink.setAttribute('aria-disabled', 'true');
-    }
-
-    warmSite(zipUrl);
-
-    var fallbackShown = false;
-    var fallbackPromise = computeSiteId(zipUrl)
-      .then(function (siteId) {
-        var link = buildFixedUrl(siteId, '');
-        setLink(link);
-        fallbackShown = true;
-        output.textContent = 'Enlace generado. Si es la primera vez, puede tardar en cargar.';
-      })
-      .catch(function () {
-        // Ignore; JSON may still succeed.
-      });
-
-    var controller = new AbortController();
-    var timeout = setTimeout(function () {
-      controller.abort();
-    }, 15000);
-
-    fetch(GAS_WEBAPP_URL + '?url=' + encodeURIComponent(zipUrl) + '&json=1', { signal: controller.signal })
-      .then(function (res) { return res.json(); })
-      .then(function (data) {
-        clearTimeout(timeout);
-        if (data.error) {
-          output.textContent = data.error;
-          return;
-        }
-        var link = buildFixedUrl(data.siteId, data.indexPath);
-        setLink(link);
-        output.textContent = link;
-      })
-      .catch(function () {
-        clearTimeout(timeout);
-        if (!fallbackShown) {
-          fallbackPromise.then(function () {
-            // fallback handles UI
-          });
-        }
-      });
-  });
+  }
 })();

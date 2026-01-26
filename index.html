@@ -30,12 +30,14 @@
       <a class="open-link" data-open href="#" target="_blank" rel="noopener" aria-disabled="true">Abrir enlace</a>
     </div>
 
-    <section class="viewer">
-      <div class="viewer__note">La vista previa dentro de esta pagina esta bloqueada por Google. Abre el enlace en una pestana nueva.</div>
+    <section class="viewer viewer--empty" data-viewer>
+      <div class="viewer__note" data-note>La web se cargara aqui cuando el ZIP este listo.</div>
+      <iframe data-view title="Vista previa" loading="lazy"></iframe>
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
   <script src="config.js"></script>
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
