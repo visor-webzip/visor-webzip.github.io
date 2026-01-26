@@ -168,6 +168,31 @@
     });
   }
 
+  function waitForServiceWorkerControl() {
+    if (!('serviceWorker' in navigator)) {
+      return Promise.resolve();
+    }
+    if (navigator.serviceWorker.controller) {
+      return Promise.resolve();
+    }
+    return new Promise(function (resolve) {
+      var resolved = false;
+      var finish = function () {
+        if (resolved) return;
+        resolved = true;
+        navigator.serviceWorker.removeEventListener('controllerchange', onChange);
+        resolve();
+      };
+      var onChange = function () {
+        if (navigator.serviceWorker.controller) {
+          finish();
+        }
+      };
+      navigator.serviceWorker.addEventListener('controllerchange', onChange);
+      setTimeout(finish, 1500);
+    });
+  }
+
   function openDb() {
     return new Promise(function (resolve, reject) {
       var request = window.indexedDB.open(DB_NAME, DB_VERSION);
@@ -406,6 +431,9 @@
     var workerPromise = registerServiceWorker().catch(function () {
       throw new Error('Este navegador no permite el visor offline.');
     });
+    var controlPromise = workerPromise.then(function () {
+      return waitForServiceWorkerControl();
+    });
 
     return computeSiteId(zipUrl)
       .then(function (siteId) {
@@ -419,7 +447,7 @@
 
         if (result.cached && !opts.force) {
           var siteUrl = buildSiteUrl(result.siteId, result.site.indexPath);
-          return workerPromise.then(function () {
+          return controlPromise.then(function () {
             setSiteUrl(siteUrl);
             if (autoOpen) {
               setProgress(100);
@@ -508,7 +536,7 @@
             return saveSite(site).then(function () {
               return saveFiles(files).then(function () {
                 var siteUrl = buildSiteUrl(result.siteId, indexPath);
-                return workerPromise.then(function () {
+                return controlPromise.then(function () {
                   setSiteUrl(siteUrl);
                   if (autoOpen) {
                     window.location.assign(siteUrl);
