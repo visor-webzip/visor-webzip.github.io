@@ -108,7 +108,7 @@
 
   function setStatus(message) {
     output.textContent = message;
-    if (loadingActive) {
+    if (loadingActive && !(message && /^https?:\/\//i.test(message))) {
       setLoadingMessage(message);
     }
   }
