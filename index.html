@@ -26,6 +26,7 @@
       <p class="eyebrow">Materiales en ZIP</p>
       <h1>Visor Web-ZIP</h1>
       <p>Pega el enlace al ZIP. Se genera una URL fija para compartir.</p>
+      <button class="link-button" type="button" data-help-open>Que se puede subir?</button>
     </header>
 
     <section class="source-picker">
@@ -52,6 +53,29 @@
       <div class="actions">
         <button type="button" data-copy disabled>Copiar enlace</button>
         <a class="open-link" data-open href="#" target="_blank" rel="noopener" aria-disabled="true">Abrir vista previa</a>
+      </div>
+    </div>
+
+    <div class="modal" data-help-modal hidden>
+      <div class="modal__overlay" data-help-close></div>
+      <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="help-title">
+        <div class="modal__header">
+          <h2 id="help-title">Que se puede subir?</h2>
+          <button class="modal__close" type="button" data-help-close aria-label="Cerrar">×</button>
+        </div>
+        <div class="modal__content">
+          <h3>Lo que si funciona</h3>
+          <ul>
+            <li>Materiales tipo web "normal": paginas HTML con imagenes, videos, sonidos y enlaces internos.</li>
+            <li>Recursos creados con eXeLearning u otras herramientas que generan un ZIP con archivos web.</li>
+          </ul>
+          <h3>Lo que no funciona o puede fallar</h3>
+          <ul>
+            <li>Webs que necesitan "servidor" para funcionar (formularios que guardan datos, bases de datos, PHP, etc.).</li>
+            <li>Enlaces a contenidos externos que exigen iniciar sesion.</li>
+            <li>ZIPs que no tienen un archivo de inicio (index.html).</li>
+          </ul>
+        </div>
       </div>
     </div>
 

@@ -60,6 +60,20 @@ h1 {
   margin: 0;
 }
 
+.link-button {
+  align-self: start;
+  padding: 8px 0;
+  border: none;
+  background: none;
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  color: var(--accent-strong);
+}
+
 .source-picker {
   display: grid;
   gap: 12px;
@@ -214,6 +228,70 @@ button[disabled] {
 
 .footer-sep {
   color: rgba(21, 24, 27, 0.35);
+}
+
+.modal[hidden] {
+  display: none;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 17, 20, 0.45);
+}
+
+.modal__card {
+  position: relative;
+  z-index: 1;
+  width: min(640px, 92vw);
+  background: var(--surface);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.modal__header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.modal__close {
+  border: none;
+  background: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ink-muted);
+}
+
+.modal__content h3 {
+  margin: 16px 0 8px;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.modal__content ul {
+  margin: 0 0 8px 18px;
+  color: var(--ink-muted);
+  line-height: 1.6;
 }
 
 
