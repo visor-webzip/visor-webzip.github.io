@@ -7,15 +7,65 @@
   var viewerNote = document.querySelector('[data-note]');
   var copyButton = document.querySelector('[data-copy]');
   var openLink = document.querySelector('[data-open]');
+  var loadingScreen = document.querySelector('[data-loading]');
+  var loadingMessage = document.querySelector('[data-loading-message]');
+  var loadingBar = document.querySelector('[data-loading-bar]');
+  var mainContent = document.querySelector('[data-main]');
 
   var currentShareLink = '';
   var currentSiteUrl = '';
+  var loadingActive = false;
+  var progressTimer = null;
 
   var DB_NAME = 'visor-web-sites';
   var DB_VERSION = 1;
   var STORE_SITES = 'sites';
   var STORE_FILES = 'files';
 
+
+  function setLoading(active) {
+    loadingActive = !!active;
+    if (loadingScreen) {
+      if (active) {
+        loadingScreen.removeAttribute('hidden');
+      } else {
+        loadingScreen.setAttribute('hidden', '');
+      }
+    }
+    document.body.setAttribute('data-loading', active ? 'true' : 'false');
+    if (!active) {
+      stopProgress();
+    }
+  }
+
+  function setLoadingMessage(message) {
+    if (loadingMessage) {
+      loadingMessage.textContent = message;
+    }
+  }
+
+  function setProgress(value) {
+    if (!loadingBar) return;
+    var percent = Math.max(0, Math.min(100, value));
+    loadingBar.style.width = percent + '%';
+  }
+
+  function startProgress(initial) {
+    stopProgress();
+    var current = initial || 5;
+    setProgress(current);
+    progressTimer = setInterval(function () {
+      current = Math.min(current + 2, 85);
+      setProgress(current);
+    }, 600);
+  }
+
+  function stopProgress() {
+    if (progressTimer) {
+      clearInterval(progressTimer);
+      progressTimer = null;
+    }
+  }
   function appBase() {
     var path = window.location.pathname;
     if (!path.endsWith('/')) {
@@ -35,6 +85,9 @@
 
   function setStatus(message) {
     output.textContent = message;
+    if (loadingActive) {
+      setLoadingMessage(message);
+    }
   }
 
   function setShareLink(link) {
@@ -296,11 +349,19 @@
   function loadZip(zipUrl, options) {
     var opts = options || {};
     var autoOpen = !!opts.autoOpen;
+    if (autoOpen) {
+      setLoading(true);
+      setProgress(5);
+      setLoadingMessage('Preparando...');
+    }
     if (!GAS_WEBAPP_URL) {
       setStatus('Configura GAS_WEBAPP_URL en docs/config.js.');
       return Promise.resolve();
     }
     setStatus('Preparando ZIP...');
+    if (autoOpen) {
+      startProgress(8);
+    }
 
     var workerPromise = registerServiceWorker().catch(function () {
       throw new Error('Este navegador no permite el visor offline.');
@@ -321,6 +382,7 @@
           return workerPromise.then(function () {
             setSiteUrl(siteUrl);
             if (autoOpen) {
+              setProgress(100);
               window.location.assign(siteUrl);
             }
             return { siteId: result.siteId, siteUrl: siteUrl };
@@ -328,8 +390,15 @@
         }
 
         setStatus('Descargando ZIP...');
+        if (autoOpen) {
+          startProgress(20);
+        }
         return fetchZipBundle(zipUrl).then(function (bundle) {
           setStatus('Descomprimiendo...');
+          if (autoOpen) {
+            stopProgress();
+            setProgress(70);
+          }
           if (!window.fflate || !window.fflate.unzipSync) {
             throw new Error('No se pudo cargar el motor ZIP (fflate).');
           }
@@ -365,6 +434,10 @@
           }
 
           setStatus('Guardando en el navegador...');
+          if (autoOpen) {
+            stopProgress();
+            setProgress(85);
+          }
 
           return deleteSite(result.siteId).catch(function () {
             // Ignore delete errors.
@@ -397,6 +470,9 @@
       })
       .catch(function (err) {
         setStatus(err.message || 'No se pudo cargar el ZIP.');
+        if (autoOpen) {
+          setLoading(false);
+        }
         setSiteUrl('');
       });
   }
