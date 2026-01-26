@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visor ZIP eXe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Visor ZIP para eXeLearning</h1>
+      <p>Pega el enlace al ZIP. Se genera una URL fija para compartir con tu alumnado.</p>
+    </header>
+
+    <form data-form>
+      <input data-url type="url" placeholder="https://drive.google.com/..." required>
+      <button type="submit">Crear enlace</button>
+    </form>
+
+    <section class="output" data-output>
+      Configura <code>GAS_WEBAPP_URL</code> en <code>docs/config.js</code>.
+    </section>
+
+    <section class="viewer">
+      <iframe data-view title="Vista previa"></iframe>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
