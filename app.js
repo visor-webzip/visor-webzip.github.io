@@ -241,8 +241,12 @@
     return sha1Hex(normalizeZipUrl(zipUrl));
   }
 
-  function buildShareLink(zipUrl) {
-    return appBase() + '?url=' + encodeURIComponent(zipUrl);
+  function buildShareLink(zipUrl, fullView) {
+    var base = appBase() + '?url=' + encodeURIComponent(zipUrl);
+    if (fullView) {
+      base += '&view=full';
+    }
+    return base;
   }
 
   function buildSiteUrl(siteId, indexPath) {
@@ -291,6 +295,7 @@
 
   function loadZip(zipUrl, options) {
     var opts = options || {};
+    var autoOpen = !!opts.autoOpen;
     if (!GAS_WEBAPP_URL) {
       setStatus('Configura GAS_WEBAPP_URL en docs/config.js.');
       return Promise.resolve();
@@ -308,13 +313,16 @@
         });
       })
       .then(function (result) {
-        var shareLink = buildShareLink(zipUrl);
+        var shareLink = buildShareLink(zipUrl, true);
         setShareLink(shareLink);
 
         if (result.cached && !opts.force) {
           var siteUrl = buildSiteUrl(result.siteId, result.site.indexPath);
           return workerPromise.then(function () {
             setSiteUrl(siteUrl);
+            if (autoOpen) {
+              window.location.assign(siteUrl);
+            }
             return { siteId: result.siteId, siteUrl: siteUrl };
           });
         }
@@ -374,6 +382,9 @@
                 var siteUrl = buildSiteUrl(result.siteId, indexPath);
                 return workerPromise.then(function () {
                   setSiteUrl(siteUrl);
+                  if (autoOpen) {
+                    window.location.assign(siteUrl);
+                  }
                   return { siteId: result.siteId, siteUrl: siteUrl };
                 });
               });
@@ -436,7 +447,9 @@
     if (input) {
       input.value = urlParam;
     }
-    loadZip(urlParam, { force: false });
+    var viewParam = (params.get('view') || '').toLowerCase();
+    var autoOpen = viewParam === 'full' || viewParam === '1';
+    loadZip(urlParam, { force: false, autoOpen: autoOpen });
   } else {
     setViewerEmpty(true);
     if (viewerNote) {
