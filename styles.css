@@ -44,6 +44,7 @@ header {
   background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
+  position: relative;
 }
 
 .title-row {
@@ -51,6 +52,40 @@ header {
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.lang-switch {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.lang-switch select {
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--ink);
+}
+
+@media (max-width: 600px) {
+  .lang-switch {
+    position: static;
+    justify-self: end;
+  }
 }
 
 .help-pill {

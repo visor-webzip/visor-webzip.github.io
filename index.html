@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Visor ZIP eXe</title>
+  <title data-i18n="page.title">Visor Web-ZIP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;800&family=Spectral:wght@400;600&display=swap" rel="stylesheet">
@@ -13,64 +13,75 @@
 
   <div class="loading-screen" data-loading hidden>
     <div class="loading-card">
-      <div class="loading-title">Cargando material</div>
-      <div class="loading-message" data-loading-message>Preparando...</div>
+      <div class="loading-title" data-i18n="loading.title">Cargando material</div>
+      <div class="loading-message" data-loading-message data-i18n="loading.message" data-i18n-dynamic>Preparando...</div>
       <div class="loading-bar">
         <div class="loading-bar__fill" data-loading-bar></div>
       </div>
-      <div class="loading-note">Este proceso puede tardar unos segundos la primera vez.</div>
+      <div class="loading-note" data-i18n="loading.note">Este proceso puede tardar unos segundos la primera vez.</div>
     </div>
   </div>
   <main data-main>
     <header>
-      <p class="eyebrow">Materiales en ZIP</p>
+      <div class="lang-switch">
+        <label for="lang-select" class="sr-only" data-i18n="lang.label">Idioma</label>
+        <select id="lang-select" data-lang-select>
+          <option value="es" data-i18n="lang.es">Español</option>
+          <option value="ca" data-i18n="lang.ca">Català</option>
+          <option value="gl" data-i18n="lang.gl">Galego</option>
+          <option value="eu" data-i18n="lang.eu">Euskara</option>
+          <option value="en" data-i18n="lang.en">English</option>
+          <option value="de" data-i18n="lang.de">Deutsch</option>
+        </select>
+      </div>
+      <p class="eyebrow" data-i18n="header.eyebrow">Materiales en ZIP</p>
       <div class="title-row">
-        <h1>Visor Web-ZIP</h1>
-        <button class="help-pill" type="button" data-about-open aria-label="Ayuda">
+        <h1 data-i18n="header.title">Visor Web-ZIP</h1>
+        <button class="help-pill" type="button" data-about-open data-i18n-aria-label="header.help">
           <span class="help-pill__icon">?</span>
-          <span class="help-pill__tooltip" role="tooltip">Ayuda</span>
+          <span class="help-pill__tooltip" role="tooltip" data-i18n="header.help">Ayuda</span>
         </button>
       </div>
-      <p>Comparte tus recursos educativos desde tu almacenamiento favorito en la nube.</p>
+      <p data-i18n="header.subtitle">Comparte tus recursos educativos desde tu almacenamiento favorito en la nube.</p>
     </header>
 
-    <div class="tabs" role="tablist" aria-label="Secciones">
-      <button class="tab-button is-active" type="button" role="tab" aria-selected="true" data-tab="main">Inicio</button>
-      <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="zipper">Crear ZIP</button>
-      <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="manager">Gestor de webs</button>
+    <div class="tabs" role="tablist" aria-label="Secciones" data-i18n-aria-label="tabs.label">
+      <button class="tab-button is-active" type="button" role="tab" aria-selected="true" data-tab="main" data-i18n="tab.main">Inicio</button>
+      <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="zipper" data-i18n="tab.zipper">Crear ZIP</button>
+      <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="manager" data-i18n="tab.manager">Gestor de webs</button>
     </div>
 
     <section class="tab-panel is-active" role="tabpanel" data-tab-panel="main">
-      <p class="manager-subtitle">Crea un enlace para abrir tu web comprimida en ZIP en pantalla completa y compartirlo.</p>
+      <p class="manager-subtitle" data-i18n="main.subtitle">Crea un enlace para abrir tu web comprimida en ZIP en pantalla completa y compartirlo.</p>
       <section class="source-picker">
-        <label for="service">Origen del ZIP</label>
-        <p class="step-note">Paso 1: selecciona el servicio donde está el ZIP.</p>
+        <label for="service" data-i18n="main.source.label">Origen del ZIP</label>
+        <p class="step-note" data-i18n="main.source.step">Paso 1: selecciona el servicio donde está el ZIP.</p>
         <select id="service" data-service>
-          <option value="drive">Google Drive</option>
-          <option value="dropbox">Dropbox</option>
-          <option value="nextcloud">Nextcloud</option>
-          <option value="github">GitHub</option>
-          <option value="other">Otros servicios</option>
+          <option value="drive" data-i18n="service.drive">Google Drive</option>
+          <option value="dropbox" data-i18n="service.dropbox">Dropbox</option>
+          <option value="nextcloud" data-i18n="service.nextcloud">Nextcloud</option>
+          <option value="github" data-i18n="service.github">GitHub</option>
+          <option value="other" data-i18n="service.other">Otros servicios</option>
         </select>
         <div class="service-note" data-service-note></div>
       </section>
 
       <form data-form>
-        <span class="field-title">Pega aqui el enlace publico</span>
-        <p class="step-note">Paso 2: pega el enlace público al ZIP y pulsa “Crear enlace”.</p>
-        <input data-url type="url" placeholder="Pega aqui el enlace publico del ZIP" required>
-        <button type="submit">Crear enlace</button>
+        <span class="field-title" data-i18n="main.form.title">Pega aqui el enlace publico</span>
+        <p class="step-note" data-i18n="main.form.step">Paso 2: pega el enlace público al ZIP y pulsa “Crear enlace”.</p>
+        <input data-url type="url" placeholder="Pega aqui el enlace publico del ZIP" data-i18n-placeholder="main.form.placeholder" required>
+        <button type="submit" data-i18n="main.form.submit">Crear enlace</button>
       </form>
 
       <div class="output-row">
         <div class="output-group" data-step-three>
-          <span class="field-title">Enlace para compartir</span>
-          <p class="step-note">Paso 3: copia el enlace o abre la vista previa.</p>
-          <section class="output" data-output>Enlace para compartir</section>
+          <span class="field-title" data-i18n="main.output.title">Enlace para compartir</span>
+          <p class="step-note" data-i18n="main.output.step">Paso 3: copia el enlace o abre la vista previa.</p>
+          <section class="output" data-output data-i18n="main.output.placeholder" data-i18n-dynamic>Enlace para compartir</section>
         </div>
         <div class="actions">
-          <button type="button" data-copy disabled>Copiar enlace</button>
-          <a class="open-link" data-open href="#" target="_blank" rel="noopener" aria-disabled="true">Abrir vista previa</a>
+          <button type="button" data-copy disabled data-i18n="main.output.copy">Copiar enlace</button>
+          <a class="open-link" data-open href="#" target="_blank" rel="noopener" aria-disabled="true" data-i18n="main.output.open">Abrir vista previa</a>
         </div>
       </div>
     </section>
@@ -79,22 +90,22 @@
       <div class="manager-card">
         <div class="manager-header">
           <div>
-            <h2>Webs guardadas</h2>
-            <p class="manager-subtitle">Gestiona el espacio que ocupan los materiales guardados en este navegador.</p>
+            <h2 data-i18n="manager.title">Webs guardadas</h2>
+            <p class="manager-subtitle" data-i18n="manager.subtitle">Gestiona el espacio que ocupan los materiales guardados en este navegador.</p>
           </div>
-          <button class="ghost-button" type="button" data-delete-all>Eliminar todas</button>
+          <button class="ghost-button" type="button" data-delete-all data-i18n="manager.deleteAll">Eliminar todas</button>
         </div>
         <div class="manager-stats">
           <div class="stat">
-            <span class="stat-label">Espacio usado</span>
+            <span class="stat-label" data-i18n="manager.stats.used">Espacio usado</span>
             <span class="stat-value" data-storage-used>0 MB</span>
           </div>
           <div class="stat">
-            <span class="stat-label">Espacio total</span>
+            <span class="stat-label" data-i18n="manager.stats.total">Espacio total</span>
             <span class="stat-value" data-storage-total>--</span>
           </div>
           <div class="stat">
-            <span class="stat-label">Webs guardadas</span>
+            <span class="stat-label" data-i18n="manager.stats.count">Webs guardadas</span>
             <span class="stat-value" data-storage-count>0</span>
           </div>
         </div>
@@ -106,45 +117,45 @@
       <div class="manager-card">
         <div class="manager-header">
           <div>
-            <h2>Crear ZIP para el visor</h2>
-            <p class="manager-subtitle">Sube una carpeta o varios archivos y descarga el ZIP listo para compartir.</p>
+            <h2 data-i18n="zipper.title">Crear ZIP para el visor</h2>
+            <p class="manager-subtitle" data-i18n="zipper.subtitle">Sube una carpeta o varios archivos y descarga el ZIP listo para compartir.</p>
           </div>
         </div>
         <div class="upload-grid">
           <section class="upload-card">
-            <h3>1. Añade tus archivos</h3>
-            <p class="step-note">Paso 1: arrastra la carpeta o selecciona los archivos desde el botón.</p>
-            <p class="upload-note">Puedes arrastrar una carpeta o archivos. También puedes seleccionar una carpeta completa desde el botón.</p>
+            <h3 data-i18n="zipper.step1.title">1. Añade tus archivos</h3>
+            <p class="step-note" data-i18n="zipper.step1.note">Paso 1: arrastra la carpeta o selecciona los archivos desde el botón.</p>
+            <p class="upload-note" data-i18n="zipper.step1.detail">Puedes arrastrar una carpeta o archivos. También puedes seleccionar una carpeta completa desde el botón.</p>
             <div class="dropzone" data-dropzone>
-              <div class="dropzone__title">Arrastra aquí la carpeta o los archivos</div>
-              <div class="dropzone__hint">Se respetan las carpetas internas.</div>
+              <div class="dropzone__title" data-i18n="zipper.dropzone.title">Arrastra aquí la carpeta o los archivos</div>
+              <div class="dropzone__hint" data-i18n="zipper.dropzone.hint">Se respetan las carpetas internas.</div>
               <div class="dropzone__actions">
-                <button class="ghost-button" type="button" data-folder-button>Elegir carpeta</button>
-                <button class="ghost-button" type="button" data-file-button>Elegir archivos</button>
+                <button class="ghost-button" type="button" data-folder-button data-i18n="zipper.dropzone.folder">Elegir carpeta</button>
+                <button class="ghost-button" type="button" data-file-button data-i18n="zipper.dropzone.files">Elegir archivos</button>
                 <input type="file" data-folder-input webkitdirectory multiple hidden>
                 <input type="file" data-file-input multiple hidden>
               </div>
             </div>
-            <p class="upload-status" data-upload-status>No hay archivos seleccionados.</p>
+            <p class="upload-status" data-upload-status data-i18n="zipper.status.empty" data-i18n-dynamic>No hay archivos seleccionados.</p>
           </section>
           <section class="upload-card">
-            <h3>2. Descarga el ZIP</h3>
-            <p class="step-note">Paso 2: crea el ZIP y se descargará automáticamente.</p>
-            <p class="upload-note">Al crear el ZIP se descargará un archivo que puedes subir a Drive, Dropbox, Nextcloud, etc.</p>
-            <label class="field-title" for="zip-name">Nombre del ZIP</label>
-            <input id="zip-name" data-zip-name type="text" placeholder="materiales" value="materiales">
+            <h3 data-i18n="zipper.step2.title">2. Descarga el ZIP</h3>
+            <p class="step-note" data-i18n="zipper.step2.note">Paso 2: crea el ZIP y se descargará automáticamente.</p>
+            <p class="upload-note" data-i18n="zipper.step2.detail">Al crear el ZIP se descargará un archivo que puedes subir a Drive, Dropbox, Nextcloud, etc.</p>
+            <label class="field-title" for="zip-name" data-i18n="zipper.zipName.label">Nombre del ZIP</label>
+            <input id="zip-name" data-zip-name type="text" placeholder="materiales" value="materiales" data-i18n-placeholder="zipper.zipName.placeholder">
             <div class="upload-actions">
-              <button type="button" data-build-zip>Crear y descargar ZIP</button>
+              <button type="button" data-build-zip data-i18n="zipper.build">Crear y descargar ZIP</button>
             </div>
-            <p class="upload-status" data-zip-status>Prepara el ZIP para obtener tu archivo.</p>
+            <p class="upload-status" data-zip-status data-i18n="zipper.status.readyHint" data-i18n-dynamic>Prepara el ZIP para obtener tu archivo.</p>
           </section>
         </div>
         <div class="upload-help">
-          <h3>¿Qué hacer con el ZIP?</h3>
+          <h3 data-i18n="zipper.help.title">¿Qué hacer con el ZIP?</h3>
           <ol>
-            <li>Sube el ZIP a un servicio con enlace público (Drive, Dropbox, GitHub…).</li>
-            <li>Copia el enlace público y pégalo en la pestaña “Inicio”.</li>
-            <li>Comparte el enlace generado por el visor con tu alumnado.</li>
+            <li data-i18n="zipper.help.step1">Sube el ZIP a un servicio con enlace público (Drive, Dropbox, GitHub…).</li>
+            <li data-i18n="zipper.help.step2">Copia el enlace público y pégalo en la pestaña “Inicio”.</li>
+            <li data-i18n="zipper.help.step3">Comparte el enlace generado por el visor con tu alumnado.</li>
           </ol>
         </div>
       </div>
@@ -154,15 +165,15 @@
       <div class="modal__overlay" data-html-close></div>
       <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="html-title">
         <div class="modal__header">
-          <h2 id="html-title">Elige el HTML inicial</h2>
-          <button class="modal__close" type="button" data-html-close aria-label="Cerrar">×</button>
+          <h2 id="html-title" data-i18n="html.title">Elige el HTML inicial</h2>
+          <button class="modal__close" type="button" data-html-close data-i18n-aria-label="common.close">×</button>
         </div>
         <div class="modal__content">
-          <p class="manager-subtitle">No se encontró un index.html. Selecciona el archivo HTML que quieres abrir primero.</p>
+          <p class="manager-subtitle" data-i18n="html.subtitle">No se encontró un index.html. Selecciona el archivo HTML que quieres abrir primero.</p>
           <div class="html-picker" data-html-list></div>
           <div class="html-picker__actions">
-            <button class="ghost-button" type="button" data-html-close>Cancelar</button>
-            <button type="button" data-html-confirm>Usar este HTML</button>
+            <button class="ghost-button" type="button" data-html-close data-i18n="common.cancel">Cancelar</button>
+            <button type="button" data-html-confirm data-i18n="html.confirm">Usar este HTML</button>
           </div>
         </div>
       </div>
@@ -172,33 +183,33 @@
       <div class="modal__overlay" data-about-close></div>
       <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="about-title">
         <div class="modal__header">
-          <h2 id="about-title">¿Qué hace este visor?</h2>
-          <button class="modal__close" type="button" data-about-close aria-label="Cerrar">×</button>
+          <h2 id="about-title" data-i18n="about.title">¿Qué hace este visor?</h2>
+          <button class="modal__close" type="button" data-about-close data-i18n-aria-label="common.close">×</button>
         </div>
         <div class="modal__content">
-          <p>Este visor abre un ZIP que contiene una web sencilla (HTML, CSS, imágenes, vídeos, audio y enlaces internos) para que puedas compartirla con tu alumnado sin instalar nada.</p>
-          <h3>Qué puedes subir</h3>
+          <p data-i18n="about.intro">Este visor abre un ZIP que contiene una web sencilla (HTML, CSS, imágenes, vídeos, audio y enlaces internos) para que puedas compartirla con tu alumnado sin instalar nada.</p>
+          <h3 data-i18n="about.can.title">Qué puedes subir</h3>
           <ul>
-            <li>ZIPs con páginas web estáticas y sus recursos (archivos HTML, imágenes, audio, vídeo, PDF, etc.).</li>
-            <li>Materiales creados con eXeLearning u otras herramientas que exportan a web.</li>
-            <li>Carpetas con un HTML principal (normalmente <code>index.html</code>).</li>
+            <li data-i18n="about.can.item1">ZIPs con páginas web estáticas y sus recursos (archivos HTML, imágenes, audio, vídeo, PDF, etc.).</li>
+            <li data-i18n="about.can.item2">Materiales creados con eXeLearning u otras herramientas que exportan a web.</li>
+            <li data-i18n-html="about.can.item3">Carpetas con un HTML principal (normalmente <code>index.html</code>).</li>
           </ul>
-          <h3>Qué no funciona o puede fallar</h3>
+          <h3 data-i18n="about.cant.title">Qué no funciona o puede fallar</h3>
           <ul>
-            <li>Webs que necesitan servidor (formularios que guardan datos, bases de datos, PHP o similar).</li>
-            <li>Enlaces externos que requieren iniciar sesión o permisos especiales.</li>
-            <li>ZIPs que no contienen ningún archivo HTML.</li>
+            <li data-i18n="about.cant.item1">Webs que necesitan servidor (formularios que guardan datos, bases de datos, PHP o similar).</li>
+            <li data-i18n="about.cant.item2">Enlaces externos que requieren iniciar sesión o permisos especiales.</li>
+            <li data-i18n="about.cant.item3">ZIPs que no contienen ningún archivo HTML.</li>
           </ul>
-          <h3>Cómo funciona</h3>
+          <h3 data-i18n="about.how.title">Cómo funciona</h3>
           <ol>
-            <li>Prepara tu recurso como una carpeta con páginas web (HTML) y comprímelo en ZIP. Puedes hacerlo en la pestaña “Crear ZIP”.</li>
-            <li>Sube el ZIP a un servicio con enlace público (Google Drive, Dropbox, Nextcloud, GitHub…).</li>
-            <li>Comparte el archivo para que cualquiera con el enlace pueda verlo.</li>
-            <li>Copia la URL y pégala en el campo “Pega aqui el enlace publico”.</li>
-            <li>El enlace para compartir es permanente, así que puedes distribuirlo al alumnado.</li>
+            <li data-i18n="about.how.step1">Prepara tu recurso como una carpeta con páginas web (HTML) y comprímelo en ZIP. Puedes hacerlo en la pestaña “Crear ZIP”.</li>
+            <li data-i18n="about.how.step2">Sube el ZIP a un servicio con enlace público (Google Drive, Dropbox, Nextcloud, GitHub…).</li>
+            <li data-i18n="about.how.step3">Comparte el archivo para que cualquiera con el enlace pueda verlo.</li>
+            <li data-i18n="about.how.step4">Copia la URL y pégala en el campo “Pega aqui el enlace publico”.</li>
+            <li data-i18n="about.how.step5">El enlace para compartir es permanente, así que puedes distribuirlo al alumnado.</li>
           </ol>
-          <h3>Importante sobre Google Drive</h3>
-          <p>Google Drive limita la descarga directa de archivos grandes (aprox. 25 MB). Si tu ZIP supera ese tamaño, puede fallar. Dropbox, Nextcloud y otros servicios suelen permitir archivos más grandes sin ese límite.</p>
+          <h3 data-i18n="about.drive.title">Importante sobre Google Drive</h3>
+          <p data-i18n="about.drive.note">Google Drive limita la descarga directa de archivos grandes (aprox. 25 MB). Si tu ZIP supera ese tamaño, puede fallar. Dropbox, Nextcloud y otros servicios suelen permitir archivos más grandes sin ese límite.</p>
         </div>
       </div>
     </div>
@@ -206,7 +217,7 @@
     <footer class="site-footer">
       <a class="footer-link" href="https://bilateria.org" target="_blank" rel="noopener">(c) 2025 Juan Jose de Haro</a>
       <span class="footer-sep">·</span>
-      <a class="footer-link" href="https://github.com/visor-webzip/visor-webzip" target="_blank" rel="noopener">
+      <a class="footer-link" href="https://github.com/visor-webzip/visor-webzip.github.io" target="_blank" rel="noopener">
         <svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
           <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.62 7.62 0 0 1 8 4.77c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
         </svg>
