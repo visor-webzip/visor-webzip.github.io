@@ -1,10 +1,10 @@
-# Visor ZIP eXeLearning
+# Visor Web-ZIP
 
-Este proyecto permite mostrar contenidos web (por ejemplo, eXeLearning) empaquetados en un ZIP, sin tener que publicar en un hosting tradicional.
+Este proyecto permite mostrar contenidos web (eXeLearning, recursos IA, webs interactivas, etc.) empaquetados en un ZIP, sin tener que publicar en un hosting tradicional.
 
-Este repositorio unifica todo:
+Este repositorio lo contiene todo:
 - `gas/` contiene el backend de Google Apps Script.
-- `docs/` contiene la web publica publicada por GitHub Pages.
+- La web publica esta en la raiz del repositorio (GitHub Pages).
 
 La solucion actual es:
 
@@ -13,9 +13,9 @@ La solucion actual es:
 
 Enlaces:
 
-- GitHub Pages: https://jjdeharo.github.io/visor_web/
-- Repositorio: https://github.com/jjdeharo/visor_web
-- Web App (Apps Script): https://script.google.com/macros/s/AKfycbwa0DarHIM5SHq22N1Rl6rq_YBNAHIbI-FsiqUdpGS15ZUILzTdinTtfYIbXDp_q-3D/exec
+- GitHub Pages: https://visor-webzip.github.io
+- Repositorio: https://github.com/visor-webzip/visor-webzip.github.io
+- Web App (Apps Script): (tu URL de despliegue)
 
 ## 1) Backend en Google Apps Script
 
@@ -36,8 +36,8 @@ Enlaces:
 
 ## 2) Frontend en GitHub Pages
 
-1. Publica `docs/` en GitHub Pages.
-2. Edita `docs/config.js` y pega la URL de tu Web App.
+1. Publica la raiz del repositorio en GitHub Pages.
+2. Edita `config.js` y pega la URL de tu Web App.
 3. Abre la pagina, pega el enlace al ZIP y se generara una URL fija con `?url=...`.
 4. Al abrir esa URL, el navegador descarga el ZIP, lo guarda y muestra la web.
 
