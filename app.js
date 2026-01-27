@@ -43,10 +43,6 @@
       placeholder: 'https://tu-servidor/s/...',
       note: 'Nextcloud:\n- Comparte el ZIP con enlace publico.\n- Usa el enlace que termina en /download o el sistema lo ajusta.'
     },
-    onedrive: {
-      placeholder: 'https://1drv.ms/...',
-      note: 'OneDrive:\n- Comparte el ZIP para que cualquiera con el enlace pueda verlo.\n- Usa el enlace de descarga directa (suele incluir download=1).'
-    },
     github: {
       placeholder: 'https://github.com/usuario/repo/archive/refs/heads/main.zip',
       note: 'GitHub:\n- Usa un enlace directo a un ZIP.\n- Ejemplo: https://github.com/usuario/repo/archive/refs/heads/main.zip'
