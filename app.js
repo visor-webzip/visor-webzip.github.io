@@ -181,12 +181,13 @@
       },
       about: {
         title: '¿Qué hace este visor?',
-        intro: 'Este visor abre un ZIP que contiene una web sencilla (HTML, CSS, imágenes, vídeos, audio y enlaces internos) para que puedas compartirla con tu alumnado sin instalar nada.',
+        intro: 'Este visor abre un ZIP que contiene una web sencilla con HTML, CSS, imágenes, vídeos, audio y enlaces internos para que puedas compartirla con tu alumnado sin instalar nada.',
         can: {
           title: 'Qué puedes subir',
           item1: 'ZIPs con páginas web estáticas y sus recursos (archivos HTML, imágenes, audio, vídeo, PDF, etc.).',
           item2: 'Materiales creados con eXeLearning u otras herramientas que exportan a web.',
-          item3: 'Carpetas con un HTML principal (normalmente <code>index.html</code>).'
+          item3: 'Cualquier material creado con IA (documentos, infografías, etc.) que puedas descargar como página web (HTML).',
+          item4: 'Carpetas con un HTML principal (normalmente <code>index.html</code>).'
         },
         cant: {
           title: 'Qué no funciona o puede fallar',
@@ -366,12 +367,13 @@
       },
       about: {
         title: 'Què fa aquest visor?',
-        intro: 'Aquest visor obre un ZIP que conté una web senzilla (HTML, CSS, imatges, vídeos, àudio i enllaços interns) perquè la puguis compartir amb l’alumnat sense instal·lar res.',
+        intro: 'Aquest visor obre un ZIP que conté una web senzilla amb HTML, CSS, imatges, vídeos, àudio i enllaços interns perquè la puguis compartir amb l’alumnat sense instal·lar res.',
         can: {
           title: 'Què pots pujar',
           item1: 'ZIPs amb pàgines web estàtiques i els seus recursos (arxius HTML, imatges, àudio, vídeo, PDF, etc.).',
           item2: 'Materials creats amb eXeLearning o altres eines que exporten a web.',
-          item3: 'Carpetes amb un HTML principal (normalment <code>index.html</code>).'
+          item3: 'Qualsevol material creat amb IA (documents, infografies, etc.) que puguis descarregar com a pàgina web (HTML).',
+          item4: 'Carpetes amb un HTML principal (normalment <code>index.html</code>).'
         },
         cant: {
           title: 'Què no funciona o pot fallar',
@@ -551,12 +553,13 @@
       },
       about: {
         title: 'Que fai este visor?',
-        intro: 'Este visor abre un ZIP que contén unha web sinxela (HTML, CSS, imaxes, vídeos, audio e ligazóns internas) para que a poidas compartir co teu alumnado sen instalar nada.',
+        intro: 'Este visor abre un ZIP que contén unha web sinxela con HTML, CSS, imaxes, vídeos, audio e ligazóns internas para que a poidas compartir co teu alumnado sen instalar nada.',
         can: {
           title: 'Que podes subir',
           item1: 'ZIPs con páxinas web estáticas e os seus recursos (ficheiros HTML, imaxes, audio, vídeo, PDF, etc.).',
           item2: 'Materiais creados con eXeLearning ou outras ferramentas que exportan a web.',
-          item3: 'Cartafoles cun HTML principal (normalmente <code>index.html</code>).'
+          item3: 'Calquera material creado con IA (documentos, infografías, etc.) que poidas descargar como páxina web (HTML).',
+          item4: 'Cartafoles cun HTML principal (normalmente <code>index.html</code>).'
         },
         cant: {
           title: 'Que non funciona ou pode fallar',
@@ -736,12 +739,13 @@
       },
       about: {
         title: 'Zer egiten du bisore honek?',
-        intro: 'Bisore honek ZIP bat irekitzen du (HTML, CSS, irudiak, bideoak, audioa eta barne-estekak dituen web sinple batekin), instalatu beharrik gabe partekatzeko.',
+        intro: 'Bisore honek ZIP bat irekitzen du, HTML, CSS, irudiak, bideoak, audioa eta barne-estekak dituen web sinple batekin, instalatu beharrik gabe partekatzeko.',
         can: {
           title: 'Zer igo dezakezu',
           item1: 'ZIPak web estatikoekin eta haien baliabideekin (HTML fitxategiak, irudiak, audioa, bideoa, PDF, etab.).',
           item2: 'eXeLearning edo web-era esportatzen duten beste tresna batzuekin sortutako materialak.',
-          item3: 'HTML nagusi bat duen karpeta (normalean <code>index.html</code>).'
+          item3: 'IArekin sortutako edozein material (dokumentuak, infografiak, etab.) HTML orri gisa deskarga dezakezuna.',
+          item4: 'HTML nagusi bat duen karpeta (normalean <code>index.html</code>).'
         },
         cant: {
           title: 'Zer ez dabil edo huts egin dezake',
@@ -921,12 +925,13 @@
       },
       about: {
         title: 'What does this viewer do?',
-        intro: 'This viewer opens a ZIP containing a simple website (HTML, CSS, images, videos, audio and internal links) so you can share it with your students without installing anything.',
+        intro: 'This viewer opens a ZIP containing a simple website with HTML, CSS, images, videos, audio and internal links so you can share it with your students without installing anything.',
         can: {
           title: 'What you can upload',
           item1: 'ZIPs with static web pages and their assets (HTML files, images, audio, video, PDF, etc.).',
           item2: 'Materials created with eXeLearning or other tools that export to web.',
-          item3: 'Folders with a main HTML file (usually <code>index.html</code>).'
+          item3: 'Any AI-created material (documents, infographics, etc.) that you can download as a web page (HTML).',
+          item4: 'Folders with a main HTML file (usually <code>index.html</code>).'
         },
         cant: {
           title: 'What does not work or may fail',
@@ -1106,12 +1111,13 @@
       },
       about: {
         title: 'Was macht dieser Viewer?',
-        intro: 'Dieser Viewer öffnet ein ZIP mit einer einfachen Website (HTML, CSS, Bilder, Videos, Audio und interne Links), damit du sie ohne Installation mit Lernenden teilen kannst.',
+        intro: 'Dieser Viewer öffnet ein ZIP mit einer einfachen Website mit HTML, CSS, Bildern, Videos, Audio und internen Links, damit du sie ohne Installation mit Lernenden teilen kannst.',
         can: {
           title: 'Was du hochladen kannst',
           item1: 'ZIPs mit statischen Webseiten und ihren Dateien (HTML-Dateien, Bilder, Audio, Video, PDF usw.).',
           item2: 'Materialien aus eXeLearning oder anderen Tools, die nach Web exportieren.',
-          item3: 'Ordner mit einer Haupt-HTML-Datei (meist <code>index.html</code>).'
+          item3: 'Alle mit KI erstellten Materialien (Dokumente, Infografiken usw.), die du als Webseite (HTML) herunterladen kannst.',
+          item4: 'Ordner mit einer Haupt-HTML-Datei (meist <code>index.html</code>).'
         },
         cant: {
           title: 'Was nicht funktioniert oder scheitern kann',
