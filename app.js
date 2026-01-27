@@ -34,6 +34,7 @@
   var progressTimer = null;
   var selectedFiles = [];
   var zipObjectUrl = '';
+  var zipNameDirty = false;
 
   var DB_NAME = 'visor-web-sites';
   var DB_VERSION = 1;
@@ -191,18 +192,42 @@
     if (!selectedFiles.length) {
       setUploadStatus('No hay archivos seleccionados.');
       setZipStatus('Prepara el ZIP para obtener tu archivo.');
+      if (zipNameInput && !zipNameDirty) {
+        zipNameInput.value = 'materiales';
+      }
       return;
+    }
+    if (zipNameInput && !zipNameDirty) {
+      zipNameInput.value = deriveZipBaseName(selectedFiles);
     }
     setUploadStatus('Archivos listos: ' + selectedFiles.length + '.');
     setZipStatus('Listo para crear el ZIP.');
   }
 
   function normalizeZipName(name) {
-    var value = (name || '').trim() || 'materiales.zip';
+    var value = (name || '').trim() || 'materiales';
     if (!/\.zip$/i.test(value)) {
       value += '.zip';
     }
     return value;
+  }
+
+  function deriveZipBaseName(files) {
+    if (!files || !files.length) return 'materiales';
+    var firstPath = files[0].path || '';
+    if (!firstPath) return 'materiales';
+    var parts = firstPath.split('/');
+    if (parts.length > 1) {
+      var root = parts[0];
+      var sameRoot = files.every(function (item) {
+        return item.path && item.path.indexOf(root + '/') === 0;
+      });
+      if (sameRoot) {
+        return root;
+      }
+    }
+    var filename = parts[parts.length - 1] || 'materiales';
+    return filename.replace(/\.[^/.]+$/, '') || 'materiales';
   }
 
   function collectFilesFromInput(fileList) {
@@ -1019,6 +1044,12 @@
   if (buildZipButton) {
     buildZipButton.addEventListener('click', function () {
       buildZipFromSelection();
+    });
+  }
+
+  if (zipNameInput) {
+    zipNameInput.addEventListener('input', function () {
+      zipNameDirty = true;
     });
   }
 
