@@ -14,6 +14,9 @@
   var helpOpen = document.querySelector('[data-help-open]');
   var helpModal = document.querySelector('[data-help-modal]');
   var helpCloseButtons = document.querySelectorAll('[data-help-close]');
+  var aboutOpen = document.querySelector('[data-about-open]');
+  var aboutModal = document.querySelector('[data-about-modal]');
+  var aboutCloseButtons = document.querySelectorAll('[data-about-close]');
   var htmlModal = document.querySelector('[data-html-modal]');
   var htmlList = document.querySelector('[data-html-list]');
   var htmlConfirm = document.querySelector('[data-html-confirm]');
@@ -1223,6 +1226,21 @@
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape') {
         helpModal.setAttribute('hidden', '');
+      }
+    });
+  }
+  if (aboutOpen && aboutModal) {
+    aboutOpen.addEventListener('click', function () {
+      aboutModal.removeAttribute('hidden');
+    });
+    aboutCloseButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        aboutModal.setAttribute('hidden', '');
+      });
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        aboutModal.setAttribute('hidden', '');
       }
     });
   }

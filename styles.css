@@ -46,6 +46,53 @@ header {
   box-shadow: var(--shadow);
 }
 
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.help-pill {
+  border: 1px solid rgba(31, 95, 89, 0.2);
+  background: #fff;
+  border-radius: 999px;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(31, 95, 89, 0.12);
+}
+
+.help-pill__icon {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.help-pill__tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f5f59;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.help-pill:hover .help-pill__tooltip,
+.help-pill:focus .help-pill__tooltip {
+  opacity: 1;
+}
+
 .eyebrow {
   font-size: 0.85rem;
   letter-spacing: 0.12em;
