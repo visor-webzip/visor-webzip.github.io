@@ -652,6 +652,12 @@ button[disabled] {
   line-height: 1.6;
 }
 
+.modal__content ol {
+  margin: 0 0 8px 18px;
+  color: var(--ink-muted);
+  line-height: 1.65;
+}
+
 .html-picker {
   display: grid;
   gap: 10px;
