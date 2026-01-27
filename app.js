@@ -27,7 +27,6 @@
   var fileButton = document.querySelector('[data-file-button]');
   var uploadStatus = document.querySelector('[data-upload-status]');
   var buildZipButton = document.querySelector('[data-build-zip]');
-  var zipDownload = document.querySelector('[data-zip-download]');
   var zipStatus = document.querySelector('[data-zip-status]');
   var zipNameInput = document.querySelector('[data-zip-name]');
 
@@ -35,7 +34,6 @@
   var loadingActive = false;
   var progressTimer = null;
   var selectedFiles = [];
-  var zipObjectUrl = '';
   var zipNameDirty = false;
 
   var DB_NAME = 'visor-web-sites';
@@ -178,14 +176,7 @@
   }
 
   function resetZipDownload() {
-    if (zipObjectUrl) {
-      URL.revokeObjectURL(zipObjectUrl);
-      zipObjectUrl = '';
-    }
-    if (zipDownload) {
-      zipDownload.href = '#';
-      zipDownload.setAttribute('aria-disabled', 'true');
-    }
+    // No-op: downloads are triggered immediately after ZIP creation.
   }
 
   function updateSelectedFiles(files) {
@@ -348,14 +339,17 @@
       });
       var zipped = window.fflate.zipSync(files);
       var blob = new Blob([zipped], { type: 'application/zip' });
-      resetZipDownload();
-      zipObjectUrl = URL.createObjectURL(blob);
-      if (zipDownload) {
-        zipDownload.href = zipObjectUrl;
-        zipDownload.download = zipName;
-        zipDownload.setAttribute('aria-disabled', 'false');
-      }
-      setZipStatus('ZIP listo. Descarga el archivo.');
+      var url = URL.createObjectURL(blob);
+      var anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = zipName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      setTimeout(function () {
+        URL.revokeObjectURL(url);
+      }, 1000);
+      setZipStatus('ZIP descargado.');
     }).catch(function () {
       setZipStatus('No se pudo crear el ZIP. Revisa los archivos.');
     });
