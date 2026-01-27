@@ -4,6 +4,7 @@
   var output = document.querySelector('[data-output]');
   var copyButton = document.querySelector('[data-copy]');
   var openLink = document.querySelector('[data-open]');
+  var stepThree = document.querySelector('[data-step-three]');
   var loadingScreen = document.querySelector('[data-loading]');
   var loadingMessage = document.querySelector('[data-loading-message]');
   var loadingBar = document.querySelector('[data-loading-bar]');
@@ -150,6 +151,11 @@
     if (openLink) {
       openLink.href = link || '#';
       openLink.setAttribute('aria-disabled', link ? 'false' : 'true');
+    }
+    if (link && stepThree) {
+      stepThree.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      stepThree.setAttribute('tabindex', '-1');
+      stepThree.focus({ preventScroll: true });
     }
   }
 
