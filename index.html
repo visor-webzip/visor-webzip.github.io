@@ -39,6 +39,7 @@
       <p class="manager-subtitle">Crea un enlace para abrir tu web comprimida en ZIP en pantalla completa y compartirlo.</p>
       <section class="source-picker">
         <label for="service">Origen del ZIP</label>
+        <p class="step-note">Paso 1: selecciona el servicio donde está el ZIP.</p>
         <select id="service" data-service>
           <option value="drive">Google Drive</option>
           <option value="dropbox">Dropbox</option>
@@ -51,6 +52,7 @@
 
       <form data-form>
         <span class="field-title">Pega aqui el enlace publico</span>
+        <p class="step-note">Paso 2: pega el enlace público al ZIP y pulsa “Crear enlace”.</p>
         <input data-url type="url" placeholder="Pega aqui el enlace publico del ZIP" required>
         <button type="submit">Crear enlace</button>
       </form>
@@ -58,6 +60,7 @@
       <div class="output-row">
         <div class="output-group">
           <span class="field-title">Enlace para compartir</span>
+          <p class="step-note">Paso 3: copia el enlace o abre la vista previa.</p>
           <section class="output" data-output>Enlace para compartir</section>
         </div>
         <div class="actions">
@@ -105,6 +108,7 @@
         <div class="upload-grid">
           <section class="upload-card">
             <h3>1. Añade tus archivos</h3>
+            <p class="step-note">Paso 1: arrastra la carpeta o selecciona los archivos desde el botón.</p>
             <p class="upload-note">Puedes arrastrar una carpeta o archivos. También puedes seleccionar una carpeta completa desde el botón.</p>
             <div class="dropzone" data-dropzone>
               <div class="dropzone__title">Arrastra aquí la carpeta o los archivos</div>
@@ -120,6 +124,7 @@
           </section>
           <section class="upload-card">
             <h3>2. Descarga el ZIP</h3>
+            <p class="step-note">Paso 2: crea el ZIP y se descargará automáticamente.</p>
             <p class="upload-note">Al crear el ZIP se descargará un archivo que puedes subir a Drive, Dropbox, Nextcloud, etc.</p>
             <label class="field-title" for="zip-name">Nombre del ZIP</label>
             <input id="zip-name" data-zip-name type="text" placeholder="materiales" value="materiales">

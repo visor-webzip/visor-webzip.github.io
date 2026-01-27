@@ -344,6 +344,12 @@ body[data-active-tab="manager"] .tab-panel[data-tab-panel="manager"] {
   color: var(--ink-muted);
 }
 
+.step-note {
+  margin: 6px 0 10px;
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+}
+
 .manager-stats {
   display: grid;
   gap: 12px;
