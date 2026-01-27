@@ -11,9 +11,6 @@
   var mainContent = document.querySelector('[data-main]');
   var serviceSelect = document.querySelector('[data-service]');
   var serviceNote = document.querySelector('[data-service-note]');
-  var helpOpen = document.querySelector('[data-help-open]');
-  var helpModal = document.querySelector('[data-help-modal]');
-  var helpCloseButtons = document.querySelectorAll('[data-help-close]');
   var aboutOpen = document.querySelector('[data-about-open]');
   var aboutModal = document.querySelector('[data-about-modal]');
   var aboutCloseButtons = document.querySelectorAll('[data-about-close]');
@@ -1212,21 +1209,6 @@
       }).then(function () {
         refreshManager();
       });
-    });
-  }
-  if (helpOpen && helpModal) {
-    helpOpen.addEventListener('click', function () {
-      helpModal.removeAttribute('hidden');
-    });
-    helpCloseButtons.forEach(function (button) {
-      button.addEventListener('click', function () {
-        helpModal.setAttribute('hidden', '');
-      });
-    });
-    document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape') {
-        helpModal.setAttribute('hidden', '');
-      }
     });
   }
   if (aboutOpen && aboutModal) {
