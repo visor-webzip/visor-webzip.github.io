@@ -144,6 +144,14 @@
     }
   }
 
+  function formatUserError(err) {
+    var message = (err && err.message) ? err.message : '';
+    if (/no devolvio un ZIP|recibio HTML|devolvio HTML/i.test(message)) {
+      return 'El archivo es demasiado grande y Google Drive limita las descargas.';
+    }
+    return message || 'No se pudo cargar el ZIP.';
+  }
+
   function registerServiceWorker() {
     if (!('serviceWorker' in navigator)) {
       return Promise.reject(new Error('Service worker no disponible.'));
@@ -751,7 +759,7 @@
       })
       .catch(function (err) {
         setShareLink('');
-        setStatus(err.message || 'No se pudo cargar el ZIP.');
+        setStatus(formatUserError(err));
         if (autoOpen) {
           setLoading(false);
         }
