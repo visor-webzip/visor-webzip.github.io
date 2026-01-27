@@ -23,6 +23,8 @@
   var dropzone = document.querySelector('[data-dropzone]');
   var folderInput = document.querySelector('[data-folder-input]');
   var fileInput = document.querySelector('[data-file-input]');
+  var folderButton = document.querySelector('[data-folder-button]');
+  var fileButton = document.querySelector('[data-file-button]');
   var uploadStatus = document.querySelector('[data-upload-status]');
   var buildZipButton = document.querySelector('[data-build-zip]');
   var zipDownload = document.querySelector('[data-zip-download]');
@@ -798,6 +800,35 @@
     return paths[0] || '';
   }
 
+  function pickIndexPath(paths) {
+    var htmlPaths = paths.filter(function (path) {
+      var lower = path.toLowerCase();
+      return lower.endsWith('.html') || lower.endsWith('.htm');
+    });
+    if (!htmlPaths.length) {
+      throw new Error('El ZIP necesita al menos un archivo .html.');
+    }
+    var preferred = findIndexPath(paths);
+    if (preferred && /index\.html?$/.test(preferred.toLowerCase())) {
+      return preferred;
+    }
+    if (htmlPaths.length === 1) {
+      return htmlPaths[0];
+    }
+    var list = htmlPaths.map(function (path, index) {
+      return (index + 1) + ') ' + path;
+    }).join('\n');
+    var choice = window.prompt('No se encontro index.html. Elige el HTML que quieres compartir:\n\n' + list, '1');
+    if (!choice) {
+      throw new Error('No se selecciono ningun HTML.');
+    }
+    var idx = parseInt(choice, 10);
+    if (!idx || idx < 1 || idx > htmlPaths.length) {
+      throw new Error('Seleccion no valida. Vuelve a intentarlo.');
+    }
+    return htmlPaths[idx - 1];
+  }
+
   function loadZip(zipUrl, options) {
     var opts = options || {};
     var autoOpen = !!opts.autoOpen;
@@ -910,10 +941,7 @@
           }
 
           var paths = files.map(function (file) { return file.path; });
-          var indexPath = findIndexPath(paths);
-          if (!indexPath) {
-            throw new Error('No se encontro un index.html.');
-          }
+          var indexPath = pickIndexPath(paths);
 
           setStatus('Guardando en el navegador...');
           if (autoOpen) {
@@ -1035,9 +1063,21 @@
     });
   }
 
+  if (folderButton && folderInput) {
+    folderButton.addEventListener('click', function () {
+      folderInput.click();
+    });
+  }
+
   if (fileInput) {
     fileInput.addEventListener('change', function (event) {
       collectFilesFromInput(event.target.files || []);
+    });
+  }
+
+  if (fileButton && fileInput) {
+    fileButton.addEventListener('click', function () {
+      fileInput.click();
     });
   }
 

@@ -110,14 +110,10 @@
               <div class="dropzone__title">Arrastra aquí la carpeta o los archivos</div>
               <div class="dropzone__hint">Se respetan las carpetas internas.</div>
               <div class="dropzone__actions">
-                <label class="ghost-button">
-                  Elegir carpeta
-                  <input type="file" data-folder-input webkitdirectory multiple hidden>
-                </label>
-                <label class="ghost-button">
-                  Elegir archivos
-                  <input type="file" data-file-input multiple hidden>
-                </label>
+                <button class="ghost-button" type="button" data-folder-button>Elegir carpeta</button>
+                <button class="ghost-button" type="button" data-file-button>Elegir archivos</button>
+                <input type="file" data-folder-input webkitdirectory multiple hidden>
+                <input type="file" data-file-input multiple hidden>
               </div>
             </div>
             <p class="upload-status" data-upload-status>No hay archivos seleccionados.</p>
