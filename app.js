@@ -41,6 +41,7 @@
   var zipNameDirty = false;
   var htmlPickerResolve = null;
   var htmlPickerReject = null;
+  var htmlPickerWasLoading = false;
 
   var DB_NAME = 'visor-web-sites';
   var DB_VERSION = 1;
@@ -204,6 +205,10 @@
     return new Promise(function (resolve, reject) {
       htmlPickerResolve = resolve;
       htmlPickerReject = reject;
+      if (loadingActive) {
+        htmlPickerWasLoading = true;
+        setLoading(false);
+      }
       htmlList.innerHTML = '';
       htmlPaths.forEach(function (path, index) {
         var id = 'html-choice-' + index;
@@ -989,6 +994,11 @@
 
           var paths = files.map(function (file) { return file.path; });
           return pickIndexPath(paths).then(function (indexPath) {
+            if (htmlPickerWasLoading) {
+              htmlPickerWasLoading = false;
+              setLoading(true);
+              setLoadingMessage('Guardando en el navegador...');
+            }
             setStatus('Guardando en el navegador...');
             if (autoOpen) {
               stopProgress();
