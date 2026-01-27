@@ -13,6 +13,10 @@
   var helpOpen = document.querySelector('[data-help-open]');
   var helpModal = document.querySelector('[data-help-modal]');
   var helpCloseButtons = document.querySelectorAll('[data-help-close]');
+  var htmlModal = document.querySelector('[data-html-modal]');
+  var htmlList = document.querySelector('[data-html-list]');
+  var htmlConfirm = document.querySelector('[data-html-confirm]');
+  var htmlCloseButtons = document.querySelectorAll('[data-html-close]');
   var tabButtons = document.querySelectorAll('[data-tab]');
   var tabPanels = document.querySelectorAll('[data-tab-panel]');
   var managerList = document.querySelector('[data-manager-list]');
@@ -35,6 +39,8 @@
   var progressTimer = null;
   var selectedFiles = [];
   var zipNameDirty = false;
+  var htmlPickerResolve = null;
+  var htmlPickerReject = null;
 
   var DB_NAME = 'visor-web-sites';
   var DB_VERSION = 1;
@@ -161,6 +167,64 @@
       return 'El archivo es demasiado grande y Google Drive limita las descargas.';
     }
     return message || 'No se pudo cargar el ZIP.';
+  }
+
+  function closeHtmlPicker(message) {
+    if (!htmlModal) return;
+    htmlModal.setAttribute('hidden', '');
+    if (htmlList) {
+      htmlList.innerHTML = '';
+    }
+    if (htmlPickerReject) {
+      var reject = htmlPickerReject;
+      htmlPickerResolve = null;
+      htmlPickerReject = null;
+      reject(new Error(message || 'No se selecciono ningun HTML.'));
+    }
+  }
+
+  function confirmHtmlPicker() {
+    if (!htmlList || !htmlPickerResolve) return;
+    var choice = htmlList.querySelector('input[name="html-choice"]:checked');
+    if (!choice) {
+      return;
+    }
+    var resolve = htmlPickerResolve;
+    htmlPickerResolve = null;
+    htmlPickerReject = null;
+    htmlModal.setAttribute('hidden', '');
+    htmlList.innerHTML = '';
+    resolve(choice.value);
+  }
+
+  function openHtmlPicker(htmlPaths, preferred) {
+    if (!htmlModal || !htmlList || !htmlConfirm) {
+      return Promise.reject(new Error('No se pudo abrir el selector de HTML.'));
+    }
+    return new Promise(function (resolve, reject) {
+      htmlPickerResolve = resolve;
+      htmlPickerReject = reject;
+      htmlList.innerHTML = '';
+      htmlPaths.forEach(function (path, index) {
+        var id = 'html-choice-' + index;
+        var label = document.createElement('label');
+        label.className = 'html-option';
+        var input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'html-choice';
+        input.value = path;
+        input.id = id;
+        if ((preferred && preferred === path) || (!preferred && index === 0)) {
+          input.checked = true;
+        }
+        var text = document.createElement('span');
+        text.textContent = path;
+        label.appendChild(input);
+        label.appendChild(text);
+        htmlList.appendChild(label);
+      });
+      htmlModal.removeAttribute('hidden');
+    });
   }
 
   function setUploadStatus(message) {
@@ -800,27 +864,16 @@
       return lower.endsWith('.html') || lower.endsWith('.htm');
     });
     if (!htmlPaths.length) {
-      throw new Error('El ZIP necesita al menos un archivo .html.');
+      return Promise.reject(new Error('El ZIP necesita al menos un archivo .html.'));
     }
     var preferred = findIndexPath(paths);
     if (preferred && /index\.html?$/.test(preferred.toLowerCase())) {
-      return preferred;
+      return Promise.resolve(preferred);
     }
     if (htmlPaths.length === 1) {
-      return htmlPaths[0];
+      return Promise.resolve(htmlPaths[0]);
     }
-    var list = htmlPaths.map(function (path, index) {
-      return (index + 1) + ') ' + path;
-    }).join('\n');
-    var choice = window.prompt('No se encontro index.html. Elige el HTML que quieres compartir:\n\n' + list, '1');
-    if (!choice) {
-      throw new Error('No se selecciono ningun HTML.');
-    }
-    var idx = parseInt(choice, 10);
-    if (!idx || idx < 1 || idx > htmlPaths.length) {
-      throw new Error('Seleccion no valida. Vuelve a intentarlo.');
-    }
-    return htmlPaths[idx - 1];
+    return openHtmlPicker(htmlPaths, preferred || htmlPaths[0]);
   }
 
   function loadZip(zipUrl, options) {
@@ -935,48 +988,48 @@
           }
 
           var paths = files.map(function (file) { return file.path; });
-          var indexPath = pickIndexPath(paths);
-
-          setStatus('Guardando en el navegador...');
-          if (autoOpen) {
-            stopProgress();
-            setProgress(85);
-          } else if (showProgress) {
-            stopProgress();
-            setProgress(85);
-          }
-
-          var totalBytes = files.reduce(function (sum, item) { return sum + item.size; }, 0);
-          return ensureStorageCapacity(totalBytes).then(function (canProceed) {
-            if (!canProceed) {
-              throw new Error('No hay espacio suficiente en el navegador.');
+          return pickIndexPath(paths).then(function (indexPath) {
+            setStatus('Guardando en el navegador...');
+            if (autoOpen) {
+              stopProgress();
+              setProgress(85);
+            } else if (showProgress) {
+              stopProgress();
+              setProgress(85);
             }
-            return deleteSite(result.siteId).catch(function () {
-              // Ignore delete errors.
-            });
-          }).then(function () {
-            var site = {
-              id: result.siteId,
-              url: effectiveZipUrl,
-              indexPath: indexPath,
-              updatedAt: Date.now(),
-              fileCount: files.length,
-              totalBytes: totalBytes
-            };
-            return saveSite(site).then(function () {
-              return saveFiles(files).then(function () {
-                var siteUrl = buildSiteUrl(result.siteId, indexPath);
-                return controlPromise.then(function () {
-                  if (autoOpen) {
-                    window.location.assign(siteUrl);
-                  }
-                  if (showProgress && !autoOpen) {
-                    setProgress(100);
-                    stopProgress();
-                    setLoading(false);
-                  }
-                  refreshManager();
-                  return { siteId: result.siteId, siteUrl: siteUrl };
+
+            var totalBytes = files.reduce(function (sum, item) { return sum + item.size; }, 0);
+            return ensureStorageCapacity(totalBytes).then(function (canProceed) {
+              if (!canProceed) {
+                throw new Error('No hay espacio suficiente en el navegador.');
+              }
+              return deleteSite(result.siteId).catch(function () {
+                // Ignore delete errors.
+              });
+            }).then(function () {
+              var site = {
+                id: result.siteId,
+                url: effectiveZipUrl,
+                indexPath: indexPath,
+                updatedAt: Date.now(),
+                fileCount: files.length,
+                totalBytes: totalBytes
+              };
+              return saveSite(site).then(function () {
+                return saveFiles(files).then(function () {
+                  var siteUrl = buildSiteUrl(result.siteId, indexPath);
+                  return controlPromise.then(function () {
+                    if (autoOpen) {
+                      window.location.assign(siteUrl);
+                    }
+                    if (showProgress && !autoOpen) {
+                      setProgress(100);
+                      stopProgress();
+                      setLoading(false);
+                    }
+                    refreshManager();
+                    return { siteId: result.siteId, siteUrl: siteUrl };
+                  });
                 });
               });
             });
@@ -1154,6 +1207,23 @@
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape') {
         helpModal.setAttribute('hidden', '');
+      }
+    });
+  }
+  if (htmlModal) {
+    htmlCloseButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        closeHtmlPicker();
+      });
+    });
+    if (htmlConfirm) {
+      htmlConfirm.addEventListener('click', function () {
+        confirmHtmlPicker();
+      });
+    }
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        closeHtmlPicker();
       }
     });
   }

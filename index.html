@@ -163,6 +163,24 @@
       </div>
     </div>
 
+    <div class="modal" data-html-modal hidden>
+      <div class="modal__overlay" data-html-close></div>
+      <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="html-title">
+        <div class="modal__header">
+          <h2 id="html-title">Elige el HTML inicial</h2>
+          <button class="modal__close" type="button" data-html-close aria-label="Cerrar">×</button>
+        </div>
+        <div class="modal__content">
+          <p class="manager-subtitle">No se encontró un index.html. Selecciona el archivo HTML que quieres abrir primero.</p>
+          <div class="html-picker" data-html-list></div>
+          <div class="html-picker__actions">
+            <button class="ghost-button" type="button" data-html-close>Cancelar</button>
+            <button type="button" data-html-confirm>Usar este HTML</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <footer class="site-footer">
       <a class="footer-link" href="https://bilateria.org" target="_blank" rel="noopener">(c) 2025 Juan Jose de Haro</a>
       <span class="footer-sep">·</span>

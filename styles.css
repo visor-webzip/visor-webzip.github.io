@@ -590,6 +590,40 @@ button[disabled] {
   line-height: 1.6;
 }
 
+.html-picker {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0 18px;
+}
+
+.html-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(31, 95, 89, 0.18);
+  background: var(--surface-muted);
+  cursor: pointer;
+}
+
+.html-option input {
+  margin-top: 4px;
+}
+
+.html-option span {
+  font-size: 0.95rem;
+  color: var(--ink);
+  word-break: break-word;
+}
+
+.html-picker__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
 
 
 
