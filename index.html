@@ -31,6 +31,7 @@
 
     <div class="tabs" role="tablist" aria-label="Secciones">
       <button class="tab-button is-active" type="button" role="tab" aria-selected="true" data-tab="main">Inicio</button>
+      <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="zipper">Crear ZIP</button>
       <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="manager">Gestor de webs</button>
     </div>
 
@@ -93,6 +94,57 @@
       </div>
     </section>
 
+    <section class="tab-panel" role="tabpanel" data-tab-panel="zipper">
+      <div class="manager-card">
+        <div class="manager-header">
+          <div>
+            <h2>Crear ZIP para el visor</h2>
+            <p class="manager-subtitle">Sube una carpeta o varios archivos y descarga el ZIP listo para compartir.</p>
+          </div>
+        </div>
+        <div class="upload-grid">
+          <section class="upload-card">
+            <h3>1. Añade tus archivos</h3>
+            <p class="upload-note">Puedes arrastrar una carpeta o archivos. También puedes seleccionar una carpeta completa desde el botón.</p>
+            <div class="dropzone" data-dropzone>
+              <div class="dropzone__title">Arrastra aquí la carpeta o los archivos</div>
+              <div class="dropzone__hint">Se respetan las carpetas internas.</div>
+              <div class="dropzone__actions">
+                <label class="ghost-button">
+                  Elegir carpeta
+                  <input type="file" data-folder-input webkitdirectory multiple hidden>
+                </label>
+                <label class="ghost-button">
+                  Elegir archivos
+                  <input type="file" data-file-input multiple hidden>
+                </label>
+              </div>
+            </div>
+            <p class="upload-status" data-upload-status>No hay archivos seleccionados.</p>
+          </section>
+          <section class="upload-card">
+            <h3>2. Descarga el ZIP</h3>
+            <p class="upload-note">Al crear el ZIP se descargará un archivo que puedes subir a Drive, Dropbox o GitHub.</p>
+            <label class="field-title" for="zip-name">Nombre del ZIP</label>
+            <input id="zip-name" data-zip-name type="text" placeholder="materiales.zip" value="materiales.zip">
+            <div class="upload-actions">
+              <button type="button" data-build-zip>Crear ZIP</button>
+              <a class="open-link" data-zip-download href="#" download="materiales.zip" aria-disabled="true">Descargar ZIP</a>
+            </div>
+            <p class="upload-status" data-zip-status>Prepara el ZIP para obtener tu archivo.</p>
+          </section>
+        </div>
+        <div class="upload-help">
+          <h3>¿Qué hacer con el ZIP?</h3>
+          <ol>
+            <li>Sube el ZIP a un servicio con enlace público (Drive, Dropbox, GitHub…).</li>
+            <li>Copia el enlace público y pégalo en la pestaña “Inicio”.</li>
+            <li>Comparte el enlace generado por el visor con tu alumnado.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
     <div class="modal" data-help-modal hidden>
       <div class="modal__overlay" data-help-close></div>
       <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="help-title">
@@ -132,6 +184,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
   <script src="config.js"></script>
-  <script src="app.js?v=8"></script>
+  <script src="app.js?v=9"></script>
 </body>
 </html>

@@ -250,6 +250,82 @@ body[data-active-tab="manager"] .tab-panel[data-tab-panel="manager"] {
   gap: 18px;
 }
 
+.upload-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.upload-card {
+  border: 1px solid rgba(42, 96, 91, 0.15);
+  border-radius: 18px;
+  padding: 20px;
+  background: #f6faf9;
+}
+
+.upload-note {
+  margin: 8px 0 16px;
+  color: var(--ink-muted);
+}
+
+.dropzone {
+  border: 2px dashed rgba(42, 96, 91, 0.35);
+  border-radius: 16px;
+  padding: 22px;
+  text-align: center;
+  background: #ffffff;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.dropzone.is-dragover {
+  border-color: #1c6a5e;
+  background: rgba(28, 106, 94, 0.08);
+  transform: translateY(-2px);
+}
+
+.dropzone__title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.dropzone__hint {
+  color: #6a7f7c;
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+}
+
+.dropzone__actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.upload-status {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  color: #2d4d48;
+}
+
+.upload-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.upload-help {
+  margin-top: 20px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: rgba(28, 106, 94, 0.08);
+}
+
+.upload-help ol {
+  margin: 8px 0 0 18px;
+}
+
 .manager-header {
   display: flex;
   justify-content: space-between;

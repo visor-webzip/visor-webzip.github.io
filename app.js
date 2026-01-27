@@ -20,10 +20,20 @@
   var storageTotal = document.querySelector('[data-storage-total]');
   var storageCount = document.querySelector('[data-storage-count]');
   var deleteAllButton = document.querySelector('[data-delete-all]');
+  var dropzone = document.querySelector('[data-dropzone]');
+  var folderInput = document.querySelector('[data-folder-input]');
+  var fileInput = document.querySelector('[data-file-input]');
+  var uploadStatus = document.querySelector('[data-upload-status]');
+  var buildZipButton = document.querySelector('[data-build-zip]');
+  var zipDownload = document.querySelector('[data-zip-download]');
+  var zipStatus = document.querySelector('[data-zip-status]');
+  var zipNameInput = document.querySelector('[data-zip-name]');
 
   var currentShareLink = '';
   var loadingActive = false;
   var progressTimer = null;
+  var selectedFiles = [];
+  var zipObjectUrl = '';
 
   var DB_NAME = 'visor-web-sites';
   var DB_VERSION = 1;
@@ -150,6 +160,178 @@
       return 'El archivo es demasiado grande y Google Drive limita las descargas.';
     }
     return message || 'No se pudo cargar el ZIP.';
+  }
+
+  function setUploadStatus(message) {
+    if (uploadStatus) {
+      uploadStatus.textContent = message;
+    }
+  }
+
+  function setZipStatus(message) {
+    if (zipStatus) {
+      zipStatus.textContent = message;
+    }
+  }
+
+  function resetZipDownload() {
+    if (zipObjectUrl) {
+      URL.revokeObjectURL(zipObjectUrl);
+      zipObjectUrl = '';
+    }
+    if (zipDownload) {
+      zipDownload.href = '#';
+      zipDownload.setAttribute('aria-disabled', 'true');
+    }
+  }
+
+  function updateSelectedFiles(files) {
+    selectedFiles = files || [];
+    resetZipDownload();
+    if (!selectedFiles.length) {
+      setUploadStatus('No hay archivos seleccionados.');
+      setZipStatus('Prepara el ZIP para obtener tu archivo.');
+      return;
+    }
+    setUploadStatus('Archivos listos: ' + selectedFiles.length + '.');
+    setZipStatus('Listo para crear el ZIP.');
+  }
+
+  function normalizeZipName(name) {
+    var value = (name || '').trim() || 'materiales.zip';
+    if (!/\.zip$/i.test(value)) {
+      value += '.zip';
+    }
+    return value;
+  }
+
+  function collectFilesFromInput(fileList) {
+    var files = [];
+    Array.prototype.forEach.call(fileList || [], function (file) {
+      var path = file.webkitRelativePath || file.name || '';
+      if (!path) return;
+      path = path.replace(/^\//, '');
+      files.push({ path: path, file: file });
+    });
+    updateSelectedFiles(files);
+  }
+
+  function readFileEntry(entry, basePath) {
+    return new Promise(function (resolve, reject) {
+      entry.file(function (file) {
+        var path = (basePath || '') + (file.name || '');
+        resolve([{ path: path, file: file }]);
+      }, reject);
+    });
+  }
+
+  function readAllEntries(reader) {
+    return new Promise(function (resolve, reject) {
+      var entries = [];
+      var readBatch = function () {
+        reader.readEntries(function (batch) {
+          if (!batch.length) {
+            resolve(entries);
+            return;
+          }
+          entries = entries.concat(batch);
+          readBatch();
+        }, reject);
+      };
+      readBatch();
+    });
+  }
+
+  function readDirectoryEntry(entry, basePath) {
+    var reader = entry.createReader();
+    return readAllEntries(reader).then(function (entries) {
+      var prefix = (basePath || '') + entry.name + '/';
+      var promises = entries.map(function (child) {
+        return readEntry(child, prefix);
+      });
+      return Promise.all(promises).then(function (nested) {
+        return nested.reduce(function (acc, group) {
+          return acc.concat(group);
+        }, []);
+      });
+    });
+  }
+
+  function readEntry(entry, basePath) {
+    if (entry.isFile) {
+      return readFileEntry(entry, basePath);
+    }
+    if (entry.isDirectory) {
+      return readDirectoryEntry(entry, basePath);
+    }
+    return Promise.resolve([]);
+  }
+
+  function collectFilesFromDrop(event) {
+    var items = event.dataTransfer && event.dataTransfer.items;
+    if (items && items.length) {
+      var entries = [];
+      Array.prototype.forEach.call(items, function (item) {
+        if (!item.webkitGetAsEntry) return;
+        var entry = item.webkitGetAsEntry();
+        if (entry) {
+          entries.push(entry);
+        }
+      });
+      if (entries.length) {
+        return Promise.all(entries.map(function (entry) {
+          return readEntry(entry, '');
+        })).then(function (nested) {
+          var files = nested.reduce(function (acc, group) {
+            return acc.concat(group);
+          }, []);
+          updateSelectedFiles(files);
+        });
+      }
+    }
+    collectFilesFromInput(event.dataTransfer.files || []);
+    return Promise.resolve();
+  }
+
+  function buildZipFromSelection() {
+    if (!selectedFiles.length) {
+      setZipStatus('Selecciona archivos o una carpeta primero.');
+      return;
+    }
+    if (!window.fflate || !window.fflate.zipSync) {
+      setZipStatus('No se pudo cargar el motor ZIP.');
+      return;
+    }
+    var zipName = normalizeZipName(zipNameInput ? zipNameInput.value : '');
+    setZipStatus('Creando ZIP...');
+    var tasks = selectedFiles.map(function (item) {
+      return item.file.arrayBuffer().then(function (buffer) {
+        return {
+          path: item.path,
+          data: new Uint8Array(buffer)
+        };
+      });
+    });
+    Promise.all(tasks).then(function (entries) {
+      var files = {};
+      entries.forEach(function (entry) {
+        if (entry.path) {
+          files[entry.path] = entry.data;
+        }
+      });
+      var zipped = window.fflate.zipSync(files);
+      var blob = new Blob([zipped], { type: 'application/zip' });
+      resetZipDownload();
+      zipObjectUrl = URL.createObjectURL(blob);
+      if (zipDownload) {
+        zipDownload.href = zipObjectUrl;
+        zipDownload.download = zipName;
+        zipDownload.setAttribute('aria-disabled', 'false');
+      }
+      setZipStatus('ZIP listo. Descarga el archivo.');
+    }).catch(function () {
+      setZipStatus('No se pudo crear el ZIP. Revisa los archivos.');
+    });
   }
 
   function registerServiceWorker() {
@@ -795,6 +977,48 @@
       } finally {
         document.body.removeChild(textarea);
       }
+    });
+  }
+
+  if (dropzone) {
+    var stopEvent = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+    dropzone.addEventListener('dragenter', function (event) {
+      stopEvent(event);
+      dropzone.classList.add('is-dragover');
+    });
+    dropzone.addEventListener('dragover', function (event) {
+      stopEvent(event);
+      dropzone.classList.add('is-dragover');
+    });
+    dropzone.addEventListener('dragleave', function (event) {
+      stopEvent(event);
+      dropzone.classList.remove('is-dragover');
+    });
+    dropzone.addEventListener('drop', function (event) {
+      stopEvent(event);
+      dropzone.classList.remove('is-dragover');
+      collectFilesFromDrop(event);
+    });
+  }
+
+  if (folderInput) {
+    folderInput.addEventListener('change', function (event) {
+      collectFilesFromInput(event.target.files || []);
+    });
+  }
+
+  if (fileInput) {
+    fileInput.addEventListener('change', function (event) {
+      collectFilesFromInput(event.target.files || []);
+    });
+  }
+
+  if (buildZipButton) {
+    buildZipButton.addEventListener('click', function () {
+      buildZipFromSelection();
     });
   }
 
