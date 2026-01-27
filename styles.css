@@ -127,6 +127,14 @@ form {
   margin: 0;
 }
 
+form .step-note {
+  grid-column: 1 / -1;
+}
+
+form button {
+  justify-self: start;
+}
+
 .field-title {
   grid-column: 1 / -1;
   font-size: 1rem;
@@ -141,6 +149,7 @@ input[type="url"] {
   border: 1px solid var(--border);
   background: var(--surface-muted);
   color: var(--ink);
+  grid-column: 1 / -1;
 }
 
 button {
