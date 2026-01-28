@@ -581,15 +581,29 @@ body[data-active-tab="manager"] .tab-panel[data-tab-panel="manager"] {
   justify-content: flex-end;
   gap: 10px;
   flex-wrap: wrap;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .manager-toolbar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.manager-toolbar__left,
+.manager-toolbar__right {
+  display: inline-flex;
+  align-items: center;
   gap: 10px;
   flex-wrap: wrap;
-  margin-top: 12px;
+}
+
+.manager-toolbar__right {
+  justify-content: flex-end;
 }
 
 .manager-sort {

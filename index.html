@@ -120,18 +120,20 @@
             </div>
           </div>
         </div>
-        <div class="manager-settings-actions">
-          <button class="ghost-button ghost-button--small" type="button" data-reset-cleanup data-i18n="manager.settings.reset" data-i18n-tooltip="manager.settings.resetHelp">Restaurar valores por defecto</button>
-          <button class="ghost-button ghost-button--small" type="button" data-delete-all data-i18n="manager.deleteAll" data-i18n-tooltip="manager.deleteAllHelp">Eliminar todos los recursos</button>
-        </div>
         <div class="manager-toolbar">
-          <span class="stat-label" data-i18n="manager.sort.label">Ordenar por</span>
-          <select class="manager-sort" data-manager-sort>
-            <option value="title" data-i18n="manager.sort.title">Título</option>
-            <option value="date" data-i18n="manager.sort.date">Fecha</option>
-            <option value="size" data-i18n="manager.sort.size">Tamaño</option>
-          </select>
-          <button class="ghost-button ghost-button--small manager-sort-dir" type="button" data-manager-sort-dir data-i18n-tooltip="manager.sort.dirHelp" aria-label="Orden ascendente/descendente">↑</button>
+          <div class="manager-toolbar__left">
+            <button class="ghost-button ghost-button--small" type="button" data-reset-cleanup data-i18n="manager.settings.reset" data-i18n-tooltip="manager.settings.resetHelp">Restaurar valores por defecto</button>
+            <button class="ghost-button ghost-button--small" type="button" data-delete-all data-i18n="manager.deleteAll" data-i18n-tooltip="manager.deleteAllHelp">Eliminar todos los recursos</button>
+          </div>
+          <div class="manager-toolbar__right">
+            <span class="stat-label" data-i18n="manager.sort.label">Ordenar por</span>
+            <select class="manager-sort" data-manager-sort>
+              <option value="title" data-i18n="manager.sort.title">Título</option>
+              <option value="date" data-i18n="manager.sort.date">Fecha</option>
+              <option value="size" data-i18n="manager.sort.size">Tamaño</option>
+            </select>
+            <button class="ghost-button ghost-button--small manager-sort-dir" type="button" data-manager-sort-dir data-i18n-tooltip="manager.sort.dirHelp" aria-label="Orden ascendente/descendente">↑</button>
+          </div>
         </div>
         <div class="manager-list" data-manager-list></div>
       </div>
