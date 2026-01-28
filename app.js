@@ -10,7 +10,6 @@
   var loadingBar = document.querySelector('[data-loading-bar]');
   var mainContent = document.querySelector('[data-main]');
   var serviceSelect = document.querySelector('[data-service]');
-  var serviceNote = document.querySelector('[data-service-note]');
   var aboutOpen = document.querySelector('[data-about-open]');
   var aboutModal = document.querySelector('[data-about-modal]');
   var aboutCloseButtons = document.querySelectorAll('[data-about-close]');
@@ -44,6 +43,9 @@
   var htmlPickerResolve = null;
   var htmlPickerReject = null;
   var htmlPickerWasLoading = false;
+  var toastTimer = null;
+  var inlineToastTimer = null;
+  var activeTitleEdit = null;
 
   var DB_NAME = 'visor-web-sites';
   var DB_VERSION = 1;
@@ -74,19 +76,15 @@
         de: 'Deutsch'
       },
       tab: {
-        main: 'Inicio',
-        zipper: 'Crear ZIP',
-        manager: 'Gestor de webs'
+        main: '2. Compartir recurso',
+        zipper: '1. Crear ZIP',
+        manager: 'Gestor de recursos'
       },
       tabs: {
         label: 'Secciones'
       },
       main: {
-        subtitle: 'Crea un enlace para abrir tu web comprimida en ZIP en pantalla completa y compartirlo.',
-        source: {
-          label: 'Origen del ZIP',
-          step: 'Paso 1: selecciona el servicio donde está el ZIP.'
-        },
+        subtitle: 'Para compartir tu recurso debes haberlo subido a Internet (Drive, Dropbox, etc.) en formato ZIP y compartirlo para que todo el mundo pueda verlo.',
         form: {
           title: 'Pega aquí el enlace público',
           step: 'Paso 2: pega el enlace público al ZIP y pulsa “Crear enlace”.',
@@ -108,18 +106,13 @@
         github: 'GitHub',
         other: 'Otros servicios',
         drivePlaceholder: 'https://drive.google.com/...',
-        driveNote: 'Google Drive:\n- Comparte el ZIP como "Cualquiera con el enlace".\n- Usa un enlace de archivo o de compartir.\n- El sistema convierte el enlace a descarga directa.',
         dropboxPlaceholder: 'https://www.dropbox.com/...',
-        dropboxNote: 'Dropbox:\n- Asegura que el archivo sea público o con enlace compartido.\n- Cambia ?dl=0 por ?dl=1 para descarga directa.',
         nextcloudPlaceholder: 'https://tu-servidor/s/...',
-        nextcloudNote: 'Nextcloud:\n- Comparte el ZIP con enlace público.\n- Usa el enlace que termina en /download o el sistema lo ajusta.',
         githubPlaceholder: 'https://github.com/usuario/repo/archive/refs/heads/main.zip',
-        githubNote: 'GitHub:\n- Usa un enlace directo a un ZIP.\n- Ejemplo: https://github.com/usuario/repo/archive/refs/heads/main.zip',
-        otherPlaceholder: 'https://servidor.com/archivo.zip',
-        otherNote: 'Otros servicios:\n- Debe ser un enlace directo al ZIP.\n- Evita enlaces que requieran login o cookies.'
+        otherPlaceholder: 'https://servidor.com/archivo.zip'
       },
       manager: {
-        title: 'Webs guardadas',
+        title: 'Recursos guardados',
         subtitle: 'Gestiona el espacio que ocupan los materiales guardados en este navegador.',
         deleteAll: 'Eliminar todas',
         stats: {
@@ -127,13 +120,26 @@
           total: 'Espacio total',
           count: 'Webs guardadas'
         },
+        actions: {
+          view: 'Ver',
+          share: 'Compartir',
+          edit: 'Editar'
+        },
+        editPrompt: 'Título del recurso',
         empty: 'No hay webs guardadas en este navegador.',
         siteNoUrl: 'Sitio sin URL',
         noDate: 'sin fecha'
       },
       zipper: {
         title: 'Crear ZIP para el visor',
-        subtitle: 'Sube una carpeta o varios archivos y descarga el ZIP listo para compartir.',
+        subtitle: {
+          lead: 'Para compartir tu recurso, comprime los archivos (o la carpeta que los contiene) en un archivo .zip.',
+          exeSentenceHtml: 'Si usas <strong>eXeLearning</strong>, también puedes crear el ZIP desde el propio programa y pasar directamente a la siguiente pestaña.'
+        },
+        exe: {
+          tooltip: 'Cómo exportar desde eXeLearning. Versión 2.x: Archivo > Exportar > Sitio Web > Archivo comprimido ZIP. Versión 3.x: Archivo > Descargar como > Sitio web.',
+          tooltipHtml: '<strong>Cómo exportar desde eXeLearning:</strong><br>• Versión 2.x: Archivo &gt; Exportar &gt; Sitio Web &gt; Archivo comprimido ZIP.<br>• Versión 3.x: Archivo &gt; Descargar como &gt; Sitio web.'
+        },
         step1: {
           title: '1. Añade tus archivos',
           note: 'Paso 1: arrastra la carpeta o selecciona los archivos desde el botón.',
@@ -170,7 +176,7 @@
         help: {
           title: '¿Qué hacer con el ZIP?',
           step1: 'Sube el ZIP a un servicio con enlace público (Drive, Dropbox, GitHub…).',
-          step2: 'Copia el enlace público y pégalo en la pestaña “Inicio”.',
+          step2: 'Copia el enlace público y pégalo en la pestaña “2. Compartir recurso”.',
           step3: 'Comparte el enlace generado por el visor con tu alumnado.'
         }
       },
@@ -197,7 +203,7 @@
         },
         how: {
           title: 'Cómo funciona',
-          step1: 'Prepara tu recurso como una carpeta con páginas web (HTML) y comprímelo en ZIP. Puedes hacerlo en la pestaña “Crear ZIP”.',
+          step1: 'Prepara tu recurso como una carpeta con páginas web (HTML) y comprímelo en ZIP. Puedes hacerlo en la pestaña “1. Crear ZIP”.',
           step2: 'Sube el ZIP a un servicio con enlace público (Google Drive, Dropbox, Nextcloud, GitHub…).',
           step3: 'Comparte el archivo para que cualquiera con el enlace pueda verlo.',
           step4: 'Copia la URL y pégala en el campo “Pega aquí el enlace público”.',
@@ -206,7 +212,13 @@
         drive: {
           title: 'Importante sobre Google Drive',
           note: 'Google Drive limita la descarga directa de archivos grandes (aprox. 25 MB). Si tu ZIP supera ese tamaño, puede fallar. Dropbox, Nextcloud y otros servicios suelen permitir archivos más grandes sin ese límite.'
-        }
+        },
+        body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
+          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
+          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Selecciona el servicio donde has subido el recurso en ZIP.</li><li>Pega el enlace público y pulsa "Crear enlace".</li></ol></div>'
+          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
+          + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
       error: {
         driveTooLarge: 'El archivo es demasiado grande y Google Drive limita las descargas.',
@@ -260,19 +272,15 @@
         de: 'Deutsch'
       },
       tab: {
-        main: 'Inici',
-        zipper: 'Crear ZIP',
-        manager: 'Gestor de webs'
+        main: '2. Compartir recurs',
+        zipper: '1. Crear ZIP',
+        manager: 'Gestor de recursos'
       },
       tabs: {
         label: 'Seccions'
       },
       main: {
-        subtitle: 'Crea un enllaç per obrir la teva web comprimida en ZIP a pantalla completa i compartir-la.',
-        source: {
-          label: 'Origen del ZIP',
-          step: 'Pas 1: selecciona el servei on hi ha el ZIP.'
-        },
+        subtitle: "Per compartir el teu recurs l'has d'haver pujat a Internet (Drive, Dropbox, etc.) en format ZIP i compartir-lo perquè tothom el pugui veure.",
         form: {
           title: "Enganxa aquí l'enllaç públic",
           step: 'Pas 2: enganxa l’enllaç públic al ZIP i prem “Crear enllaç”.',
@@ -294,18 +302,13 @@
         github: 'GitHub',
         other: 'Altres serveis',
         drivePlaceholder: 'https://drive.google.com/...',
-        driveNote: 'Google Drive:\n- Comparteix el ZIP com a "Qualsevol amb l’enllaç".\n- Usa un enllaç de fitxer o de compartir.\n- El sistema converteix l’enllaç a descàrrega directa.',
         dropboxPlaceholder: 'https://www.dropbox.com/...',
-        dropboxNote: 'Dropbox:\n- Assegura que el fitxer sigui públic o amb enllaç compartit.\n- Canvia ?dl=0 per ?dl=1 per a descàrrega directa.',
         nextcloudPlaceholder: 'https://el-teu-servidor/s/...',
-        nextcloudNote: 'Nextcloud:\n- Comparteix el ZIP amb enllaç públic.\n- Usa l’enllaç que acaba en /download o el sistema l’ajusta.',
         githubPlaceholder: 'https://github.com/usuari/repositori/archive/refs/heads/main.zip',
-        githubNote: 'GitHub:\n- Usa un enllaç directe a un ZIP.\n- Exemple: https://github.com/usuari/repositori/archive/refs/heads/main.zip',
-        otherPlaceholder: 'https://servidor.com/arxiu.zip',
-        otherNote: 'Altres serveis:\n- Ha de ser un enllaç directe al ZIP.\n- Evita enllaços que requereixin inici de sessió o cookies.'
+        otherPlaceholder: 'https://servidor.com/arxiu.zip'
       },
       manager: {
-        title: 'Webs desades',
+        title: 'Recursos desats',
         subtitle: 'Gestiona l’espai que ocupen els materials desats en aquest navegador.',
         deleteAll: 'Eliminar totes',
         stats: {
@@ -313,13 +316,26 @@
           total: 'Espai total',
           count: 'Webs desades'
         },
+        actions: {
+          view: 'Veure',
+          share: 'Compartir',
+          edit: 'Editar'
+        },
+        editPrompt: 'Títol del recurs',
         empty: 'No hi ha webs desades en aquest navegador.',
         siteNoUrl: 'Lloc sense URL',
         noDate: 'sense data'
       },
       zipper: {
         title: 'Crear ZIP per al visor',
-        subtitle: 'Puja una carpeta o diversos fitxers i descarrega el ZIP llest per compartir.',
+        subtitle: {
+          lead: 'Per compartir el teu recurs has de comprimir els fitxers (o la carpeta que els conté) en un arxiu ZIP.',
+          exeSentenceHtml: "Si fas servir <strong>eXeLearning</strong>, també pots crear el ZIP des del mateix programa i passar directament a la pestanya següent."
+        },
+        exe: {
+          tooltip: "Com exportar des d'eXeLearning. Versió 2.x: Fitxer > Exportar > Lloc web > Arxiu comprimit ZIP. Versió 3.x: Fitxer > Descarregar com > Lloc web.",
+          tooltipHtml: "<strong>Com exportar des d'eXeLearning:</strong><br>• Versió 2.x: Fitxer &gt; Exportar &gt; Lloc web &gt; Arxiu comprimit ZIP.<br>• Versió 3.x: Fitxer &gt; Descarregar com &gt; Lloc web."
+        },
         step1: {
           title: '1. Afegeix els teus fitxers',
           note: 'Pas 1: arrossega la carpeta o selecciona els fitxers des del botó.',
@@ -356,7 +372,7 @@
         help: {
           title: 'Què fer amb el ZIP?',
           step1: 'Puja el ZIP a un servei amb enllaç públic (Drive, Dropbox, GitHub…).',
-          step2: 'Copia l’enllaç públic i enganxa’l a la pestanya “Inici”.',
+          step2: 'Copia l’enllaç públic i enganxa’l a la pestanya “2. Compartir recurs”.',
           step3: 'Comparteix l’enllaç generat pel visor amb l’alumnat.'
         }
       },
@@ -383,7 +399,7 @@
         },
         how: {
           title: 'Com funciona',
-          step1: 'Prepara el teu recurs com una carpeta amb pàgines web (HTML) i comprimeix-lo en ZIP. Ho pots fer a la pestanya “Crear ZIP”.',
+          step1: 'Prepara el teu recurs com una carpeta amb pàgines web (HTML) i comprimeix-lo en ZIP. Ho pots fer a la pestanya “1. Crear ZIP”.',
           step2: 'Puja el ZIP a un servei amb enllaç públic (Google Drive, Dropbox, Nextcloud, GitHub…).',
           step3: 'Comparteix l’arxiu perquè qualsevol amb l’enllaç el pugui veure.',
           step4: 'Copia l’URL i enganxa-la al camp “Enganxa aquí l’enllaç públic”.',
@@ -392,7 +408,13 @@
         drive: {
           title: 'Important sobre Google Drive',
           note: 'Google Drive limita la descàrrega directa d’arxius grans (aprox. 25 MB). Si el teu ZIP supera aquesta mida, pot fallar. Dropbox, Nextcloud i altres serveis solen permetre fitxers més grans sense aquest límit.'
-        }
+        },
+        body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
+          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
+          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Selecciona el servicio donde has subido el recurso en ZIP.</li><li>Pega el enlace público y pulsa "Crear enlace".</li></ol></div>'
+          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
+          + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
       error: {
         driveTooLarge: 'El fitxer és massa gran i Google Drive limita les descàrregues.',
@@ -446,19 +468,15 @@
         de: 'Deutsch'
       },
       tab: {
-        main: 'Inicio',
-        zipper: 'Crear ZIP',
-        manager: 'Xestor de webs'
+        main: '2. Compartir recurso',
+        zipper: '1. Crear ZIP',
+        manager: 'Xestor de recursos'
       },
       tabs: {
         label: 'Seccións'
       },
       main: {
-        subtitle: 'Crea unha ligazón para abrir a túa web comprimida en ZIP a pantalla completa e compartila.',
-        source: {
-          label: 'Orixe do ZIP',
-          step: 'Paso 1: selecciona o servizo onde está o ZIP.'
-        },
+        subtitle: 'Para compartir o teu recurso debes subilo a Internet (Drive, Dropbox, etc.) en formato ZIP e compartilo para que todo o mundo poida velo.',
         form: {
           title: 'Pega aquí a ligazón pública',
           step: 'Paso 2: pega a ligazón pública ao ZIP e preme “Crear ligazón”.',
@@ -480,18 +498,13 @@
         github: 'GitHub',
         other: 'Outros servizos',
         drivePlaceholder: 'https://drive.google.com/...',
-        driveNote: 'Google Drive:\n- Comparte o ZIP como "Calquera coa ligazón".\n- Usa unha ligazón de ficheiro ou de compartir.\n- O sistema converte a ligazón a descarga directa.',
         dropboxPlaceholder: 'https://www.dropbox.com/...',
-        dropboxNote: 'Dropbox:\n- Asegura que o ficheiro sexa público ou con ligazón compartida.\n- Cambia ?dl=0 por ?dl=1 para descarga directa.',
         nextcloudPlaceholder: 'https://o-teu-servidor/s/...',
-        nextcloudNote: 'Nextcloud:\n- Comparte o ZIP con ligazón pública.\n- Usa a ligazón que remata en /download ou o sistema axústa.',
         githubPlaceholder: 'https://github.com/usuario/repositorio/archive/refs/heads/main.zip',
-        githubNote: 'GitHub:\n- Usa unha ligazón directa a un ZIP.\n- Exemplo: https://github.com/usuario/repositorio/archive/refs/heads/main.zip',
-        otherPlaceholder: 'https://servidor.com/ficheiro.zip',
-        otherNote: 'Outros servizos:\n- Debe ser unha ligazón directa ao ZIP.\n- Evita ligazóns que requiran inicio de sesión ou cookies.'
+        otherPlaceholder: 'https://servidor.com/ficheiro.zip'
       },
       manager: {
-        title: 'Webs gardadas',
+        title: 'Recursos gardados',
         subtitle: 'Xestiona o espazo que ocupan os materiais gardados neste navegador.',
         deleteAll: 'Eliminar todas',
         stats: {
@@ -499,13 +512,26 @@
           total: 'Espazo total',
           count: 'Webs gardadas'
         },
+        actions: {
+          view: 'Ver',
+          share: 'Compartir',
+          edit: 'Editar'
+        },
+        editPrompt: 'Título do recurso',
         empty: 'Non hai webs gardadas neste navegador.',
         siteNoUrl: 'Sitio sen URL',
         noDate: 'sen data'
       },
       zipper: {
         title: 'Crear ZIP para o visor',
-        subtitle: 'Sube un cartafol ou varios ficheiros e descarga o ZIP listo para compartir.',
+        subtitle: {
+          lead: 'Para compartir o teu recurso necesitas comprimir os ficheiros (ou o cartafol que os contén) nun arquivo ZIP.',
+          exeSentenceHtml: 'Se usas <strong>eXeLearning</strong>, tamén podes crear o ZIP desde o propio programa e pasar directamente á seguinte lapela.'
+        },
+        exe: {
+          tooltip: 'Como exportar desde eXeLearning. Versión 2.x: Arquivo > Exportar > Sitio web > Arquivo comprimido ZIP. Versión 3.x: Arquivo > Descargar como > Sitio web.',
+          tooltipHtml: '<strong>Como exportar desde eXeLearning:</strong><br>• Versión 2.x: Arquivo &gt; Exportar &gt; Sitio web &gt; Arquivo comprimido ZIP.<br>• Versión 3.x: Arquivo &gt; Descargar como &gt; Sitio web.'
+        },
         step1: {
           title: '1. Engade os teus ficheiros',
           note: 'Paso 1: arrastra o cartafol ou selecciona os ficheiros desde o botón.',
@@ -542,7 +568,7 @@
         help: {
           title: 'Que facer co ZIP?',
           step1: 'Sube o ZIP a un servizo con ligazón pública (Drive, Dropbox, GitHub…).',
-          step2: 'Copia a ligazón pública e pégala na lapela “Inicio”.',
+          step2: 'Copia a ligazón pública e pégala na lapela “2. Compartir recurso”.',
           step3: 'Comparte a ligazón xerada polo visor co teu alumnado.'
         }
       },
@@ -569,7 +595,7 @@
         },
         how: {
           title: 'Como funciona',
-          step1: 'Prepara o teu recurso como un cartafol con páxinas web (HTML) e comprímeo en ZIP. Podes facelo na lapela “Crear ZIP”.',
+          step1: 'Prepara o teu recurso como un cartafol con páxinas web (HTML) e comprímeo en ZIP. Podes facelo na lapela “1. Crear ZIP”.',
           step2: 'Sube o ZIP a un servizo con ligazón pública (Google Drive, Dropbox, Nextcloud, GitHub…).',
           step3: 'Comparte o ficheiro para que calquera coa ligazón poida velo.',
           step4: 'Copia a URL e pégala no campo “Pega aquí a ligazón pública”.',
@@ -578,7 +604,13 @@
         drive: {
           title: 'Importante sobre Google Drive',
           note: 'Google Drive limita a descarga directa de ficheiros grandes (aprox. 25 MB). Se o teu ZIP supera ese tamaño, pode fallar. Dropbox, Nextcloud e outros servizos adoitan permitir ficheiros máis grandes sen ese límite.'
-        }
+        },
+        body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
+          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
+          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Selecciona el servicio donde has subido el recurso en ZIP.</li><li>Pega el enlace público y pulsa "Crear enlace".</li></ol></div>'
+          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
+          + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
       error: {
         driveTooLarge: 'O ficheiro é demasiado grande e Google Drive limita as descargas.',
@@ -632,19 +664,15 @@
         de: 'Deutsch'
       },
       tab: {
-        main: 'Hasiera',
-        zipper: 'ZIP sortu',
-        manager: 'Web kudeatzailea'
+        main: '2. Partekatu baliabidea',
+        zipper: '1. Sortu ZIP',
+        manager: 'Baliabide kudeatzailea'
       },
       tabs: {
         label: 'Atalak'
       },
       main: {
-        subtitle: 'Sortu esteka bat ZIPean konprimitutako zure weba pantaila osoan ireki eta partekatzeko.',
-        source: {
-          label: 'ZIParen jatorria',
-          step: '1. urratsa: aukeratu ZIPa dagoen zerbitzua.'
-        },
+        subtitle: 'Zure baliabidea partekatzeko, Internetera igoa izan behar duzu (Drive, Dropbox, etab.) ZIP formatuan, eta partekatu, edonork ikusi ahal izan dezan.',
         form: {
           title: 'Itsatsi hemen esteka publikoa',
           step: '2. urratsa: itsatsi ZIParen esteka publikoa eta sakatu “Esteka sortu”.',
@@ -666,18 +694,13 @@
         github: 'GitHub',
         other: 'Beste zerbitzuak',
         drivePlaceholder: 'https://drive.google.com/...',
-        driveNote: 'Google Drive:\n- Partekatu ZIPa "Estekadun edonor".\n- Erabili fitxategiaren edo partekatzeko esteka.\n- Sistemak esteka zuzeneko deskargara bihurtzen du.',
         dropboxPlaceholder: 'https://www.dropbox.com/...',
-        dropboxNote: 'Dropbox:\n- Ziurtatu fitxategia publikoa dela edo partekatutako esteka duela.\n- Aldatu ?dl=0 -> ?dl=1 deskarga zuzenerako.',
         nextcloudPlaceholder: 'https://zure-zerbitzaria/s/...',
-        nextcloudNote: 'Nextcloud:\n- Partekatu ZIPa esteka publikoarekin.\n- Erabili /download amaiera duen esteka edo sistemak egokitzen du.',
         githubPlaceholder: 'https://github.com/erabiltzailea/errepositorioa/archive/refs/heads/main.zip',
-        githubNote: 'GitHub:\n- Erabili ZIP baterako esteka zuzena.\n- Adibidea: https://github.com/erabiltzailea/errepositorioa/archive/refs/heads/main.zip',
-        otherPlaceholder: 'https://zerbitzaria.com/fitxategia.zip',
-        otherNote: 'Beste zerbitzuak:\n- ZIPerako esteka zuzena izan behar da.\n- Saihestu saioa eskatzen duten estekak.'
+        otherPlaceholder: 'https://zerbitzaria.com/fitxategia.zip'
       },
       manager: {
-        title: 'Gordetako webak',
+        title: 'Gordetako baliabideak',
         subtitle: 'Kudeatu nabigatzaile honetan gordetako materialen okupazioa.',
         deleteAll: 'Guztiak ezabatu',
         stats: {
@@ -685,13 +708,26 @@
           total: 'Guztizko espazioa',
           count: 'Gordetako webak'
         },
+        actions: {
+          view: 'Ikusi',
+          share: 'Partekatu',
+          edit: 'Editatu'
+        },
+        editPrompt: 'Baliabidearen izenburua',
         empty: 'Ez dago gordetako webik nabigatzaile honetan.',
         siteNoUrl: 'URLrik gabeko gunea',
         noDate: 'datarik gabe'
       },
       zipper: {
         title: 'Bisorerako ZIP sortu',
-        subtitle: 'Igo karpeta bat edo hainbat fitxategi eta deskargatu partekatzeko prest dagoen ZIPa.',
+        subtitle: {
+          lead: 'Zure baliabidea partekatzeko, fitxategiak (edo horiek dituen karpeta) ZIP fitxategi batean konprimitu behar dituzu.',
+          exeSentenceHtml: '<strong>eXeLearning</strong> erabiltzen baduzu, ZIPa programatik bertatik sor dezakezu eta zuzenean hurrengo fitxara pasa.'
+        },
+        exe: {
+          tooltip: 'eXeLearningetik nola esportatu. 2.x bertsioa: Fitxategia > Esportatu > Webgunea > ZIP fitxategi konprimatua. 3.x bertsioa: Fitxategia > Deskargatu honela > Webgunea.',
+          tooltipHtml: '<strong>eXeLearningetik nola esportatu:</strong><br>• 2.x bertsioa: Fitxategia &gt; Esportatu &gt; Webgunea &gt; ZIP fitxategi konprimatua.<br>• 3.x bertsioa: Fitxategia &gt; Deskargatu honela &gt; Webgunea.'
+        },
         step1: {
           title: '1. Gehitu zure fitxategiak',
           note: '1. urratsa: arrastatu karpeta edo hautatu fitxategiak botoitik.',
@@ -728,7 +764,7 @@
         help: {
           title: 'Zer egin ZIParekin?',
           step1: 'Igo ZIPa esteka publikoarekin duen zerbitzu batera (Drive, Dropbox, GitHub…).',
-          step2: 'Kopiatu esteka publikoa eta itsatsi “Hasiera” fitxan.',
+          step2: 'Kopiatu esteka publikoa eta itsatsi “2. Partekatu baliabidea” fitxan.',
           step3: 'Partekatu bisoreak sortutako esteka zure ikasleekin.'
         }
       },
@@ -755,7 +791,7 @@
         },
         how: {
           title: 'Nola funtzionatzen du',
-          step1: 'Prestatu zure baliabidea web-orriak (HTML) dituen karpeta gisa eta ZIPean konprimitzen. “ZIP sortu” fitxan egin dezakezu.',
+          step1: 'Prestatu zure baliabidea web-orriak (HTML) dituen karpeta gisa eta ZIPean konprimitzen. “1. Sortu ZIP” fitxan egin dezakezu.',
           step2: 'Igo ZIPa esteka publikoarekin duen zerbitzu batera (Google Drive, Dropbox, Nextcloud, GitHub…).',
           step3: 'Partekatu fitxategia esteka duen edonork ikus dezan.',
           step4: 'Kopiatu URLa eta itsatsi “Itsatsi hemen esteka publikoa” eremuan.',
@@ -764,7 +800,13 @@
         drive: {
           title: 'Google Drive-ri buruzko oharra',
           note: 'Google Drivek fitxategi handien deskarga zuzena mugatzen du (gutxi gorabehera 25 MB). Zure ZIPak tamaina hori gainditzen badu, huts egin dezake. Dropbox, Nextcloud eta beste zerbitzu batzuek, normalean, handiagoak onartzen dituzte muga horik gabe.'
-        }
+        },
+        body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
+          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
+          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Selecciona el servicio donde has subido el recurso en ZIP.</li><li>Pega el enlace público y pulsa "Crear enlace".</li></ol></div>'
+          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
+          + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
       error: {
         driveTooLarge: 'Fitxategia handiegia da eta Google Drivek deskargak mugatzen ditu.',
@@ -818,19 +860,15 @@
         de: 'Deutsch'
       },
       tab: {
-        main: 'Home',
-        zipper: 'Create ZIP',
-        manager: 'Web manager'
+        main: '2. Share resource',
+        zipper: '1. Create ZIP',
+        manager: 'Resource manager'
       },
       tabs: {
         label: 'Sections'
       },
       main: {
-        subtitle: 'Create a link to open your ZIP-compressed web in full screen and share it.',
-        source: {
-          label: 'ZIP source',
-          step: 'Step 1: choose the service where the ZIP is stored.'
-        },
+        subtitle: 'To share your resource, it must be uploaded to the internet (Drive, Dropbox, etc.) as a ZIP and shared so anyone can view it.',
         form: {
           title: 'Paste the public link here',
           step: 'Step 2: paste the public ZIP link and click “Create link”.',
@@ -852,18 +890,13 @@
         github: 'GitHub',
         other: 'Other services',
         drivePlaceholder: 'https://drive.google.com/...',
-        driveNote: 'Google Drive:\n- Share the ZIP as "Anyone with the link".\n- Use a file link or share link.\n- The system converts the link to direct download.',
         dropboxPlaceholder: 'https://www.dropbox.com/...',
-        dropboxNote: 'Dropbox:\n- Make sure the file is public or shared by link.\n- Change ?dl=0 to ?dl=1 for direct download.',
         nextcloudPlaceholder: 'https://your-server/s/...',
-        nextcloudNote: 'Nextcloud:\n- Share the ZIP with a public link.\n- Use the link ending in /download or the system adjusts it.',
         githubPlaceholder: 'https://github.com/user/repo/archive/refs/heads/main.zip',
-        githubNote: 'GitHub:\n- Use a direct ZIP link.\n- Example: https://github.com/user/repo/archive/refs/heads/main.zip',
-        otherPlaceholder: 'https://server.com/file.zip',
-        otherNote: 'Other services:\n- It must be a direct ZIP link.\n- Avoid links that require login or cookies.'
+        otherPlaceholder: 'https://server.com/file.zip'
       },
       manager: {
-        title: 'Saved webs',
+        title: 'Saved resources',
         subtitle: 'Manage the space used by materials stored in this browser.',
         deleteAll: 'Delete all',
         stats: {
@@ -871,13 +904,26 @@
           total: 'Total space',
           count: 'Saved webs'
         },
+        actions: {
+          view: 'View',
+          share: 'Share',
+          edit: 'Edit'
+        },
+        editPrompt: 'Resource title',
         empty: 'No saved webs in this browser.',
         siteNoUrl: 'Site without URL',
         noDate: 'no date'
       },
       zipper: {
         title: 'Create ZIP for the viewer',
-        subtitle: 'Upload a folder or multiple files and download the ZIP ready to share.',
+        subtitle: {
+          lead: 'To share your resource, compress the files (or the folder that contains them) into a .zip file.',
+          exeSentenceHtml: 'If you use <strong>eXeLearning</strong>, you can also create the ZIP from the program itself and move straight to the next tab.'
+        },
+        exe: {
+          tooltip: 'How to export from eXeLearning. Version 2.x: File > Export > Website > Compressed ZIP file. Version 3.x: File > Download as > Website.',
+          tooltipHtml: '<strong>How to export from eXeLearning:</strong><br>• Version 2.x: File &gt; Export &gt; Website &gt; Compressed ZIP file.<br>• Version 3.x: File &gt; Download as &gt; Website.'
+        },
         step1: {
           title: '1. Add your files',
           note: 'Step 1: drag the folder or select files using the buttons.',
@@ -914,7 +960,7 @@
         help: {
           title: 'What to do with the ZIP?',
           step1: 'Upload the ZIP to a service with a public link (Drive, Dropbox, GitHub…).',
-          step2: 'Copy the public link and paste it in the “Home” tab.',
+          step2: 'Copy the public link and paste it in the “2. Share resource” tab.',
           step3: 'Share the link generated by the viewer with your students.'
         }
       },
@@ -941,7 +987,7 @@
         },
         how: {
           title: 'How it works',
-          step1: 'Prepare your resource as a folder with web pages (HTML) and compress it into a ZIP. You can do this in the “Create ZIP” tab.',
+          step1: 'Prepare your resource as a folder with web pages (HTML) and compress it into a ZIP. You can do this in the “1. Create ZIP” tab.',
           step2: 'Upload the ZIP to a service with a public link (Google Drive, Dropbox, Nextcloud, GitHub…).',
           step3: 'Share the file so anyone with the link can view it.',
           step4: 'Copy the URL and paste it into the “Paste the public link here” field.',
@@ -950,7 +996,13 @@
         drive: {
           title: 'Important about Google Drive',
           note: 'Google Drive limits direct downloads of large files (approx. 25 MB). If your ZIP exceeds that size, it may fail. Dropbox, Nextcloud and other services usually allow larger files without that limit.'
-        }
+        },
+        body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
+          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
+          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Selecciona el servicio donde has subido el recurso en ZIP.</li><li>Pega el enlace público y pulsa "Crear enlace".</li></ol></div>'
+          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
+          + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
       error: {
         driveTooLarge: 'The file is too large and Google Drive limits downloads.',
@@ -1004,19 +1056,15 @@
         de: 'Deutsch'
       },
       tab: {
-        main: 'Start',
-        zipper: 'ZIP erstellen',
-        manager: 'Web-Verwaltung'
+        main: '2. Ressource teilen',
+        zipper: '1. ZIP erstellen',
+        manager: 'Ressourcenverwaltung'
       },
       tabs: {
         label: 'Abschnitte'
       },
       main: {
-        subtitle: 'Erstelle einen Link, um deine ZIP-komprimierte Webansicht im Vollbild zu öffnen und zu teilen.',
-        source: {
-          label: 'ZIP-Quelle',
-          step: 'Schritt 1: Wähle den Dienst, auf dem das ZIP liegt.'
-        },
+        subtitle: 'Um deine Ressource zu teilen, musst du sie als ZIP ins Internet hochladen (Drive, Dropbox usw.) und freigeben, damit alle sie sehen können.',
         form: {
           title: 'Füge hier den öffentlichen Link ein',
           step: 'Schritt 2: Füge den öffentlichen ZIP-Link ein und klicke auf „Link erstellen“.',
@@ -1038,18 +1086,13 @@
         github: 'GitHub',
         other: 'Andere Dienste',
         drivePlaceholder: 'https://drive.google.com/...',
-        driveNote: 'Google Drive:\n- Teile das ZIP als "Jeder mit dem Link".\n- Verwende einen Datei- oder Freigabelink.\n- Das System konvertiert den Link in einen Direktdownload.',
         dropboxPlaceholder: 'https://www.dropbox.com/...',
-        dropboxNote: 'Dropbox:\n- Stelle sicher, dass die Datei öffentlich ist oder per Link geteilt wird.\n- Ändere ?dl=0 zu ?dl=1 für Direktdownload.',
         nextcloudPlaceholder: 'https://dein-server/s/...',
-        nextcloudNote: 'Nextcloud:\n- Teile das ZIP mit einem öffentlichen Link.\n- Verwende den Link mit /download oder das System passt ihn an.',
         githubPlaceholder: 'https://github.com/benutzer/repo/archive/refs/heads/main.zip',
-        githubNote: 'GitHub:\n- Verwende einen direkten ZIP-Link.\n- Beispiel: https://github.com/benutzer/repo/archive/refs/heads/main.zip',
-        otherPlaceholder: 'https://server.com/datei.zip',
-        otherNote: 'Andere Dienste:\n- Es muss ein direkter ZIP-Link sein.\n- Vermeide Links, die Login oder Cookies erfordern.'
+        otherPlaceholder: 'https://server.com/datei.zip'
       },
       manager: {
-        title: 'Gespeicherte Webseiten',
+        title: 'Gespeicherte Ressourcen',
         subtitle: 'Verwalte den Speicherplatz der in diesem Browser gespeicherten Materialien.',
         deleteAll: 'Alle löschen',
         stats: {
@@ -1057,13 +1100,26 @@
           total: 'Gesamtspeicher',
           count: 'Gespeicherte Webseiten'
         },
+        actions: {
+          view: 'Ansehen',
+          share: 'Teilen',
+          edit: 'Bearbeiten'
+        },
+        editPrompt: 'Titel der Ressource',
         empty: 'Keine gespeicherten Webseiten in diesem Browser.',
         siteNoUrl: 'Website ohne URL',
         noDate: 'ohne Datum'
       },
       zipper: {
         title: 'ZIP für den Viewer erstellen',
-        subtitle: 'Lade einen Ordner oder mehrere Dateien hoch und lade das ZIP zum Teilen herunter.',
+        subtitle: {
+          lead: 'Um deine Ressource zu teilen, komprimiere die Dateien (oder den Ordner, der sie enthält) in eine ZIP-Datei.',
+          exeSentenceHtml: 'Wenn du <strong>eXeLearning</strong> nutzt, kannst du das ZIP direkt im Programm erstellen und sofort zur nächsten Registerkarte wechseln.'
+        },
+        exe: {
+          tooltip: 'So exportierst du aus eXeLearning. Version 2.x: Datei > Exportieren > Website > Komprimierte ZIP-Datei. Version 3.x: Datei > Herunterladen als > Website.',
+          tooltipHtml: '<strong>So exportierst du aus eXeLearning:</strong><br>• Version 2.x: Datei &gt; Exportieren &gt; Website &gt; Komprimierte ZIP-Datei.<br>• Version 3.x: Datei &gt; Herunterladen als &gt; Website.'
+        },
         step1: {
           title: '1. Dateien hinzufügen',
           note: 'Schritt 1: Ziehe den Ordner hierher oder wähle Dateien per Button.',
@@ -1100,7 +1156,7 @@
         help: {
           title: 'Was tun mit dem ZIP?',
           step1: 'Lade das ZIP zu einem Dienst mit öffentlichem Link hoch (Drive, Dropbox, GitHub…).',
-          step2: 'Kopiere den öffentlichen Link und füge ihn im Tab „Start“ ein.',
+          step2: 'Kopiere den öffentlichen Link und füge ihn im Tab „2. Ressource teilen“ ein.',
           step3: 'Teile den vom Viewer erzeugten Link mit deinen Lernenden.'
         }
       },
@@ -1127,7 +1183,7 @@
         },
         how: {
           title: 'So funktioniert es',
-          step1: 'Bereite deine Ressource als Ordner mit Webseiten (HTML) vor und komprimiere sie als ZIP. Das geht im Tab „ZIP erstellen“.',
+          step1: 'Bereite deine Ressource als Ordner mit Webseiten (HTML) vor und komprimiere sie als ZIP. Das geht im Tab „1. ZIP erstellen“.',
           step2: 'Lade das ZIP zu einem Dienst mit öffentlichem Link hoch (Google Drive, Dropbox, Nextcloud, GitHub…).',
           step3: 'Teile die Datei, damit jeder mit dem Link sie sehen kann.',
           step4: 'Kopiere die URL und füge sie in das Feld „Füge hier den öffentlichen Link ein“ ein.',
@@ -1136,7 +1192,13 @@
         drive: {
           title: 'Wichtig zu Google Drive',
           note: 'Google Drive begrenzt direkte Downloads großer Dateien (ca. 25 MB). Wenn dein ZIP größer ist, kann es fehlschlagen. Dropbox, Nextcloud und andere Dienste erlauben meist größere Dateien ohne dieses Limit.'
-        }
+        },
+        body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
+          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
+          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Selecciona el servicio donde has subido el recurso en ZIP.</li><li>Pega el enlace público y pulsa "Crear enlace".</li></ol></div>'
+          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
+          + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
       error: {
         driveTooLarge: 'Die Datei ist zu groß und Google Drive begrenzt Downloads.',
@@ -1174,24 +1236,19 @@
 
   var SERVICE_INFO = {
     drive: {
-      placeholderKey: 'service.drivePlaceholder',
-      noteKey: 'service.driveNote'
+      placeholderKey: 'service.drivePlaceholder'
     },
     dropbox: {
-      placeholderKey: 'service.dropboxPlaceholder',
-      noteKey: 'service.dropboxNote'
+      placeholderKey: 'service.dropboxPlaceholder'
     },
     nextcloud: {
-      placeholderKey: 'service.nextcloudPlaceholder',
-      noteKey: 'service.nextcloudNote'
+      placeholderKey: 'service.nextcloudPlaceholder'
     },
     github: {
-      placeholderKey: 'service.githubPlaceholder',
-      noteKey: 'service.githubNote'
+      placeholderKey: 'service.githubPlaceholder'
     },
     other: {
-      placeholderKey: 'service.otherPlaceholder',
-      noteKey: 'service.otherNote'
+      placeholderKey: 'service.otherPlaceholder'
     }
   };
 
@@ -1342,9 +1399,6 @@
     if (!serviceSelect) return;
     var key = serviceSelect.value || 'drive';
     var info = SERVICE_INFO[key] || SERVICE_INFO.other;
-    if (serviceNote) {
-      serviceNote.textContent = t(info.noteKey);
-    }
     if (input) {
       input.placeholder = t(info.placeholderKey);
     }
@@ -1432,6 +1486,24 @@
         output.textContent = currentShareLink;
       }, 1500);
     }
+  }
+
+  function showInlineToast(button, message) {
+    if (!button) return;
+    var existing = button.querySelector('.inline-toast');
+    var bubble = existing || document.createElement('span');
+    bubble.className = 'inline-toast';
+    bubble.textContent = message;
+    if (!existing) {
+      button.appendChild(bubble);
+    }
+    button.classList.add('show-toast');
+    if (inlineToastTimer) {
+      clearTimeout(inlineToastTimer);
+    }
+    inlineToastTimer = setTimeout(function () {
+      button.classList.remove('show-toast');
+    }, 1300);
   }
 
   function formatUserError(err) {
@@ -1562,6 +1634,68 @@
     }
     var filename = parts[parts.length - 1] || getZipDefaultName();
     return filename.replace(/\.[^/.]+$/, '') || getZipDefaultName();
+  }
+
+  function deriveTitleFromPath(path) {
+    if (!path) return '';
+    var trimmed = path.replace(/[#?].*$/, '');
+    var parts = trimmed.split('/');
+    var filename = parts[parts.length - 1] || '';
+    return filename.replace(/\.[^/.]+$/, '').replace(/[_-]+/g, ' ').trim();
+  }
+
+  function deriveTitleFromUrl(url) {
+    if (!url) return '';
+    var cleaned = url.replace(/[#?].*$/, '');
+    var parts = cleaned.split('/');
+    var filename = parts[parts.length - 1] || '';
+    return filename.replace(/\.[^/.]+$/, '').replace(/[_-]+/g, ' ').trim();
+  }
+
+  function readBlobText(blob) {
+    if (!blob) return Promise.resolve('');
+    if (blob.text) {
+      return blob.text().catch(function () { return ''; });
+    }
+    return new Promise(function (resolve) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        resolve(reader.result || '');
+      };
+      reader.onerror = function () {
+        resolve('');
+      };
+      reader.readAsText(blob);
+    });
+  }
+
+  function extractTitleFromFiles(files, indexPath) {
+    if (!files || !files.length || !indexPath) return Promise.resolve('');
+    var target = null;
+    for (var i = 0; i < files.length; i += 1) {
+      if (files[i].path === indexPath) {
+        target = files[i];
+        break;
+      }
+    }
+    if (!target || !target.blob) return Promise.resolve('');
+    return readBlobText(target.blob).then(function (text) {
+      var title = '';
+      if (typeof DOMParser !== 'undefined') {
+        try {
+          var doc = new DOMParser().parseFromString(text, 'text/html');
+          title = doc && doc.title ? doc.title : '';
+        } catch (err) {
+          title = '';
+        }
+      }
+      if (!title) {
+        var match = text.match(/<title[^>]*>([^<]*)<\/title>/i);
+        title = match ? match[1] : '';
+      }
+      title = (title || '').replace(/\s+/g, ' ').trim();
+      return title;
+    });
   }
 
   function collectFilesFromInput(fileList) {
@@ -2025,15 +2159,51 @@
       var info = document.createElement('div');
       var title = document.createElement('div');
       title.className = 'manager-item__title';
-      title.textContent = site.url || t('manager.siteNoUrl');
+      title.setAttribute('data-title', 'true');
+      var displayTitle = site.title || deriveTitleFromPath(site.indexPath) || site.url || t('manager.siteNoUrl');
+      title.textContent = displayTitle;
       var meta = document.createElement('div');
       meta.className = 'manager-item__meta';
       var date = site.updatedAt ? new Date(site.updatedAt).toLocaleString(currentLang) : t('manager.noDate');
       meta.textContent = formatBytes(site.totalBytes || 0) + ' · ' + date;
       info.appendChild(title);
+      if (site.url && displayTitle !== site.url) {
+        var urlLine = document.createElement('div');
+        urlLine.className = 'manager-item__url';
+        urlLine.textContent = site.url;
+        info.appendChild(urlLine);
+      }
       info.appendChild(meta);
       var actions = document.createElement('div');
       actions.className = 'manager-item__actions';
+      var viewButton = document.createElement('button');
+      viewButton.type = 'button';
+      viewButton.className = 'icon-button';
+      viewButton.setAttribute('data-action', 'view');
+      viewButton.setAttribute('data-site-id', site.id);
+      viewButton.setAttribute('data-index-path', site.indexPath || '');
+      viewButton.setAttribute('aria-label', t('manager.actions.view'));
+      viewButton.setAttribute('data-tooltip', t('manager.actions.view'));
+      viewButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M1.5 12s3.5-7 10.5-7 10.5 7 10.5 7-3.5 7-10.5 7-10.5-7-10.5-7z"></path><circle cx="12" cy="12" r="3.5"></circle></svg>';
+      actions.appendChild(viewButton);
+      var shareButton = document.createElement('button');
+      shareButton.type = 'button';
+      shareButton.className = 'icon-button';
+      shareButton.setAttribute('data-action', 'share');
+      shareButton.setAttribute('data-zip-url', site.url || '');
+      shareButton.setAttribute('aria-label', t('manager.actions.share'));
+      shareButton.setAttribute('data-tooltip', t('manager.actions.share'));
+      shareButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="M8.6 10.7l6.8-3.4"></path><path d="M8.6 13.3l6.8 3.4"></path></svg>';
+      actions.appendChild(shareButton);
+      var editButton = document.createElement('button');
+      editButton.type = 'button';
+      editButton.className = 'icon-button';
+      editButton.setAttribute('data-action', 'edit');
+      editButton.setAttribute('data-site-id', site.id);
+      editButton.setAttribute('aria-label', t('manager.actions.edit'));
+      editButton.setAttribute('data-tooltip', t('manager.actions.edit'));
+      editButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg>';
+      actions.appendChild(editButton);
       var delButton = document.createElement('button');
       delButton.type = 'button';
       delButton.className = 'icon-button';
@@ -2064,6 +2234,57 @@
         storageCount.textContent = String(sites.length);
       }
       renderManagerList(sites);
+    });
+  }
+
+  function closeActiveTitleEdit() {
+    if (!activeTitleEdit) return;
+    var input = activeTitleEdit.input;
+    var titleEl = activeTitleEdit.titleEl;
+    if (input && input.parentNode) {
+      input.parentNode.replaceChild(titleEl, input);
+    }
+    activeTitleEdit = null;
+  }
+
+  function startTitleEdit(siteId, titleEl) {
+    if (!siteId || !titleEl) return;
+    if (activeTitleEdit && activeTitleEdit.siteId === siteId) return;
+    closeActiveTitleEdit();
+    var currentText = titleEl.textContent || '';
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'manager-item__title-edit';
+    input.value = currentText;
+    titleEl.parentNode.replaceChild(input, titleEl);
+    input.focus();
+    input.select();
+    activeTitleEdit = { siteId: siteId, input: input, titleEl: titleEl };
+
+    var save = function () {
+      var value = input.value.trim().replace(/\s+/g, ' ');
+      getSite(siteId).then(function (site) {
+        if (!site) return;
+        site.title = value;
+        return saveSite(site).then(function () {
+          refreshManager();
+        });
+      }).finally(function () {
+        closeActiveTitleEdit();
+      });
+    };
+
+    input.addEventListener('blur', function () {
+      save();
+    });
+    input.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        save();
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        closeActiveTitleEdit();
+      }
     });
   }
 
@@ -2126,9 +2347,13 @@
 
   function findIndexPath(paths) {
     var lower = paths.map(function (path) { return path.toLowerCase(); });
-    var idx = lower.indexOf('index.html');
+    var idx = lower.findIndex(function (p) {
+      return p === 'index.html' || p.endsWith('/index.html');
+    });
     if (idx !== -1) return paths[idx];
-    idx = lower.indexOf('index.htm');
+    idx = lower.findIndex(function (p) {
+      return p === 'index.htm' || p.endsWith('/index.htm');
+    });
     if (idx !== -1) return paths[idx];
     var htmlIndex = lower.findIndex(function (p) { return p.endsWith('.html') || p.endsWith('.htm'); });
     if (htmlIndex !== -1) return paths[htmlIndex];
@@ -2289,28 +2514,32 @@
                 // Ignore delete errors.
               });
             }).then(function () {
-              var site = {
-                id: result.siteId,
-                url: effectiveZipUrl,
-                indexPath: indexPath,
-                updatedAt: Date.now(),
-                fileCount: files.length,
-                totalBytes: totalBytes
-              };
-              return saveSite(site).then(function () {
-                return saveFiles(files).then(function () {
-                  var siteUrl = buildSiteUrl(result.siteId, indexPath);
-                  return controlPromise.then(function () {
-                    if (autoOpen) {
-                      window.location.assign(siteUrl);
-                    }
-                    if (showProgress && !autoOpen) {
-                      setProgress(100);
-                      stopProgress();
-                      setLoading(false);
-                    }
-                    refreshManager();
-                    return { siteId: result.siteId, siteUrl: siteUrl };
+              return extractTitleFromFiles(files, indexPath).then(function (foundTitle) {
+                var siteTitle = foundTitle || deriveTitleFromPath(indexPath) || deriveTitleFromUrl(effectiveZipUrl);
+                var site = {
+                  id: result.siteId,
+                  url: effectiveZipUrl,
+                  indexPath: indexPath,
+                  updatedAt: Date.now(),
+                  fileCount: files.length,
+                  totalBytes: totalBytes,
+                  title: siteTitle
+                };
+                return saveSite(site).then(function () {
+                  return saveFiles(files).then(function () {
+                    var siteUrl = buildSiteUrl(result.siteId, indexPath);
+                    return controlPromise.then(function () {
+                      if (autoOpen) {
+                        window.location.assign(siteUrl);
+                      }
+                      if (showProgress && !autoOpen) {
+                        setProgress(100);
+                        stopProgress();
+                        setLoading(false);
+                      }
+                      refreshManager();
+                      return { siteId: result.siteId, siteUrl: siteUrl };
+                    });
                   });
                 });
               });
@@ -2334,31 +2563,40 @@
       });
   }
 
+  function copyText(value, sourceButton) {
+    if (!value) return;
+    var done = function () {
+      if (sourceButton) {
+        showInlineToast(sourceButton, t('status.copySuccess'));
+      } else {
+        flashMessage(t('status.copySuccess'));
+      }
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(value).then(done, done);
+      return;
+    }
+    var textarea = document.createElement('textarea');
+    textarea.value = value;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'absolute';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      done();
+    } finally {
+      document.body.removeChild(textarea);
+    }
+  }
+
   if (copyButton) {
     copyButton.addEventListener('click', function () {
       if (!currentShareLink) {
         return;
       }
-      var done = function () {
-        flashMessage(t('status.copySuccess'));
-      };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(currentShareLink).then(done, done);
-        return;
-      }
-      var textarea = document.createElement('textarea');
-      textarea.value = currentShareLink;
-      textarea.setAttribute('readonly', '');
-      textarea.style.position = 'absolute';
-      textarea.style.left = '-9999px';
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        done();
-      } finally {
-        document.body.removeChild(textarea);
-      }
+      copyText(currentShareLink);
     });
   }
 
@@ -2451,17 +2689,18 @@
         setActiveTab(button.getAttribute('data-tab'));
       });
     });
-    setActiveTab('main');
+    setActiveTab('zipper');
   }
   if (managerList) {
     managerList.addEventListener('click', function (event) {
       var target = event.target;
-      if (!(target instanceof HTMLElement)) return;
+      if (!(target instanceof Element)) return;
       var button = target.closest('button');
       if (!button) return;
       var action = button.getAttribute('data-action');
       var siteId = button.getAttribute('data-site-id');
-      var siteUrl = button.getAttribute('data-site-url') || '';
+      var indexPath = button.getAttribute('data-index-path') || '';
+      var zipUrl = button.getAttribute('data-zip-url') || '';
       if (action === 'delete' && siteId) {
         button.classList.add('is-active');
         deleteSite(siteId).then(function () {
@@ -2470,6 +2709,21 @@
           button.classList.remove('is-active');
         });
         return;
+      }
+      if (action === 'view' && siteId) {
+        var siteUrl = buildSiteUrl(siteId, indexPath || '');
+        window.open(siteUrl, '_blank');
+        return;
+      }
+      if (action === 'share' && zipUrl) {
+        copyText(buildShareLink(zipUrl, true), button);
+        return;
+      }
+      if (action === 'edit' && siteId) {
+        var item = button.closest('.manager-item');
+        if (!item) return;
+        var titleEl = item.querySelector('[data-title]');
+        startTitleEdit(siteId, titleEl);
       }
     });
   }

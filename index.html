@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title data-i18n="page.title">Visor Web-ZIP</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;800&family=Spectral:wght@400;600&display=swap" rel="stylesheet">
@@ -36,6 +37,7 @@
       </div>
       <p class="eyebrow" data-i18n="header.eyebrow">Materiales en ZIP</p>
       <div class="title-row">
+        <img class="app-mark" src="favicon.svg" alt="" aria-hidden="true">
         <h1 data-i18n="header.title">Visor Web-ZIP</h1>
         <button class="help-pill" type="button" data-about-open data-i18n-aria-label="header.help">
           <span class="help-pill__icon">?</span>
@@ -46,16 +48,14 @@
     </header>
 
     <div class="tabs" role="tablist" aria-label="Secciones" data-i18n-aria-label="tabs.label">
-      <button class="tab-button is-active" type="button" role="tab" aria-selected="true" data-tab="main" data-i18n="tab.main">Inicio</button>
-      <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="zipper" data-i18n="tab.zipper">Crear ZIP</button>
-      <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="manager" data-i18n="tab.manager">Gestor de webs</button>
+      <button class="tab-button is-active" type="button" role="tab" aria-selected="true" data-tab="zipper" data-i18n="tab.zipper">1. Crear ZIP</button>
+      <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="main" data-i18n="tab.main">2. Compartir recurso</button>
+      <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="manager" data-i18n="tab.manager">Gestor de recursos</button>
     </div>
 
-    <section class="tab-panel is-active" role="tabpanel" data-tab-panel="main">
-      <p class="manager-subtitle" data-i18n="main.subtitle">Crea un enlace para abrir tu web comprimida en ZIP en pantalla completa y compartirlo.</p>
+    <section class="tab-panel" role="tabpanel" data-tab-panel="main">
+      <p class="manager-subtitle" data-i18n="main.subtitle">Para compartir tu recurso debes haberlo subido a Internet (Drive, Dropbox, etc.) en formato ZIP y compartirlo para que todo el mundo pueda verlo.</p>
       <section class="source-picker">
-        <label for="service" data-i18n="main.source.label">Origen del ZIP</label>
-        <p class="step-note" data-i18n="main.source.step">Paso 1: selecciona el servicio donde está el ZIP.</p>
         <select id="service" data-service>
           <option value="drive" data-i18n="service.drive">Google Drive</option>
           <option value="dropbox" data-i18n="service.dropbox">Dropbox</option>
@@ -63,7 +63,6 @@
           <option value="github" data-i18n="service.github">GitHub</option>
           <option value="other" data-i18n="service.other">Otros servicios</option>
         </select>
-        <div class="service-note" data-service-note></div>
       </section>
 
       <form data-form>
@@ -90,7 +89,7 @@
       <div class="manager-card">
         <div class="manager-header">
           <div>
-            <h2 data-i18n="manager.title">Webs guardadas</h2>
+            <h2 data-i18n="manager.title">Recursos guardados</h2>
             <p class="manager-subtitle" data-i18n="manager.subtitle">Gestiona el espacio que ocupan los materiales guardados en este navegador.</p>
           </div>
           <button class="ghost-button" type="button" data-delete-all data-i18n="manager.deleteAll">Eliminar todas</button>
@@ -113,12 +112,21 @@
       </div>
     </section>
 
-    <section class="tab-panel" role="tabpanel" data-tab-panel="zipper">
+    <section class="tab-panel is-active" role="tabpanel" data-tab-panel="zipper">
       <div class="manager-card">
         <div class="manager-header">
           <div>
             <h2 data-i18n="zipper.title">Crear ZIP para el visor</h2>
-            <p class="manager-subtitle" data-i18n="zipper.subtitle">Sube una carpeta o varios archivos y descarga el ZIP listo para compartir.</p>
+            <ul class="manager-subtitle zipper-subtitle">
+              <li data-i18n="zipper.subtitle.lead">Para compartir tu recurso, comprime los archivos (o la carpeta que los contiene) en un archivo .zip.</li>
+              <li>
+                <span data-i18n-html="zipper.subtitle.exeSentenceHtml">Si usas <strong>eXeLearning</strong>, también puedes crear el ZIP desde el propio programa y pasar directamente a la siguiente pestaña.</span>
+                <button class="info-dot" type="button" data-i18n-aria-label="zipper.exe.tooltip">
+                  ?
+                  <span class="info-dot__tooltip" role="tooltip" data-i18n-html="zipper.exe.tooltipHtml">Cómo exportar desde eXeLearning:<br>• Versión 2.x: Archivo &gt; Exportar &gt; Sitio Web &gt; Archivo comprimido ZIP.<br>• Versión 3.x: Archivo &gt; Descargar como &gt; Sitio web.</span>
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
         <div class="upload-grid">
@@ -154,7 +162,7 @@
           <h3 data-i18n="zipper.help.title">¿Qué hacer con el ZIP?</h3>
           <ol>
             <li data-i18n="zipper.help.step1">Sube el ZIP a un servicio con enlace público (Drive, Dropbox, GitHub…).</li>
-            <li data-i18n="zipper.help.step2">Copia el enlace público y pégalo en la pestaña “Inicio”.</li>
+            <li data-i18n="zipper.help.step2">Copia el enlace público y pégalo en la pestaña “2. Compartir recurso”.</li>
             <li data-i18n="zipper.help.step3">Comparte el enlace generado por el visor con tu alumnado.</li>
           </ol>
         </div>
@@ -187,30 +195,9 @@
           <button class="modal__close" type="button" data-about-close data-i18n-aria-label="common.close">×</button>
         </div>
         <div class="modal__content">
-          <p data-i18n="about.intro">Este visor abre un ZIP que contiene una web sencilla con HTML, CSS, imágenes, vídeos, audio y enlaces internos para que puedas compartirla con tu alumnado sin instalar nada.</p>
-          <h3 data-i18n="about.can.title">Qué puedes subir</h3>
-          <ul>
-            <li data-i18n="about.can.item1">ZIPs con páginas web estáticas y sus recursos (archivos HTML, imágenes, audio, vídeo, PDF, etc.).</li>
-            <li data-i18n="about.can.item2">Materiales creados con eXeLearning u otras herramientas que exportan a web.</li>
-            <li data-i18n="about.can.item3">Cualquier material creado con IA (documentos, infografías, etc.) que puedas descargar como página web (HTML).</li>
-            <li data-i18n-html="about.can.item4">Carpetas con un HTML principal (normalmente <code>index.html</code>).</li>
-          </ul>
-          <h3 data-i18n="about.cant.title">Qué no funciona o puede fallar</h3>
-          <ul>
-            <li data-i18n="about.cant.item1">Webs que necesitan servidor (formularios que guardan datos, bases de datos, PHP o similar).</li>
-            <li data-i18n="about.cant.item2">Enlaces externos que requieren iniciar sesión o permisos especiales.</li>
-            <li data-i18n="about.cant.item3">ZIPs que no contienen ningún archivo HTML.</li>
-          </ul>
-          <h3 data-i18n="about.how.title">Cómo funciona</h3>
-          <ol>
-            <li data-i18n="about.how.step1">Prepara tu recurso como una carpeta con páginas web (HTML) y comprímelo en ZIP. Puedes hacerlo en la pestaña “Crear ZIP”.</li>
-            <li data-i18n="about.how.step2">Sube el ZIP a un servicio con enlace público (Google Drive, Dropbox, Nextcloud, GitHub…).</li>
-            <li data-i18n="about.how.step3">Comparte el archivo para que cualquiera con el enlace pueda verlo.</li>
-            <li data-i18n="about.how.step4">Copia la URL y pégala en el campo “Pega aqui el enlace publico”.</li>
-            <li data-i18n="about.how.step5">El enlace para compartir es permanente, así que puedes distribuirlo al alumnado.</li>
-          </ol>
-          <h3 data-i18n="about.drive.title">Importante sobre Google Drive</h3>
-          <p data-i18n="about.drive.note">Google Drive limita la descarga directa de archivos grandes (aprox. 25 MB). Si tu ZIP supera ese tamaño, puede fallar. Dropbox, Nextcloud y otros servicios suelen permitir archivos más grandes sin ese límite.</p>
+          <div class="about-guide" data-i18n-html="about.body">
+            <p>Este visor abre un ZIP que contiene una web sencilla con HTML, CSS, imágenes, vídeos, audio y enlaces internos para que puedas compartirla con tu alumnado sin instalar nada.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -218,7 +205,7 @@
     <footer class="site-footer">
       <a class="footer-link" href="https://bilateria.org" target="_blank" rel="noopener">(c) 2026 Juan Jose de Haro</a>
       <span class="footer-sep">·</span>
-      <span class="footer-link">v1.0.1</span>
+      <span class="footer-link">v1.1.0</span>
       <span class="footer-sep">·</span>
       <a class="footer-link" href="https://github.com/visor-webzip/visor-webzip.github.io" target="_blank" rel="noopener">
         <svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
