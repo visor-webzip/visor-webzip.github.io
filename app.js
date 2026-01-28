@@ -90,6 +90,10 @@
       },
       main: {
         subtitle: 'Para compartir tu recurso debes haberlo subido a Internet (Drive, Dropbox, etc.) en formato ZIP y compartirlo para que todo el mundo pueda verlo.',
+        source: {
+          title: 'Origen del ZIP',
+          step: 'Paso 1: Selecciona el servicio donde está el ZIP.'
+        },
         form: {
           title: 'Pega aquí el enlace público',
           step: 'Paso 2: pega el enlace público al ZIP y pulsa “Crear enlace”.',
@@ -301,6 +305,10 @@
       },
       main: {
         subtitle: "Per compartir el teu recurs l'has d'haver pujat a Internet (Drive, Dropbox, etc.) en format ZIP i compartir-lo perquè tothom el pugui veure.",
+        source: {
+          title: 'Origen del ZIP',
+          step: 'Pas 1: Selecciona el servei on hi ha el ZIP.'
+        },
         form: {
           title: "Enganxa aquí l'enllaç públic",
           step: 'Pas 2: enganxa l’enllaç públic al ZIP i prem “Crear enllaç”.',
@@ -512,6 +520,10 @@
       },
       main: {
         subtitle: 'Para compartir o teu recurso debes subilo a Internet (Drive, Dropbox, etc.) en formato ZIP e compartilo para que todo o mundo poida velo.',
+        source: {
+          title: 'Orixe do ZIP',
+          step: 'Paso 1: Selecciona o servizo onde está o ZIP.'
+        },
         form: {
           title: 'Pega aquí a ligazón pública',
           step: 'Paso 2: pega a ligazón pública ao ZIP e preme “Crear ligazón”.',
@@ -723,6 +735,10 @@
       },
       main: {
         subtitle: 'Zure baliabidea partekatzeko, Internetera igoa izan behar duzu (Drive, Dropbox, etab.) ZIP formatuan, eta partekatu, edonork ikusi ahal izan dezan.',
+        source: {
+          title: 'ZIParen jatorria',
+          step: '1. urratsa: Aukeratu ZIPa dagoen zerbitzua.'
+        },
         form: {
           title: 'Itsatsi hemen esteka publikoa',
           step: '2. urratsa: itsatsi ZIParen esteka publikoa eta sakatu “Esteka sortu”.',
@@ -934,6 +950,10 @@
       },
       main: {
         subtitle: 'To share your resource, it must be uploaded to the internet (Drive, Dropbox, etc.) as a ZIP and shared so anyone can view it.',
+        source: {
+          title: 'ZIP source',
+          step: 'Step 1: Select the service where the ZIP is stored.'
+        },
         form: {
           title: 'Paste the public link here',
           step: 'Step 2: paste the public ZIP link and click “Create link”.',
@@ -1145,6 +1165,10 @@
       },
       main: {
         subtitle: 'Um deine Ressource zu teilen, musst du sie als ZIP ins Internet hochladen (Drive, Dropbox usw.) und freigeben, damit alle sie sehen können.',
+        source: {
+          title: 'ZIP-Quelle',
+          step: 'Schritt 1: Wähle den Dienst, auf dem das ZIP liegt.'
+        },
         form: {
           title: 'Füge hier den öffentlichen Link ein',
           step: 'Schritt 2: Füge den öffentlichen ZIP-Link ein und klicke auf „Link erstellen“.',

@@ -56,6 +56,8 @@
     <section class="tab-panel" role="tabpanel" data-tab-panel="main">
       <p class="manager-subtitle" data-i18n="main.subtitle">Para compartir tu recurso debes haberlo subido a Internet (Drive, Dropbox, etc.) en formato ZIP y compartirlo para que todo el mundo pueda verlo.</p>
       <section class="source-picker">
+        <span class="field-title" data-i18n="main.source.title">Origen del ZIP</span>
+        <p class="step-note" data-i18n="main.source.step">Paso 1: Selecciona el servicio donde está el ZIP.</p>
         <select id="service" data-service>
           <option value="drive" data-i18n="service.drive">Google Drive</option>
           <option value="dropbox" data-i18n="service.dropbox">Dropbox</option>
@@ -177,7 +179,10 @@
             <p class="step-note" data-i18n="zipper.step2.note">Paso 2: crea el ZIP y se descargará automáticamente.</p>
             <p class="upload-note" data-i18n="zipper.step2.detail">Al crear el ZIP se descargará un archivo que puedes subir a Drive, Dropbox, Nextcloud, etc.</p>
             <label class="field-title" for="zip-name" data-i18n="zipper.zipName.label">Nombre del ZIP</label>
-            <input id="zip-name" data-zip-name type="text" placeholder="materiales" value="materiales" data-i18n-placeholder="zipper.zipName.placeholder">
+            <div class="zip-name-field">
+              <input id="zip-name" data-zip-name type="text" placeholder="materiales" value="materiales" data-i18n-placeholder="zipper.zipName.placeholder">
+              <span class="zip-name-suffix">.zip</span>
+            </div>
             <div class="upload-actions">
               <button type="button" data-build-zip data-i18n="zipper.build">Crear y descargar ZIP</button>
             </div>
