@@ -9,7 +9,6 @@
   var loadingMessage = document.querySelector('[data-loading-message]');
   var loadingBar = document.querySelector('[data-loading-bar]');
   var mainContent = document.querySelector('[data-main]');
-  var serviceSelect = document.querySelector('[data-service]');
   var aboutOpen = document.querySelector('[data-about-open]');
   var aboutModal = document.querySelector('[data-about-modal]');
   var aboutCloseButtons = document.querySelectorAll('[data-about-close]');
@@ -39,6 +38,7 @@
   var cleanupThresholdValue = document.querySelector('[data-cleanup-threshold-value]');
   var cleanupDaysInput = document.querySelector('[data-cleanup-days]');
   var resetCleanupButton = document.querySelector('[data-reset-cleanup]');
+  var managerSortSelect = document.querySelector('[data-manager-sort]');
 
   var currentShareLink = '';
   var loadingActive = false;
@@ -90,19 +90,15 @@
       },
       main: {
         subtitle: 'Para compartir tu recurso debes haberlo subido a Internet (Drive, Dropbox, etc.) en formato ZIP y compartirlo para que todo el mundo pueda verlo.',
-        source: {
-          title: 'Origen del ZIP',
-          step: 'Paso 1: Selecciona el servicio donde está el ZIP.'
-        },
         form: {
           title: 'Pega aquí el enlace público',
-          step: 'Paso 2: pega el enlace público al ZIP y pulsa “Crear enlace”.',
+          step: 'Paso 1: pega el enlace público al ZIP y pulsa “Crear enlace”.',
           placeholder: 'Pega aquí el enlace público del ZIP',
           submit: 'Crear enlace'
         },
         output: {
           title: 'Enlace para compartir',
-          step: 'Paso 3: copia el enlace o abre la vista previa.',
+          step: 'Paso 2: copia el enlace o abre la vista previa.',
           placeholder: 'Enlace para compartir',
           copy: 'Copiar enlace',
           open: 'Abrir vista previa'
@@ -128,6 +124,15 @@
           used: 'Espacio usado',
           total: 'Espacio total',
           count: 'Recursos guardados'
+        },
+        sort: {
+          label: 'Ordenar por',
+          title: 'Título',
+          date: 'Fecha',
+          size: 'Tamaño',
+          dirAsc: 'Ascendente',
+          dirDesc: 'Descendente',
+          dirHelp: 'Cambiar sentido de orden.'
         },
         deleteAllHelp: 'Borra todos los recursos guardados en este navegador.',
         settings: {
@@ -240,7 +245,7 @@
         body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
           + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
           + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Selecciona el servicio donde has subido el recurso en ZIP.</li><li>Pega el enlace público y pulsa "Crear enlace".</li></ol></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado.</li></ol></div>'
           + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
           + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
@@ -305,19 +310,15 @@
       },
       main: {
         subtitle: "Per compartir el teu recurs l'has d'haver pujat a Internet (Drive, Dropbox, etc.) en format ZIP i compartir-lo perquè tothom el pugui veure.",
-        source: {
-          title: 'Origen del ZIP',
-          step: 'Pas 1: Selecciona el servei on hi ha el ZIP.'
-        },
         form: {
           title: "Enganxa aquí l'enllaç públic",
-          step: 'Pas 2: enganxa l’enllaç públic al ZIP i prem “Crear enllaç”.',
+          step: 'Pas 1: enganxa l’enllaç públic al ZIP i prem “Crear enllaç”.',
           placeholder: "Enganxa aquí l'enllaç públic del ZIP",
           submit: 'Crear enllaç'
         },
         output: {
           title: 'Enllaç per compartir',
-          step: 'Pas 3: copia l’enllaç o obre la vista prèvia.',
+          step: 'Pas 2: copia l’enllaç o obre la vista prèvia.',
           placeholder: 'Enllaç per compartir',
           copy: 'Copiar enllaç',
           open: 'Obrir vista prèvia'
@@ -344,6 +345,15 @@
           used: 'Espai usat',
           total: 'Espai total',
           count: 'Recursos desats'
+        },
+        sort: {
+          label: 'Ordenar per',
+          title: 'Títol',
+          date: 'Data',
+          size: 'Mida',
+          dirAsc: 'Ascendent',
+          dirDesc: 'Descendent',
+          dirHelp: 'Canviar el sentit d’ordenació.'
         },
         settings: {
           usage: {
@@ -455,7 +465,7 @@
         body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
           + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
           + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Selecciona el servicio donde has subido el recurso en ZIP.</li><li>Pega el enlace público y pulsa "Crear enlace".</li></ol></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado.</li></ol></div>'
           + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
           + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
@@ -520,19 +530,15 @@
       },
       main: {
         subtitle: 'Para compartir o teu recurso debes subilo a Internet (Drive, Dropbox, etc.) en formato ZIP e compartilo para que todo o mundo poida velo.',
-        source: {
-          title: 'Orixe do ZIP',
-          step: 'Paso 1: Selecciona o servizo onde está o ZIP.'
-        },
         form: {
           title: 'Pega aquí a ligazón pública',
-          step: 'Paso 2: pega a ligazón pública ao ZIP e preme “Crear ligazón”.',
+          step: 'Paso 1: pega a ligazón pública ao ZIP e preme “Crear ligazón”.',
           placeholder: 'Pega aquí a ligazón pública do ZIP',
           submit: 'Crear ligazón'
         },
         output: {
           title: 'Ligazón para compartir',
-          step: 'Paso 3: copia a ligazón ou abre a vista previa.',
+          step: 'Paso 2: copia a ligazón ou abre a vista previa.',
           placeholder: 'Ligazón para compartir',
           copy: 'Copiar ligazón',
           open: 'Abrir vista previa'
@@ -559,6 +565,15 @@
           used: 'Espazo usado',
           total: 'Espazo total',
           count: 'Recursos gardados'
+        },
+        sort: {
+          label: 'Ordenar por',
+          title: 'Título',
+          date: 'Data',
+          size: 'Tamaño',
+          dirAsc: 'Ascendente',
+          dirDesc: 'Descendente',
+          dirHelp: 'Cambiar o sentido de orde.'
         },
         settings: {
           usage: {
@@ -670,7 +685,7 @@
         body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
           + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
           + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Selecciona el servicio donde has subido el recurso en ZIP.</li><li>Pega el enlace público y pulsa "Crear enlace".</li></ol></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado.</li></ol></div>'
           + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
           + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
@@ -735,19 +750,15 @@
       },
       main: {
         subtitle: 'Zure baliabidea partekatzeko, Internetera igoa izan behar duzu (Drive, Dropbox, etab.) ZIP formatuan, eta partekatu, edonork ikusi ahal izan dezan.',
-        source: {
-          title: 'ZIParen jatorria',
-          step: '1. urratsa: Aukeratu ZIPa dagoen zerbitzua.'
-        },
         form: {
           title: 'Itsatsi hemen esteka publikoa',
-          step: '2. urratsa: itsatsi ZIParen esteka publikoa eta sakatu “Esteka sortu”.',
+          step: '1. urratsa: itsatsi ZIParen esteka publikoa eta sakatu “Esteka sortu”.',
           placeholder: 'Itsatsi hemen ZIParen esteka publikoa',
           submit: 'Esteka sortu'
         },
         output: {
           title: 'Partekatze esteka',
-          step: '3. urratsa: kopiatu esteka edo ireki aurrebista.',
+          step: '2. urratsa: kopiatu esteka edo ireki aurrebista.',
           placeholder: 'Partekatze esteka',
           copy: 'Esteka kopiatu',
           open: 'Aurrebista ireki'
@@ -774,6 +785,15 @@
           used: 'Erabilitako espazioa',
           total: 'Guztizko espazioa',
           count: 'Gordetako baliabideak'
+        },
+        sort: {
+          label: 'Ordenatu',
+          title: 'Izenburua',
+          date: 'Data',
+          size: 'Tamaina',
+          dirAsc: 'Gorantz',
+          dirDesc: 'Beherantz',
+          dirHelp: 'Ordena norabidea aldatu.'
         },
         settings: {
           usage: {
@@ -885,7 +905,7 @@
         body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
           + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
           + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Selecciona el servicio donde has subido el recurso en ZIP.</li><li>Pega el enlace público y pulsa "Crear enlace".</li></ol></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado.</li></ol></div>'
           + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
           + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
@@ -950,19 +970,15 @@
       },
       main: {
         subtitle: 'To share your resource, it must be uploaded to the internet (Drive, Dropbox, etc.) as a ZIP and shared so anyone can view it.',
-        source: {
-          title: 'ZIP source',
-          step: 'Step 1: Select the service where the ZIP is stored.'
-        },
         form: {
           title: 'Paste the public link here',
-          step: 'Step 2: paste the public ZIP link and click “Create link”.',
+          step: 'Step 1: paste the public ZIP link and click “Create link”.',
           placeholder: 'Paste the public ZIP link here',
           submit: 'Create link'
         },
         output: {
           title: 'Shareable link',
-          step: 'Step 3: copy the link or open the preview.',
+          step: 'Step 2: copy the link or open the preview.',
           placeholder: 'Shareable link',
           copy: 'Copy link',
           open: 'Open preview'
@@ -989,6 +1005,15 @@
           used: 'Space used',
           total: 'Total space',
           count: 'Saved resources'
+        },
+        sort: {
+          label: 'Sort by',
+          title: 'Title',
+          date: 'Date',
+          size: 'Size',
+          dirAsc: 'Ascending',
+          dirDesc: 'Descending',
+          dirHelp: 'Change sort direction.'
         },
         settings: {
           usage: {
@@ -1100,7 +1125,7 @@
         body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
           + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
           + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Selecciona el servicio donde has subido el recurso en ZIP.</li><li>Pega el enlace público y pulsa "Crear enlace".</li></ol></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado.</li></ol></div>'
           + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
           + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
@@ -1165,19 +1190,15 @@
       },
       main: {
         subtitle: 'Um deine Ressource zu teilen, musst du sie als ZIP ins Internet hochladen (Drive, Dropbox usw.) und freigeben, damit alle sie sehen können.',
-        source: {
-          title: 'ZIP-Quelle',
-          step: 'Schritt 1: Wähle den Dienst, auf dem das ZIP liegt.'
-        },
         form: {
           title: 'Füge hier den öffentlichen Link ein',
-          step: 'Schritt 2: Füge den öffentlichen ZIP-Link ein und klicke auf „Link erstellen“.',
+          step: 'Schritt 1: Füge den öffentlichen ZIP-Link ein und klicke auf „Link erstellen“.',
           placeholder: 'Füge hier den öffentlichen ZIP-Link ein',
           submit: 'Link erstellen'
         },
         output: {
           title: 'Link zum Teilen',
-          step: 'Schritt 3: Kopiere den Link oder öffne die Vorschau.',
+          step: 'Schritt 2: Kopiere den Link oder öffne die Vorschau.',
           placeholder: 'Link zum Teilen',
           copy: 'Link kopieren',
           open: 'Vorschau öffnen'
@@ -1204,6 +1225,15 @@
           used: 'Belegter Speicher',
           total: 'Gesamtspeicher',
           count: 'Gespeicherte Ressourcen'
+        },
+        sort: {
+          label: 'Sortieren nach',
+          title: 'Titel',
+          date: 'Datum',
+          size: 'Größe',
+          dirAsc: 'Aufsteigend',
+          dirDesc: 'Absteigend',
+          dirHelp: 'Sortierreihenfolge wechseln.'
         },
         settings: {
           usage: {
@@ -1315,7 +1345,7 @@
         body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
           + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
           + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Selecciona el servicio donde has subido el recurso en ZIP.</li><li>Pega el enlace público y pulsa "Crear enlace".</li></ol></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado.</li></ol></div>'
           + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
           + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
@@ -1356,21 +1386,13 @@
   var CLEANUP_DAYS_KEY = 'visor-cleanup-days';
   var CLEANUP_THRESHOLD_DEFAULT = 70;
   var CLEANUP_DAYS_DEFAULT = 30;
+  var MANAGER_SORT_KEY = 'visor-manager-sort';
+  var MANAGER_SORT_DIR_KEY = 'visor-manager-sort-dir';
+  var MANAGER_SORT_DEFAULT = 'date';
+  var MANAGER_SORT_DIR_DEFAULT = 'desc';
 
   var SERVICE_INFO = {
-    drive: {
-      placeholderKey: 'service.drivePlaceholder'
-    },
-    dropbox: {
-      placeholderKey: 'service.dropboxPlaceholder'
-    },
-    nextcloud: {
-      placeholderKey: 'service.nextcloudPlaceholder'
-    },
-    github: {
-      placeholderKey: 'service.githubPlaceholder'
-    },
-    other: {
+    default: {
       placeholderKey: 'service.otherPlaceholder'
     }
   };
@@ -1404,6 +1426,50 @@
     } catch (err) {
       return fallback;
     }
+  }
+
+  function getManagerSort() {
+    try {
+      return localStorage.getItem(MANAGER_SORT_KEY) || MANAGER_SORT_DEFAULT;
+    } catch (err) {
+      return MANAGER_SORT_DEFAULT;
+    }
+  }
+
+  function setManagerSort(value) {
+    var sortValue = value || MANAGER_SORT_DEFAULT;
+    try {
+      localStorage.setItem(MANAGER_SORT_KEY, sortValue);
+    } catch (err) {}
+    if (managerSortSelect) {
+      managerSortSelect.value = sortValue;
+    }
+  }
+
+  function getManagerSortDir() {
+    try {
+      return localStorage.getItem(MANAGER_SORT_DIR_KEY) || MANAGER_SORT_DIR_DEFAULT;
+    } catch (err) {
+      return MANAGER_SORT_DIR_DEFAULT;
+    }
+  }
+
+  function setManagerSortDir(value) {
+    var dirValue = value === 'desc' ? 'desc' : 'asc';
+    try {
+      localStorage.setItem(MANAGER_SORT_DIR_KEY, dirValue);
+    } catch (err) {}
+    updateSortDirButton(dirValue);
+  }
+
+  function updateSortDirButton(dirValue) {
+    var button = document.querySelector('[data-manager-sort-dir]');
+    if (!button) return;
+    var isDesc = dirValue === 'desc';
+    button.setAttribute('data-i18n-tooltip', 'manager.sort.dirHelp');
+    button.textContent = isDesc ? '↓' : '↑';
+    button.setAttribute('aria-label', t(isDesc ? 'manager.sort.dirDesc' : 'manager.sort.dirAsc'));
+    button.setAttribute('data-sort-dir', isDesc ? 'desc' : 'asc');
   }
 
   function getCleanupThreshold() {
@@ -1545,6 +1611,7 @@
     syncZipNameDefault();
     setCleanupThreshold(getCleanupThreshold());
     setCleanupDays(getCleanupDays());
+    updateSortDirButton(getManagerSortDir());
     if (output && !currentShareLink) {
       output.textContent = t('main.output.placeholder');
     }
@@ -1564,9 +1631,7 @@
   }
 
   function updateServiceInfo() {
-    if (!serviceSelect) return;
-    var key = serviceSelect.value || 'drive';
-    var info = SERVICE_INFO[key] || SERVICE_INFO.other;
+    var info = SERVICE_INFO.default;
     if (input) {
       input.placeholder = t(info.placeholderKey);
     }
@@ -2185,7 +2250,7 @@
     if (url.indexOf('dropbox.com') !== -1) {
       return url.replace(/([?&])dl=0\b/, '$1dl=1');
     }
-    var isNextcloud = serviceSelect && serviceSelect.value === 'nextcloud';
+    var isNextcloud = false;
     var host = '';
     var path = '';
     try {
@@ -2321,7 +2386,8 @@
       managerList.appendChild(empty);
       return;
     }
-    sites.forEach(function (site) {
+    var sortedSites = sortManagerSites(sites);
+    sortedSites.forEach(function (site) {
       var item = document.createElement('div');
       item.className = 'manager-item';
       var info = document.createElement('div');
@@ -2420,6 +2486,28 @@
         storageCount.textContent = String(sites.length);
       }
       renderManagerList(sites);
+    });
+  }
+
+  function sortManagerSites(sites) {
+    var key = getManagerSort();
+    var direction = getManagerSortDir();
+    var factor = direction === 'desc' ? -1 : 1;
+    var collator = new Intl.Collator(currentLang, { sensitivity: 'base', numeric: true });
+    return sites.slice().sort(function (a, b) {
+      if (key === 'date') {
+        var aDate = a.updatedAt || 0;
+        var bDate = b.updatedAt || 0;
+        return (aDate - bDate) * factor;
+      }
+      if (key === 'size') {
+        var aSize = a.totalBytes || 0;
+        var bSize = b.totalBytes || 0;
+        return (aSize - bSize) * factor;
+      }
+      var aTitle = a.title || deriveTitleFromPath(a.indexPath) || a.url || '';
+      var bTitle = b.title || deriveTitleFromPath(b.indexPath) || b.url || '';
+      return collator.compare(aTitle, bTitle) * factor;
     });
   }
 
@@ -2570,7 +2658,7 @@
     var showProgress = opts.showProgress !== false;
     var normalizedZipUrl = normalizeZipUrl(zipUrl);
     var shouldUseNormalized = false;
-    if (serviceSelect && serviceSelect.value === 'nextcloud') {
+    if (normalizedZipUrl.indexOf('/s/') !== -1 || normalizedZipUrl.indexOf('nextcloud') !== -1) {
       shouldUseNormalized = true;
     }
     if (zipUrl.indexOf('dropbox.com') !== -1) {
@@ -2865,10 +2953,7 @@
     });
   }
   setLanguage(getInitialLang());
-  if (serviceSelect) {
-    serviceSelect.addEventListener('change', updateServiceInfo);
-    updateServiceInfo();
-  }
+  updateServiceInfo();
   if (tabButtons.length && tabPanels.length) {
     tabButtons.forEach(function (button) {
       button.addEventListener('click', function () {
@@ -2916,6 +3001,22 @@
         var titleEl = item.querySelector('[data-title]');
         startTitleEdit(siteId, titleEl);
       }
+    });
+  }
+  var sortDirButton = document.querySelector('[data-manager-sort-dir]');
+  if (managerSortSelect) {
+    setManagerSort(getManagerSort());
+    managerSortSelect.addEventListener('change', function () {
+      setManagerSort(managerSortSelect.value);
+      refreshManager();
+    });
+  }
+  if (sortDirButton) {
+    setManagerSortDir(getManagerSortDir());
+    sortDirButton.addEventListener('click', function () {
+      var nextDir = getManagerSortDir() === 'asc' ? 'desc' : 'asc';
+      setManagerSortDir(nextDir);
+      refreshManager();
     });
   }
   if (cleanupThresholdInput) {

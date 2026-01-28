@@ -55,21 +55,9 @@
 
     <section class="tab-panel" role="tabpanel" data-tab-panel="main">
       <p class="manager-subtitle" data-i18n="main.subtitle">Para compartir tu recurso debes haberlo subido a Internet (Drive, Dropbox, etc.) en formato ZIP y compartirlo para que todo el mundo pueda verlo.</p>
-      <section class="source-picker">
-        <span class="field-title" data-i18n="main.source.title">Origen del ZIP</span>
-        <p class="step-note" data-i18n="main.source.step">Paso 1: Selecciona el servicio donde está el ZIP.</p>
-        <select id="service" data-service>
-          <option value="drive" data-i18n="service.drive">Google Drive</option>
-          <option value="dropbox" data-i18n="service.dropbox">Dropbox</option>
-          <option value="nextcloud" data-i18n="service.nextcloud">Nextcloud</option>
-          <option value="github" data-i18n="service.github">GitHub</option>
-          <option value="other" data-i18n="service.other">Otros servicios</option>
-        </select>
-      </section>
-
       <form data-form>
         <span class="field-title" data-i18n="main.form.title">Pega aqui el enlace publico</span>
-        <p class="step-note" data-i18n="main.form.step">Paso 2: pega el enlace público al ZIP y pulsa “Crear enlace”.</p>
+        <p class="step-note" data-i18n="main.form.step">Paso 1: pega el enlace público al ZIP y pulsa “Crear enlace”.</p>
         <input data-url type="url" placeholder="Pega aqui el enlace publico del ZIP" data-i18n-placeholder="main.form.placeholder" required>
         <button type="submit" data-i18n="main.form.submit">Crear enlace</button>
       </form>
@@ -77,7 +65,7 @@
       <div class="output-row">
         <div class="output-group" data-step-three>
           <span class="field-title" data-i18n="main.output.title">Enlace para compartir</span>
-          <p class="step-note" data-i18n="main.output.step">Paso 3: copia el enlace o abre la vista previa.</p>
+          <p class="step-note" data-i18n="main.output.step">Paso 2: copia el enlace o abre la vista previa.</p>
           <section class="output" data-output data-i18n="main.output.placeholder" data-i18n-dynamic>Enlace para compartir</section>
         </div>
         <div class="actions">
@@ -135,6 +123,15 @@
         <div class="manager-settings-actions">
           <button class="ghost-button ghost-button--small" type="button" data-reset-cleanup data-i18n="manager.settings.reset" data-i18n-tooltip="manager.settings.resetHelp">Restaurar valores por defecto</button>
           <button class="ghost-button ghost-button--small" type="button" data-delete-all data-i18n="manager.deleteAll" data-i18n-tooltip="manager.deleteAllHelp">Eliminar todos los recursos</button>
+        </div>
+        <div class="manager-toolbar">
+          <span class="stat-label" data-i18n="manager.sort.label">Ordenar por</span>
+          <select class="manager-sort" data-manager-sort>
+            <option value="title" data-i18n="manager.sort.title">Título</option>
+            <option value="date" data-i18n="manager.sort.date">Fecha</option>
+            <option value="size" data-i18n="manager.sort.size">Tamaño</option>
+          </select>
+          <button class="ghost-button ghost-button--small manager-sort-dir" type="button" data-manager-sort-dir data-i18n-tooltip="manager.sort.dirHelp" aria-label="Orden ascendente/descendente">↑</button>
         </div>
         <div class="manager-list" data-manager-list></div>
       </div>
@@ -236,7 +233,7 @@
     <footer class="site-footer">
       <a class="footer-link" href="https://bilateria.org" target="_blank" rel="noopener">(c) 2026 Juan Jose de Haro</a>
       <span class="footer-sep">·</span>
-      <span class="footer-link">v1.1.1</span>
+      <span class="footer-link">v1.1.2</span>
       <span class="footer-sep">·</span>
       <a class="footer-link" href="https://github.com/visor-webzip/visor-webzip.github.io" target="_blank" rel="noopener">
         <svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
