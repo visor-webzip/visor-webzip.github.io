@@ -294,6 +294,29 @@ button {
   background: transparent;
   color: var(--ink);
   box-shadow: none;
+  position: relative;
+}
+
+.ghost-button::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1b1f23;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+}
+
+.ghost-button:hover::after,
+.ghost-button:focus-visible::after {
+  opacity: 1;
 }
 
 .tabs {
@@ -491,6 +514,78 @@ body[data-active-tab="manager"] .tab-panel[data-tab-panel="manager"] {
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 }
 
+.manager-settings {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.setting-card {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+}
+
+.setting-help {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+.setting-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.setting-control input[type="range"] {
+  width: 140px;
+}
+
+.setting-control input[type="number"] {
+  width: 80px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--ink);
+}
+
+.setting-value {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.setting-suffix {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+.manager-settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.ghost-button--small {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+
+.ghost-button:active {
+  transform: scale(0.97);
+  box-shadow: 0 8px 16px rgba(31, 95, 89, 0.18);
+}
+
 .stat {
   padding: 12px 14px;
   border-radius: 14px;
@@ -508,6 +603,11 @@ body[data-active-tab="manager"] .tab-panel[data-tab-panel="manager"] {
 .stat-value {
   font-weight: 600;
   color: var(--ink);
+}
+
+.stat-note {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
 }
 
 .manager-list {
@@ -920,6 +1020,14 @@ body[data-loading="true"] main {
   }
 
   .manager-item__actions {
+    justify-content: flex-start;
+  }
+
+  .setting-card {
+    grid-template-columns: 1fr;
+  }
+
+  .setting-control {
     justify-content: flex-start;
   }
 

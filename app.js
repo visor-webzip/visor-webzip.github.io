@@ -21,6 +21,7 @@
   var tabPanels = document.querySelectorAll('[data-tab-panel]');
   var managerList = document.querySelector('[data-manager-list]');
   var storageUsed = document.querySelector('[data-storage-used]');
+  var storageUsedPercent = document.querySelector('[data-storage-used-percent]');
   var storageTotal = document.querySelector('[data-storage-total]');
   var storageCount = document.querySelector('[data-storage-count]');
   var deleteAllButton = document.querySelector('[data-delete-all]');
@@ -34,6 +35,10 @@
   var zipStatus = document.querySelector('[data-zip-status]');
   var zipNameInput = document.querySelector('[data-zip-name]');
   var langSelect = document.querySelector('[data-lang-select]');
+  var cleanupThresholdInput = document.querySelector('[data-cleanup-threshold]');
+  var cleanupThresholdValue = document.querySelector('[data-cleanup-threshold-value]');
+  var cleanupDaysInput = document.querySelector('[data-cleanup-days]');
+  var resetCleanupButton = document.querySelector('[data-reset-cleanup]');
 
   var currentShareLink = '';
   var loadingActive = false;
@@ -114,16 +119,31 @@
       manager: {
         title: 'Recursos guardados',
         subtitle: 'Gestiona el espacio que ocupan los materiales guardados en este navegador.',
-        deleteAll: 'Eliminar todas',
+        deleteAll: 'Eliminar todos los recursos',
         stats: {
           used: 'Espacio usado',
           total: 'Espacio total',
-          count: 'Webs guardadas'
+          count: 'Recursos guardados'
+        },
+        deleteAllHelp: 'Borra todos los recursos guardados en este navegador.',
+        settings: {
+          usage: {
+            label: 'Límite de uso antes de limpiar',
+            help: 'Si se supera este porcentaje de la cuota, se borran los recursos más antiguos.'
+          },
+          days: {
+            label: 'Días para borrar recursos antiguos',
+            help: 'Si un recurso no se abre en este periodo, se eliminará automáticamente.',
+            suffix: 'días'
+          },
+          reset: 'Restaurar valores por defecto',
+          resetHelp: 'Vuelve a 70% y 30 días y aplica la limpieza.'
         },
         actions: {
           view: 'Ver',
           share: 'Compartir',
-          edit: 'Editar'
+          edit: 'Editar',
+          download: 'Descargar ZIP'
         },
         editPrompt: 'Título del recurso',
         empty: 'No hay webs guardadas en este navegador.',
@@ -310,16 +330,31 @@
       manager: {
         title: 'Recursos desats',
         subtitle: 'Gestiona l’espai que ocupen els materials desats en aquest navegador.',
-        deleteAll: 'Eliminar totes',
+        deleteAll: 'Eliminar tots els recursos',
+        deleteAllHelp: 'Esborra tots els recursos desats en aquest navegador.',
         stats: {
           used: 'Espai usat',
           total: 'Espai total',
-          count: 'Webs desades'
+          count: 'Recursos desats'
+        },
+        settings: {
+          usage: {
+            label: 'Límit d’ús abans de netejar',
+            help: 'Si se supera aquest percentatge de la quota, s’esborraran els recursos més antics.'
+          },
+          days: {
+            label: 'Dies per esborrar recursos antics',
+            help: 'Si un recurs no s’obre en aquest període, s’eliminarà automàticament.',
+            suffix: 'dies'
+          },
+          reset: 'Restaurar valors per defecte',
+          resetHelp: 'Torna a 70% i 30 dies i aplica la neteja.'
         },
         actions: {
           view: 'Veure',
           share: 'Compartir',
-          edit: 'Editar'
+          edit: 'Editar',
+          download: 'Descarregar ZIP'
         },
         editPrompt: 'Títol del recurs',
         empty: 'No hi ha webs desades en aquest navegador.',
@@ -506,16 +541,31 @@
       manager: {
         title: 'Recursos gardados',
         subtitle: 'Xestiona o espazo que ocupan os materiais gardados neste navegador.',
-        deleteAll: 'Eliminar todas',
+        deleteAll: 'Eliminar todos os recursos',
+        deleteAllHelp: 'Borra todos os recursos gardados neste navegador.',
         stats: {
           used: 'Espazo usado',
           total: 'Espazo total',
-          count: 'Webs gardadas'
+          count: 'Recursos gardados'
+        },
+        settings: {
+          usage: {
+            label: 'Límite de uso antes de limpar',
+            help: 'Se se supera esta porcentaxe da cota, borraranse os recursos máis antigos.'
+          },
+          days: {
+            label: 'Días para borrar recursos antigos',
+            help: 'Se un recurso non se abre neste período, eliminarase automaticamente.',
+            suffix: 'días'
+          },
+          reset: 'Restaurar valores por defecto',
+          resetHelp: 'Volver a 70% e 30 días e aplicar a limpeza.'
         },
         actions: {
           view: 'Ver',
           share: 'Compartir',
-          edit: 'Editar'
+          edit: 'Editar',
+          download: 'Descargar ZIP'
         },
         editPrompt: 'Título do recurso',
         empty: 'Non hai webs gardadas neste navegador.',
@@ -702,16 +752,31 @@
       manager: {
         title: 'Gordetako baliabideak',
         subtitle: 'Kudeatu nabigatzaile honetan gordetako materialen okupazioa.',
-        deleteAll: 'Guztiak ezabatu',
+        deleteAll: 'Baliabide guztiak ezabatu',
+        deleteAllHelp: 'Nabigatzaile honetan gordetako baliabide guztiak ezabatzen ditu.',
         stats: {
           used: 'Erabilitako espazioa',
           total: 'Guztizko espazioa',
-          count: 'Gordetako webak'
+          count: 'Gordetako baliabideak'
+        },
+        settings: {
+          usage: {
+            label: 'Garbitu aurreko erabilera-muga',
+            help: 'Kota-portzentaje hau gainditzen bada, baliabide zaharrenak ezabatuko dira.'
+          },
+          days: {
+            label: 'Baliabide zaharrak ezabatzeko egunak',
+            help: 'Baliabide bat epe honetan irekitzen ez bada, automatikoki ezabatuko da.',
+            suffix: 'egun'
+          },
+          reset: 'Lehenetsitako balioak berrezarri',
+          resetHelp: '70% eta 30 egunetara itzuli eta garbiketa aplikatu.'
         },
         actions: {
           view: 'Ikusi',
           share: 'Partekatu',
-          edit: 'Editatu'
+          edit: 'Editatu',
+          download: 'ZIPa deskargatu'
         },
         editPrompt: 'Baliabidearen izenburua',
         empty: 'Ez dago gordetako webik nabigatzaile honetan.',
@@ -898,16 +963,31 @@
       manager: {
         title: 'Saved resources',
         subtitle: 'Manage the space used by materials stored in this browser.',
-        deleteAll: 'Delete all',
+        deleteAll: 'Delete all resources',
+        deleteAllHelp: 'Deletes all resources saved in this browser.',
         stats: {
           used: 'Space used',
           total: 'Total space',
-          count: 'Saved webs'
+          count: 'Saved resources'
+        },
+        settings: {
+          usage: {
+            label: 'Usage limit before cleanup',
+            help: 'If this percentage of the quota is exceeded, the oldest resources are deleted.'
+          },
+          days: {
+            label: 'Days before removing old resources',
+            help: 'If a resource is not opened within this period, it will be removed automatically.',
+            suffix: 'days'
+          },
+          reset: 'Restore default values',
+          resetHelp: 'Back to 70% and 30 days and apply cleanup.'
         },
         actions: {
           view: 'View',
           share: 'Share',
-          edit: 'Edit'
+          edit: 'Edit',
+          download: 'Download ZIP'
         },
         editPrompt: 'Resource title',
         empty: 'No saved webs in this browser.',
@@ -1094,16 +1174,31 @@
       manager: {
         title: 'Gespeicherte Ressourcen',
         subtitle: 'Verwalte den Speicherplatz der in diesem Browser gespeicherten Materialien.',
-        deleteAll: 'Alle löschen',
+        deleteAll: 'Alle Ressourcen löschen',
+        deleteAllHelp: 'Löscht alle in diesem Browser gespeicherten Ressourcen.',
         stats: {
           used: 'Belegter Speicher',
           total: 'Gesamtspeicher',
-          count: 'Gespeicherte Webseiten'
+          count: 'Gespeicherte Ressourcen'
+        },
+        settings: {
+          usage: {
+            label: 'Nutzungsgrenze vor Bereinigung',
+            help: 'Wenn dieser Prozentsatz der Quote überschritten wird, werden die ältesten Ressourcen gelöscht.'
+          },
+          days: {
+            label: 'Tage bis zum Löschen alter Ressourcen',
+            help: 'Wenn eine Ressource in diesem Zeitraum nicht geöffnet wird, wird sie automatisch gelöscht.',
+            suffix: 'Tage'
+          },
+          reset: 'Standardwerte wiederherstellen',
+          resetHelp: 'Zurück zu 70% und 30 Tagen und Bereinigung anwenden.'
         },
         actions: {
           view: 'Ansehen',
           share: 'Teilen',
-          edit: 'Bearbeiten'
+          edit: 'Bearbeiten',
+          download: 'ZIP herunterladen'
         },
         editPrompt: 'Titel der Ressource',
         empty: 'Keine gespeicherten Webseiten in diesem Browser.',
@@ -1233,6 +1328,10 @@
 
   var LANG_KEY = 'visor-lang';
   var currentLang = 'es';
+  var CLEANUP_THRESHOLD_KEY = 'visor-cleanup-threshold';
+  var CLEANUP_DAYS_KEY = 'visor-cleanup-days';
+  var CLEANUP_THRESHOLD_DEFAULT = 70;
+  var CLEANUP_DAYS_DEFAULT = 30;
 
   var SERVICE_INFO = {
     drive: {
@@ -1270,6 +1369,49 @@
       return normalizeLang(localStorage.getItem(LANG_KEY));
     } catch (err) {
       return null;
+    }
+  }
+
+  function getStoredNumber(key, fallback) {
+    try {
+      var value = Number(localStorage.getItem(key));
+      if (typeof value !== 'number' || isNaN(value)) return fallback;
+      return value;
+    } catch (err) {
+      return fallback;
+    }
+  }
+
+  function getCleanupThreshold() {
+    var value = getStoredNumber(CLEANUP_THRESHOLD_KEY, CLEANUP_THRESHOLD_DEFAULT);
+    return Math.min(95, Math.max(40, value));
+  }
+
+  function getCleanupDays() {
+    var value = getStoredNumber(CLEANUP_DAYS_KEY, CLEANUP_DAYS_DEFAULT);
+    return Math.min(365, Math.max(7, value));
+  }
+
+  function setCleanupThreshold(value) {
+    var normalized = Math.min(95, Math.max(40, Number(value) || CLEANUP_THRESHOLD_DEFAULT));
+    try {
+      localStorage.setItem(CLEANUP_THRESHOLD_KEY, String(normalized));
+    } catch (err) {}
+    if (cleanupThresholdInput) {
+      cleanupThresholdInput.value = String(normalized);
+    }
+    if (cleanupThresholdValue) {
+      cleanupThresholdValue.textContent = String(normalized);
+    }
+  }
+
+  function setCleanupDays(value) {
+    var normalized = Math.min(365, Math.max(7, Number(value) || CLEANUP_DAYS_DEFAULT));
+    try {
+      localStorage.setItem(CLEANUP_DAYS_KEY, String(normalized));
+    } catch (err) {}
+    if (cleanupDaysInput) {
+      cleanupDaysInput.value = String(normalized);
     }
   }
 
@@ -1377,6 +1519,8 @@
     applyTranslations();
     updateServiceInfo();
     syncZipNameDefault();
+    setCleanupThreshold(getCleanupThreshold());
+    setCleanupDays(getCleanupDays());
     if (output && !currentShareLink) {
       output.textContent = t('main.output.placeholder');
     }
@@ -2120,7 +2264,7 @@
         return true;
       }
       var projected = usage + (extraBytes || 0);
-      var limit = quota * 0.7;
+      var limit = quota * (getCleanupThreshold() / 100);
       if (projected < limit) {
         return true;
       }
@@ -2134,7 +2278,7 @@
   }
 
   function cleanupOldSites() {
-    var cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    var cutoff = Date.now() - getCleanupDays() * 24 * 60 * 60 * 1000;
     return getAllSites().then(function (sites) {
       var oldIds = sites.filter(function (site) {
         return site.updatedAt && site.updatedAt < cutoff;
@@ -2204,6 +2348,15 @@
       editButton.setAttribute('data-tooltip', t('manager.actions.edit'));
       editButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg>';
       actions.appendChild(editButton);
+      var downloadButton = document.createElement('button');
+      downloadButton.type = 'button';
+      downloadButton.className = 'icon-button';
+      downloadButton.setAttribute('data-action', 'download');
+      downloadButton.setAttribute('data-zip-url', site.url || '');
+      downloadButton.setAttribute('aria-label', t('manager.actions.download'));
+      downloadButton.setAttribute('data-tooltip', t('manager.actions.download'));
+      downloadButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 3v10"></path><path d="M7 9l5 5 5-5"></path><path d="M5 21h14"></path></svg>';
+      actions.appendChild(downloadButton);
       var delButton = document.createElement('button');
       delButton.type = 'button';
       delButton.className = 'icon-button';
@@ -2226,6 +2379,15 @@
       var totalBytes = sumSiteBytes(sites);
       if (storageUsed) {
         storageUsed.textContent = formatBytes(totalBytes);
+      }
+      if (storageUsedPercent) {
+        var quota = estimate && estimate.quota ? estimate.quota : 0;
+        if (quota) {
+          var percent = Math.min(100, Math.round((totalBytes / quota) * 100));
+          storageUsedPercent.textContent = percent + '%';
+        } else {
+          storageUsedPercent.textContent = '--';
+        }
       }
       if (storageTotal) {
         storageTotal.textContent = estimate && estimate.quota ? formatBytes(estimate.quota) : '--';
@@ -2719,12 +2881,37 @@
         copyText(buildShareLink(zipUrl, true), button);
         return;
       }
+      if (action === 'download' && zipUrl) {
+        var downloadUrl = normalizeZipUrl(zipUrl);
+        window.open(downloadUrl, '_blank');
+        return;
+      }
       if (action === 'edit' && siteId) {
         var item = button.closest('.manager-item');
         if (!item) return;
         var titleEl = item.querySelector('[data-title]');
         startTitleEdit(siteId, titleEl);
       }
+    });
+  }
+  if (cleanupThresholdInput) {
+    cleanupThresholdInput.addEventListener('input', function () {
+      setCleanupThreshold(cleanupThresholdInput.value);
+    });
+  }
+  if (cleanupDaysInput) {
+    cleanupDaysInput.addEventListener('change', function () {
+      setCleanupDays(cleanupDaysInput.value);
+      cleanupOldSites();
+      refreshManager();
+    });
+  }
+  if (resetCleanupButton) {
+    resetCleanupButton.addEventListener('click', function () {
+      setCleanupThreshold(CLEANUP_THRESHOLD_DEFAULT);
+      setCleanupDays(CLEANUP_DAYS_DEFAULT);
+      cleanupOldSites();
+      refreshManager();
     });
   }
   if (deleteAllButton) {

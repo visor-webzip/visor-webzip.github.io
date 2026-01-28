@@ -92,21 +92,47 @@
             <h2 data-i18n="manager.title">Recursos guardados</h2>
             <p class="manager-subtitle" data-i18n="manager.subtitle">Gestiona el espacio que ocupan los materiales guardados en este navegador.</p>
           </div>
-          <button class="ghost-button" type="button" data-delete-all data-i18n="manager.deleteAll">Eliminar todas</button>
         </div>
         <div class="manager-stats">
           <div class="stat">
             <span class="stat-label" data-i18n="manager.stats.used">Espacio usado</span>
             <span class="stat-value" data-storage-used>0 MB</span>
+            <span class="stat-note" data-storage-used-percent>--</span>
           </div>
           <div class="stat">
             <span class="stat-label" data-i18n="manager.stats.total">Espacio total</span>
             <span class="stat-value" data-storage-total>--</span>
           </div>
           <div class="stat">
-            <span class="stat-label" data-i18n="manager.stats.count">Webs guardadas</span>
+            <span class="stat-label" data-i18n="manager.stats.count">Recursos guardados</span>
             <span class="stat-value" data-storage-count>0</span>
           </div>
+        </div>
+        <div class="manager-settings" data-manager-settings>
+          <div class="setting-card">
+            <div>
+              <span class="stat-label" data-i18n="manager.settings.usage.label">Límite de uso antes de limpiar</span>
+              <p class="setting-help" data-i18n="manager.settings.usage.help">Si se supera este porcentaje de la cuota, se borran los recursos más antiguos.</p>
+            </div>
+            <div class="setting-control">
+              <input type="range" min="40" max="95" step="5" value="70" data-cleanup-threshold>
+              <span class="setting-value"><span data-cleanup-threshold-value>70</span>%</span>
+            </div>
+          </div>
+          <div class="setting-card">
+            <div>
+              <span class="stat-label" data-i18n="manager.settings.days.label">Días para borrar recursos antiguos</span>
+              <p class="setting-help" data-i18n="manager.settings.days.help">Si un recurso no se abre en este periodo, se eliminará automáticamente.</p>
+            </div>
+            <div class="setting-control">
+              <input type="number" min="7" max="365" step="1" value="30" data-cleanup-days>
+              <span class="setting-suffix" data-i18n="manager.settings.days.suffix">días</span>
+            </div>
+          </div>
+        </div>
+        <div class="manager-settings-actions">
+          <button class="ghost-button ghost-button--small" type="button" data-reset-cleanup data-i18n="manager.settings.reset" data-i18n-tooltip="manager.settings.resetHelp">Restaurar valores por defecto</button>
+          <button class="ghost-button ghost-button--small" type="button" data-delete-all data-i18n="manager.deleteAll" data-i18n-tooltip="manager.deleteAllHelp">Eliminar todos los recursos</button>
         </div>
         <div class="manager-list" data-manager-list></div>
       </div>
@@ -205,7 +231,7 @@
     <footer class="site-footer">
       <a class="footer-link" href="https://bilateria.org" target="_blank" rel="noopener">(c) 2026 Juan Jose de Haro</a>
       <span class="footer-sep">·</span>
-      <span class="footer-link">v1.1.0</span>
+      <span class="footer-link">v1.1.1</span>
       <span class="footer-sep">·</span>
       <a class="footer-link" href="https://github.com/visor-webzip/visor-webzip.github.io" target="_blank" rel="noopener">
         <svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
