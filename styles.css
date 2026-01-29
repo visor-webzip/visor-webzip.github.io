@@ -189,6 +189,7 @@ header {
   margin: 0 6px;
   cursor: help;
   position: relative;
+  box-shadow: none;
 }
 
 .info-dot__tooltip {
@@ -210,7 +211,7 @@ header {
   pointer-events: none;
   transition: opacity 0.12s ease;
   text-align: left;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  box-shadow: none;
 }
 
 .info-dot:hover .info-dot__tooltip,
