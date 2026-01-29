@@ -276,33 +276,6 @@ input[type="url"] {
   grid-column: 1 / -1;
 }
 
-.zip-name-field {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.zip-name-field input[type="text"] {
-  padding: 12px 14px;
-  font-size: 1rem;
-  border-radius: 12px;
-  border: 1px solid rgba(31, 95, 89, 0.2);
-  background: rgba(255, 255, 255, 0.8);
-  color: var(--ink);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-
-.zip-name-field input[type="text"]:focus {
-  outline: none;
-  border-color: rgba(31, 95, 89, 0.4);
-  box-shadow: 0 0 0 3px rgba(31, 95, 89, 0.12);
-}
-
-.zip-name-suffix {
-  font-size: 0.95rem;
-  color: var(--ink-muted);
-}
-
 button {
   padding: 10px 16px;
   border-radius: 999px;
@@ -440,11 +413,97 @@ body[data-active-tab="manager"] .tab-panel[data-tab-panel="manager"] {
   margin-top: 16px;
 }
 
+.html-zip-accordion {
+  margin: 8px 0 10px;
+  border-radius: 18px;
+  border: 1px solid rgba(42, 96, 91, 0.18);
+  background: rgba(246, 250, 249, 0.9);
+  overflow: hidden;
+}
+
+.html-zip-accordion__summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 18px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.html-zip-accordion__summary::-webkit-details-marker {
+  display: none;
+}
+
+.html-zip-accordion__summary::after {
+  content: '▾';
+  float: right;
+  color: var(--ink-muted);
+  transition: transform 0.2s ease;
+}
+
+.html-zip-accordion[open] .html-zip-accordion__summary::after {
+  transform: rotate(180deg);
+}
+
+.html-zip-accordion .html-zip-card {
+  border: none;
+  border-top: 1px solid rgba(42, 96, 91, 0.12);
+  border-radius: 0;
+  padding: 18px;
+  background: #f6faf9;
+}
+
+.html-zip-accordion .upload-help {
+  border-top: 1px solid rgba(42, 96, 91, 0.12);
+  padding: 18px;
+  background: #f6faf9;
+  border-radius: 0;
+}
+
+.html-zip-accordion .upload-grid {
+  border-top: 1px solid rgba(42, 96, 91, 0.12);
+  border-radius: 0;
+  margin-top: 0;
+  overflow: visible;
+}
+
+.html-zip-accordion .upload-grid .upload-card {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
 .upload-card {
   border: 1px solid rgba(42, 96, 91, 0.15);
   border-radius: 18px;
   padding: 20px;
   background: #f6faf9;
+}
+
+.html-zip-card {
+  border: 1px dashed rgba(42, 96, 91, 0.25);
+  border-radius: 18px;
+  padding: 20px;
+  background: #fff;
+  display: grid;
+  gap: 12px;
+}
+
+.html-zip-card__header {
+  display: grid;
+  gap: 6px;
+}
+
+.html-zip-textarea {
+  min-height: 160px;
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  font-family: "Fira Code", "Courier New", monospace;
+  font-size: 0.9rem;
+  color: var(--ink);
 }
 
 .upload-note {

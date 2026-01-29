@@ -33,6 +33,9 @@
   var buildZipButton = document.querySelector('[data-build-zip]');
   var zipStatus = document.querySelector('[data-zip-status]');
   var zipNameInput = document.querySelector('[data-zip-name]');
+  var htmlZipInput = document.querySelector('[data-html-zip-input]');
+  var htmlZipBuildButton = document.querySelector('[data-html-zip-build]');
+  var htmlZipStatus = document.querySelector('[data-html-zip-status]');
   var langSelect = document.querySelector('[data-lang-select]');
   var cleanupThresholdInput = document.querySelector('[data-cleanup-threshold]');
   var cleanupThresholdValue = document.querySelector('[data-cleanup-threshold-value]');
@@ -161,6 +164,9 @@
       },
       zipper: {
         title: 'Crear ZIP para el visor',
+        accordion: {
+          filesTitle: '¿Tienes archivos? Crea el ZIP'
+        },
         subtitle: {
           lead: 'Para compartir tu recurso, comprime los archivos (o la carpeta que los contiene) en un archivo .zip.',
           exeSentenceHtml: 'Si usas <strong>eXeLearning</strong>, también puedes crear el ZIP desde el propio programa y pasar directamente a la siguiente pestaña.'
@@ -198,15 +204,28 @@
         },
         zipName: {
           label: 'Nombre del ZIP',
-          placeholder: 'materiales',
-          default: 'materiales'
+          placeholder: 'mi_recurso',
+          default: 'mi_recurso'
         },
         build: 'Crear y descargar ZIP',
+        html: {
+          title: '¿No tienes archivos? Pega el HTML',
+          note: 'Pega el HTML completo y el visor creará un ZIP con un <code>index.html</code> listo para descargar.',
+          placeholder: '<!doctype html>...',
+          build: 'Crear ZIP desde HTML',
+          status: {
+            ready: 'Listo para crear el ZIP desde tu HTML.',
+            empty: '',
+            creating: 'Creando ZIP...',
+            downloaded: 'ZIP descargado.',
+            failed: 'No se pudo crear el ZIP. Revisa el HTML.'
+          }
+        },
         help: {
-          title: '¿Qué hacer con el ZIP?',
+          title: 'Ya tengo el ZIP ¿Qué hago con él?',
           step1: 'Sube el ZIP a un servicio con enlace público (Drive, Dropbox, GitHub…).',
-          step2: 'Copia el enlace público y pégalo en la pestaña “2. Compartir recurso”.',
-          step3: 'Comparte el enlace generado por el visor con tu alumnado.'
+          step2: 'Copia el enlace público y pégalo en la pestaña siguiente.',
+          goTab: 'Ir a Compartir recurso'
         }
       },
       html: {
@@ -243,10 +262,10 @@
           note: 'Google Drive limita la descarga directa de archivos grandes (aprox. 25 MB). Si tu ZIP supera ese tamaño, puede fallar. Dropbox, Nextcloud y otros servicios suelen permitir archivos más grandes sin ese límite.'
         },
         body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
-          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
-          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado.</li></ol></div>'
-          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
+          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" elige una opción: pega tu HTML o añade tus archivos para crear el ZIP.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
+          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li><strong>¿No tienes archivos? Pega el HTML</strong>: pega el HTML completo y se creará un ZIP con <code>index.html</code>.</li><li><strong>¿Tienes archivos? Crea el ZIP</strong>: arrastra la carpeta o los archivos y pulsa "Crear y descargar ZIP".</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado o abre la vista previa.</li></ol></div>'
+          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Descargar</strong> baja el ZIP original.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
           + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
       error: {
@@ -381,6 +400,9 @@
       },
       zipper: {
         title: 'Crear ZIP per al visor',
+        accordion: {
+          filesTitle: '¿Tienes archivos? Crea el ZIP'
+        },
         subtitle: {
           lead: 'Per compartir el teu recurs has de comprimir els fitxers (o la carpeta que els conté) en un arxiu ZIP.',
           exeSentenceHtml: "Si fas servir <strong>eXeLearning</strong>, també pots crear el ZIP des del mateix programa i passar directament a la pestanya següent."
@@ -418,15 +440,28 @@
         },
         zipName: {
           label: 'Nom del ZIP',
-          placeholder: 'materials',
-          default: 'materials'
+          placeholder: 'el_meu_recurs',
+          default: 'el_meu_recurs'
         },
         build: 'Crear i descarregar ZIP',
+        html: {
+          title: '¿No tienes archivos? Pega el HTML',
+          note: 'Pega el HTML completo y el visor creará un ZIP con un <code>index.html</code> listo para descargar.',
+          placeholder: '<!doctype html>...',
+          build: 'Crear ZIP desde HTML',
+          status: {
+            ready: 'Listo para crear el ZIP desde tu HTML.',
+            empty: '',
+            creating: 'Creando ZIP...',
+            downloaded: 'ZIP descargado.',
+            failed: 'No se pudo crear el ZIP. Revisa el HTML.'
+          }
+        },
         help: {
           title: 'Què fer amb el ZIP?',
           step1: 'Puja el ZIP a un servei amb enllaç públic (Drive, Dropbox, GitHub…).',
-          step2: 'Copia l’enllaç públic i enganxa’l a la pestanya “2. Compartir recurs”.',
-          step3: 'Comparteix l’enllaç generat pel visor amb l’alumnat.'
+          step2: 'Copia el enlace público y pégalo en la pestaña siguiente.',
+          goTab: 'Ir a Compartir recurso'
         }
       },
       html: {
@@ -463,10 +498,10 @@
           note: 'Google Drive limita la descàrrega directa d’arxius grans (aprox. 25 MB). Si el teu ZIP supera aquesta mida, pot fallar. Dropbox, Nextcloud i altres serveis solen permetre fitxers més grans sense aquest límit.'
         },
         body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
-          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
-          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado.</li></ol></div>'
-          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
+          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" elige una opción: pega tu HTML o añade tus archivos para crear el ZIP.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
+          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li><strong>¿No tienes archivos? Pega el HTML</strong>: pega el HTML completo y se creará un ZIP con <code>index.html</code>.</li><li><strong>¿Tienes archivos? Crea el ZIP</strong>: arrastra la carpeta o los archivos y pulsa "Crear y descargar ZIP".</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado o abre la vista previa.</li></ol></div>'
+          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Descargar</strong> baja el ZIP original.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
           + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
       error: {
@@ -601,6 +636,9 @@
       },
       zipper: {
         title: 'Crear ZIP para o visor',
+        accordion: {
+          filesTitle: '¿Tienes archivos? Crea el ZIP'
+        },
         subtitle: {
           lead: 'Para compartir o teu recurso necesitas comprimir os ficheiros (ou o cartafol que os contén) nun arquivo ZIP.',
           exeSentenceHtml: 'Se usas <strong>eXeLearning</strong>, tamén podes crear o ZIP desde o propio programa e pasar directamente á seguinte lapela.'
@@ -638,15 +676,28 @@
         },
         zipName: {
           label: 'Nome do ZIP',
-          placeholder: 'materiais',
-          default: 'materiais'
+          placeholder: 'meu_recurso',
+          default: 'meu_recurso'
         },
         build: 'Crear e descargar ZIP',
+        html: {
+          title: '¿No tienes archivos? Pega el HTML',
+          note: 'Pega el HTML completo y el visor creará un ZIP con un <code>index.html</code> listo para descargar.',
+          placeholder: '<!doctype html>...',
+          build: 'Crear ZIP desde HTML',
+          status: {
+            ready: 'Listo para crear el ZIP desde tu HTML.',
+            empty: '',
+            creating: 'Creando ZIP...',
+            downloaded: 'ZIP descargado.',
+            failed: 'No se pudo crear el ZIP. Revisa el HTML.'
+          }
+        },
         help: {
           title: 'Que facer co ZIP?',
           step1: 'Sube o ZIP a un servizo con ligazón pública (Drive, Dropbox, GitHub…).',
-          step2: 'Copia a ligazón pública e pégala na lapela “2. Compartir recurso”.',
-          step3: 'Comparte a ligazón xerada polo visor co teu alumnado.'
+          step2: 'Copia el enlace público y pégalo en la pestaña siguiente.',
+          goTab: 'Ir a Compartir recurso'
         }
       },
       html: {
@@ -683,10 +734,10 @@
           note: 'Google Drive limita a descarga directa de ficheiros grandes (aprox. 25 MB). Se o teu ZIP supera ese tamaño, pode fallar. Dropbox, Nextcloud e outros servizos adoitan permitir ficheiros máis grandes sen ese límite.'
         },
         body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
-          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
-          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado.</li></ol></div>'
-          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
+          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" elige una opción: pega tu HTML o añade tus archivos para crear el ZIP.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
+          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li><strong>¿No tienes archivos? Pega el HTML</strong>: pega el HTML completo y se creará un ZIP con <code>index.html</code>.</li><li><strong>¿Tienes archivos? Crea el ZIP</strong>: arrastra la carpeta o los archivos y pulsa "Crear y descargar ZIP".</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado o abre la vista previa.</li></ol></div>'
+          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Descargar</strong> baja el ZIP original.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
           + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
       error: {
@@ -821,6 +872,9 @@
       },
       zipper: {
         title: 'Bisorerako ZIP sortu',
+        accordion: {
+          filesTitle: '¿Tienes archivos? Crea el ZIP'
+        },
         subtitle: {
           lead: 'Zure baliabidea partekatzeko, fitxategiak (edo horiek dituen karpeta) ZIP fitxategi batean konprimitu behar dituzu.',
           exeSentenceHtml: '<strong>eXeLearning</strong> erabiltzen baduzu, ZIPa programatik bertatik sor dezakezu eta zuzenean hurrengo fitxara pasa.'
@@ -858,15 +912,28 @@
         },
         zipName: {
           label: 'ZIParen izena',
-          placeholder: 'materialak',
-          default: 'materialak'
+          placeholder: 'nire_baliabidea',
+          default: 'nire_baliabidea'
         },
         build: 'Sortu eta deskargatu ZIPa',
+        html: {
+          title: '¿No tienes archivos? Pega el HTML',
+          note: 'Pega el HTML completo y el visor creará un ZIP con un <code>index.html</code> listo para descargar.',
+          placeholder: '<!doctype html>...',
+          build: 'Crear ZIP desde HTML',
+          status: {
+            ready: 'Listo para crear el ZIP desde tu HTML.',
+            empty: '',
+            creating: 'Creando ZIP...',
+            downloaded: 'ZIP descargado.',
+            failed: 'No se pudo crear el ZIP. Revisa el HTML.'
+          }
+        },
         help: {
           title: 'Zer egin ZIParekin?',
           step1: 'Igo ZIPa esteka publikoarekin duen zerbitzu batera (Drive, Dropbox, GitHub…).',
-          step2: 'Kopiatu esteka publikoa eta itsatsi “2. Partekatu baliabidea” fitxan.',
-          step3: 'Partekatu bisoreak sortutako esteka zure ikasleekin.'
+          step2: 'Copia el enlace público y pégalo en la pestaña siguiente.',
+          goTab: 'Ir a Compartir recurso'
         }
       },
       html: {
@@ -903,10 +970,10 @@
           note: 'Google Drivek fitxategi handien deskarga zuzena mugatzen du (gutxi gorabehera 25 MB). Zure ZIPak tamaina hori gainditzen badu, huts egin dezake. Dropbox, Nextcloud eta beste zerbitzu batzuek, normalean, handiagoak onartzen dituzte muga horik gabe.'
         },
         body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
-          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
-          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado.</li></ol></div>'
-          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
+          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" elige una opción: pega tu HTML o añade tus archivos para crear el ZIP.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
+          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li><strong>¿No tienes archivos? Pega el HTML</strong>: pega el HTML completo y se creará un ZIP con <code>index.html</code>.</li><li><strong>¿Tienes archivos? Crea el ZIP</strong>: arrastra la carpeta o los archivos y pulsa "Crear y descargar ZIP".</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado o abre la vista previa.</li></ol></div>'
+          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Descargar</strong> baja el ZIP original.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
           + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
       error: {
@@ -1041,6 +1108,9 @@
       },
       zipper: {
         title: 'Create ZIP for the viewer',
+        accordion: {
+          filesTitle: '¿Tienes archivos? Crea el ZIP'
+        },
         subtitle: {
           lead: 'To share your resource, compress the files (or the folder that contains them) into a .zip file.',
           exeSentenceHtml: 'If you use <strong>eXeLearning</strong>, you can also create the ZIP from the program itself and move straight to the next tab.'
@@ -1078,15 +1148,28 @@
         },
         zipName: {
           label: 'ZIP name',
-          placeholder: 'materials',
-          default: 'materials'
+          placeholder: 'my_resource',
+          default: 'my_resource'
         },
         build: 'Create and download ZIP',
+        html: {
+          title: '¿No tienes archivos? Pega el HTML',
+          note: 'Pega el HTML completo y el visor creará un ZIP con un <code>index.html</code> listo para descargar.',
+          placeholder: '<!doctype html>...',
+          build: 'Crear ZIP desde HTML',
+          status: {
+            ready: 'Listo para crear el ZIP desde tu HTML.',
+            empty: '',
+            creating: 'Creando ZIP...',
+            downloaded: 'ZIP descargado.',
+            failed: 'No se pudo crear el ZIP. Revisa el HTML.'
+          }
+        },
         help: {
           title: 'What to do with the ZIP?',
           step1: 'Upload the ZIP to a service with a public link (Drive, Dropbox, GitHub…).',
-          step2: 'Copy the public link and paste it in the “2. Share resource” tab.',
-          step3: 'Share the link generated by the viewer with your students.'
+          step2: 'Copia el enlace público y pégalo en la pestaña siguiente.',
+          goTab: 'Ir a Compartir recurso'
         }
       },
       html: {
@@ -1123,10 +1206,10 @@
           note: 'Google Drive limits direct downloads of large files (approx. 25 MB). If your ZIP exceeds that size, it may fail. Dropbox, Nextcloud and other services usually allow larger files without that limit.'
         },
         body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
-          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
-          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado.</li></ol></div>'
-          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
+          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" elige una opción: pega tu HTML o añade tus archivos para crear el ZIP.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
+          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li><strong>¿No tienes archivos? Pega el HTML</strong>: pega el HTML completo y se creará un ZIP con <code>index.html</code>.</li><li><strong>¿Tienes archivos? Crea el ZIP</strong>: arrastra la carpeta o los archivos y pulsa "Crear y descargar ZIP".</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado o abre la vista previa.</li></ol></div>'
+          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Descargar</strong> baja el ZIP original.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
           + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
       error: {
@@ -1261,6 +1344,9 @@
       },
       zipper: {
         title: 'ZIP für den Viewer erstellen',
+        accordion: {
+          filesTitle: '¿Tienes archivos? Crea el ZIP'
+        },
         subtitle: {
           lead: 'Um deine Ressource zu teilen, komprimiere die Dateien (oder den Ordner, der sie enthält) in eine ZIP-Datei.',
           exeSentenceHtml: 'Wenn du <strong>eXeLearning</strong> nutzt, kannst du das ZIP direkt im Programm erstellen und sofort zur nächsten Registerkarte wechseln.'
@@ -1298,15 +1384,28 @@
         },
         zipName: {
           label: 'ZIP-Name',
-          placeholder: 'materialien',
-          default: 'materialien'
+          placeholder: 'mein_ressource',
+          default: 'mein_ressource'
         },
         build: 'ZIP erstellen und herunterladen',
+        html: {
+          title: '¿No tienes archivos? Pega el HTML',
+          note: 'Pega el HTML completo y el visor creará un ZIP con un <code>index.html</code> listo para descargar.',
+          placeholder: '<!doctype html>...',
+          build: 'Crear ZIP desde HTML',
+          status: {
+            ready: 'Listo para crear el ZIP desde tu HTML.',
+            empty: '',
+            creating: 'Creando ZIP...',
+            downloaded: 'ZIP descargado.',
+            failed: 'No se pudo crear el ZIP. Revisa el HTML.'
+          }
+        },
         help: {
           title: 'Was tun mit dem ZIP?',
           step1: 'Lade das ZIP zu einem Dienst mit öffentlichem Link hoch (Drive, Dropbox, GitHub…).',
-          step2: 'Kopiere den öffentlichen Link und füge ihn im Tab „2. Ressource teilen“ ein.',
-          step3: 'Teile den vom Viewer erzeugten Link mit deinen Lernenden.'
+          step2: 'Copia el enlace público y pégalo en la pestaña siguiente.',
+          goTab: 'Ir a Compartir recurso'
         }
       },
       html: {
@@ -1343,10 +1442,10 @@
           note: 'Google Drive begrenzt direkte Downloads großer Dateien (ca. 25 MB). Wenn dein ZIP größer ist, kann es fehlschlagen. Dropbox, Nextcloud und andere Dienste erlauben meist größere Dateien ohne dieses Limit.'
         },
         body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
-          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" comprime tu carpeta con HTML en un .zip.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
-          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li>Incluye un <code>index.html</code> si es posible.</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado.</li></ol></div>'
-          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
+          + '<div class="about-section"><h3>Guía rápida</h3><ol><li>En "1. Crear ZIP" elige una opción: pega tu HTML o añade tus archivos para crear el ZIP.</li><li>Sube el archivo ZIP a un servicio de almacenamiento en la nube (Google Drive, Dropbox, etc.) y compártelo para que cualquier persona con el enlace pueda verlo.</li><li>En "2. Compartir recurso" pega el enlace público al ZIP y pulsa "Crear enlace".</li><li>Comparte el enlace generado con tu alumnado.</li></ol></div>'
+          + '<div class="about-section"><h3>1. Crear ZIP</h3><ul><li><strong>¿No tienes archivos? Pega el HTML</strong>: pega el HTML completo y se creará un ZIP con <code>index.html</code>.</li><li><strong>¿Tienes archivos? Crea el ZIP</strong>: arrastra la carpeta o los archivos y pulsa "Crear y descargar ZIP".</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
+          + '<div class="about-section"><h3>2. Compartir recurso</h3><ol><li>Pega el enlace público del ZIP.</li><li>El visor detecta automáticamente el tipo de enlace.</li><li>Pulsa "Crear enlace" y copia el resultado o abre la vista previa.</li></ol></div>'
+          + '<div class="about-section"><h3>3. Recursos guardados</h3><ul><li>En esta pestaña puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace público del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Descargar</strong> baja el ZIP original.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
           + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
       },
       error: {
@@ -1625,6 +1724,13 @@
       setUploadStatus(t('zipper.status.filesReady', { count: selectedFiles.length }));
       setZipStatus(t('zipper.status.ready'));
     }
+    if (htmlZipInput) {
+      if (htmlZipInput.value.trim()) {
+        setHtmlZipStatus(t('zipper.html.status.ready'));
+      } else {
+        setHtmlZipStatus(t('zipper.html.status.empty'));
+      }
+    }
     if (!loadingActive && loadingMessage) {
       loadingMessage.textContent = t('loading.message');
     }
@@ -1824,6 +1930,12 @@
     }
   }
 
+  function setHtmlZipStatus(message) {
+    if (htmlZipStatus) {
+      htmlZipStatus.textContent = message;
+    }
+  }
+
   function resetZipDownload() {
     // No-op: downloads are triggered immediately after ZIP creation.
   }
@@ -1852,6 +1964,18 @@
       value += '.zip';
     }
     return value;
+  }
+
+  function encodeUtf8(text) {
+    if (window.TextEncoder) {
+      return new TextEncoder().encode(text);
+    }
+    var utf8 = unescape(encodeURIComponent(text));
+    var bytes = new Uint8Array(utf8.length);
+    for (var i = 0; i < utf8.length; i += 1) {
+      bytes[i] = utf8.charCodeAt(i);
+    }
+    return bytes;
   }
 
   function deriveZipBaseName(files) {
@@ -2064,6 +2188,37 @@
     }).catch(function () {
       setZipStatus(t('zipper.status.failed'));
     });
+  }
+
+  function buildZipFromHtml() {
+    var htmlText = htmlZipInput ? htmlZipInput.value.trim() : '';
+    if (!htmlText) {
+      setHtmlZipStatus(t('zipper.html.status.empty'));
+      return;
+    }
+    if (!window.fflate || !window.fflate.zipSync) {
+      setHtmlZipStatus(t('zipper.status.engineMissing'));
+      return;
+    }
+    var zipName = normalizeZipName(zipNameInput ? zipNameInput.value : '');
+    setHtmlZipStatus(t('zipper.html.status.creating'));
+    try {
+      var files = {
+        'index.html': encodeUtf8(htmlText)
+      };
+      var zipped = window.fflate.zipSync(files);
+      var blob = new Blob([zipped], { type: 'application/zip' });
+      var anchor = document.createElement('a');
+      anchor.href = URL.createObjectURL(blob);
+      anchor.download = zipName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      URL.revokeObjectURL(anchor.href);
+      document.body.removeChild(anchor);
+      setHtmlZipStatus(t('zipper.html.status.downloaded'));
+    } catch (err) {
+      setHtmlZipStatus(t('zipper.html.status.failed'));
+    }
   }
 
   function registerServiceWorker() {
@@ -2945,6 +3100,22 @@
     });
   }
 
+  if (htmlZipInput) {
+    htmlZipInput.addEventListener('input', function () {
+      if (htmlZipInput.value.trim()) {
+        setHtmlZipStatus(t('zipper.html.status.ready'));
+      } else {
+        setHtmlZipStatus(t('zipper.html.status.empty'));
+      }
+    });
+  }
+
+  if (htmlZipBuildButton) {
+    htmlZipBuildButton.addEventListener('click', function () {
+      buildZipFromHtml();
+    });
+  }
+
   if (form) {
     form.addEventListener('submit', function (event) {
       event.preventDefault();
@@ -2965,6 +3136,17 @@
   }
   setLanguage(getInitialLang());
   updateServiceInfo();
+  var goTabButtons = document.querySelectorAll('[data-go-tab]');
+  if (goTabButtons.length) {
+    goTabButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        var target = button.getAttribute('data-go-tab');
+        if (target) {
+          setActiveTab(target);
+        }
+      });
+    });
+  }
   if (tabButtons.length && tabPanels.length) {
     tabButtons.forEach(function (button) {
       button.addEventListener('click', function () {

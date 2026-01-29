@@ -159,46 +159,61 @@
             </ul>
           </div>
         </div>
-        <div class="upload-grid">
-          <section class="upload-card">
-            <h3 data-i18n="zipper.step1.title">1. Añade tus archivos</h3>
-            <p class="step-note" data-i18n="zipper.step1.note">Paso 1: arrastra la carpeta o selecciona los archivos desde el botón.</p>
-            <p class="upload-note" data-i18n="zipper.step1.detail">Puedes arrastrar una carpeta o archivos. También puedes seleccionar una carpeta completa desde el botón.</p>
-            <div class="dropzone" data-dropzone>
-              <div class="dropzone__title" data-i18n="zipper.dropzone.title">Arrastra aquí la carpeta o los archivos</div>
-              <div class="dropzone__hint" data-i18n="zipper.dropzone.hint">Se respetan las carpetas internas.</div>
-              <div class="dropzone__actions">
-                <button class="ghost-button" type="button" data-folder-button data-i18n="zipper.dropzone.folder">Elegir carpeta</button>
-                <button class="ghost-button" type="button" data-file-button data-i18n="zipper.dropzone.files">Elegir archivos</button>
-                <input type="file" data-folder-input webkitdirectory multiple hidden>
-                <input type="file" data-file-input multiple hidden>
-              </div>
+        <details class="html-zip-accordion">
+          <summary class="html-zip-accordion__summary" data-i18n="zipper.html.title">¿No tienes archivos? Pega el HTML</summary>
+          <div class="html-zip-card">
+            <div class="html-zip-card__header">
+              <p class="step-note" data-i18n-html="zipper.html.note">Pega el HTML completo y el visor creará un ZIP con un <code>index.html</code> listo para descargar.</p>
             </div>
-            <p class="upload-status" data-upload-status data-i18n="zipper.status.empty" data-i18n-dynamic>No hay archivos seleccionados.</p>
-          </section>
-          <section class="upload-card">
-            <h3 data-i18n="zipper.step2.title">2. Descarga el ZIP</h3>
-            <p class="step-note" data-i18n="zipper.step2.note">Paso 2: crea el ZIP y se descargará automáticamente.</p>
-            <p class="upload-note" data-i18n="zipper.step2.detail">Al crear el ZIP se descargará un archivo que puedes subir a Drive, Dropbox, Nextcloud, etc.</p>
-            <label class="field-title" for="zip-name" data-i18n="zipper.zipName.label">Nombre del ZIP</label>
-            <div class="zip-name-field">
-              <input id="zip-name" data-zip-name type="text" placeholder="materiales" value="materiales" data-i18n-placeholder="zipper.zipName.placeholder">
-              <span class="zip-name-suffix">.zip</span>
-            </div>
+            <textarea class="html-zip-textarea" data-html-zip-input data-i18n-placeholder="zipper.html.placeholder" placeholder="&lt;!doctype html&gt;..."></textarea>
             <div class="upload-actions">
-              <button type="button" data-build-zip data-i18n="zipper.build">Crear y descargar ZIP</button>
+              <button type="button" data-html-zip-build data-i18n="zipper.html.build">Crear ZIP desde HTML</button>
             </div>
-            <p class="upload-status" data-zip-status data-i18n="zipper.status.readyHint" data-i18n-dynamic>Prepara el ZIP para obtener tu archivo.</p>
-          </section>
-        </div>
-        <div class="upload-help">
-          <h3 data-i18n="zipper.help.title">¿Qué hacer con el ZIP?</h3>
-          <ol>
-            <li data-i18n="zipper.help.step1">Sube el ZIP a un servicio con enlace público (Drive, Dropbox, GitHub…).</li>
-            <li data-i18n="zipper.help.step2">Copia el enlace público y pégalo en la pestaña “2. Compartir recurso”.</li>
-            <li data-i18n="zipper.help.step3">Comparte el enlace generado por el visor con tu alumnado.</li>
-          </ol>
-        </div>
+            <p class="upload-status" data-html-zip-status data-i18n="zipper.html.status.ready" data-i18n-dynamic>Listo para crear el ZIP desde tu HTML.</p>
+          </div>
+        </details>
+        <details class="html-zip-accordion">
+          <summary class="html-zip-accordion__summary" data-i18n="zipper.accordion.filesTitle">¿Tienes archivos? Crea el ZIP</summary>
+          <div class="upload-grid">
+            <section class="upload-card">
+              <h3 data-i18n="zipper.step1.title">1. Añade tus archivos</h3>
+              <p class="step-note" data-i18n="zipper.step1.note">Paso 1: arrastra la carpeta o selecciona los archivos desde el botón.</p>
+              <p class="upload-note" data-i18n="zipper.step1.detail">Puedes arrastrar una carpeta o archivos. También puedes seleccionar una carpeta completa desde el botón.</p>
+              <div class="dropzone" data-dropzone>
+                <div class="dropzone__title" data-i18n="zipper.dropzone.title">Arrastra aquí la carpeta o los archivos</div>
+                <div class="dropzone__hint" data-i18n="zipper.dropzone.hint">Se respetan las carpetas internas.</div>
+                <div class="dropzone__actions">
+                  <button class="ghost-button" type="button" data-folder-button data-i18n="zipper.dropzone.folder">Elegir carpeta</button>
+                  <button class="ghost-button" type="button" data-file-button data-i18n="zipper.dropzone.files">Elegir archivos</button>
+                  <input type="file" data-folder-input webkitdirectory multiple hidden>
+                  <input type="file" data-file-input multiple hidden>
+                </div>
+              </div>
+              <p class="upload-status" data-upload-status data-i18n="zipper.status.empty" data-i18n-dynamic>No hay archivos seleccionados.</p>
+            </section>
+            <section class="upload-card">
+              <h3 data-i18n="zipper.step2.title">2. Descarga el ZIP</h3>
+              <p class="step-note" data-i18n="zipper.step2.note">Paso 2: crea el ZIP y se descargará automáticamente.</p>
+              <p class="upload-note" data-i18n="zipper.step2.detail">Al crear el ZIP se descargará un archivo que puedes subir a Drive, Dropbox, Nextcloud, etc.</p>
+              <div class="upload-actions">
+                <button type="button" data-build-zip data-i18n="zipper.build">Crear y descargar ZIP</button>
+              </div>
+              <p class="upload-status" data-zip-status data-i18n="zipper.status.readyHint" data-i18n-dynamic>Prepara el ZIP para obtener tu archivo.</p>
+            </section>
+          </div>
+        </details>
+        <details class="html-zip-accordion">
+          <summary class="html-zip-accordion__summary" data-i18n="zipper.help.title">Ya tengo el ZIP ¿Qué hago con él?</summary>
+          <div class="upload-help">
+            <ol>
+              <li data-i18n="zipper.help.step1">Sube el ZIP a un servicio con enlace público (Drive, Dropbox, GitHub…).</li>
+              <li data-i18n="zipper.help.step2">Copia el enlace público y pégalo en la pestaña siguiente.</li>
+            </ol>
+            <div class="upload-actions">
+              <button class="ghost-button" type="button" data-go-tab="main" data-i18n="zipper.help.goTab">Ir a Compartir recurso</button>
+            </div>
+          </div>
+        </details>
       </div>
     </section>
 
@@ -238,7 +253,7 @@
     <footer class="site-footer">
       <a class="footer-link" href="https://bilateria.org" target="_blank" rel="noopener">(c) 2026 Juan Jose de Haro</a>
       <span class="footer-sep">·</span>
-      <span class="footer-link">v1.1.3</span>
+      <span class="footer-link">v1.1.4</span>
       <span class="footer-sep">·</span>
       <a class="footer-link" href="https://github.com/visor-webzip/visor-webzip.github.io" target="_blank" rel="noopener">
         <svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
