@@ -1140,6 +1140,10 @@ body[data-loading="true"] main {
     padding: 18px;
   }
 
+  .manager-settings {
+    grid-template-columns: 1fr;
+  }
+
   .manager-item {
     grid-template-columns: 1fr;
   }
@@ -1154,6 +1158,13 @@ body[data-loading="true"] main {
 
   .setting-control {
     justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    white-space: normal;
+  }
+
+  .setting-control input[type="range"] {
+    width: 100%;
   }
 
   .modal {
