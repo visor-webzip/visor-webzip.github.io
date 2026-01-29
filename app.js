@@ -155,7 +155,7 @@
           download: 'Descargar ZIP'
         },
         editPrompt: 'Título del recurso',
-        empty: 'No hay webs guardadas en este navegador.',
+        empty: 'No hay recursos guardados en este navegador.',
         siteNoUrl: 'Sitio sin URL',
         noDate: 'sin fecha'
       },
@@ -375,7 +375,7 @@
           download: 'Descarregar ZIP'
         },
         editPrompt: 'Títol del recurs',
-        empty: 'No hi ha webs desades en aquest navegador.',
+        empty: 'No hi ha recursos desats en aquest navegador.',
         siteNoUrl: 'Lloc sense URL',
         noDate: 'sense data'
       },
@@ -595,7 +595,7 @@
           download: 'Descargar ZIP'
         },
         editPrompt: 'Título do recurso',
-        empty: 'Non hai webs gardadas neste navegador.',
+        empty: 'Non hai recursos gardados neste navegador.',
         siteNoUrl: 'Sitio sen URL',
         noDate: 'sen data'
       },
@@ -815,7 +815,7 @@
           download: 'ZIPa deskargatu'
         },
         editPrompt: 'Baliabidearen izenburua',
-        empty: 'Ez dago gordetako webik nabigatzaile honetan.',
+        empty: 'Ez dago gordetako baliabiderik nabigatzaile honetan.',
         siteNoUrl: 'URLrik gabeko gunea',
         noDate: 'datarik gabe'
       },
@@ -1035,7 +1035,7 @@
           download: 'Download ZIP'
         },
         editPrompt: 'Resource title',
-        empty: 'No saved webs in this browser.',
+        empty: 'No saved resources in this browser.',
         siteNoUrl: 'Site without URL',
         noDate: 'no date'
       },
@@ -1255,7 +1255,7 @@
           download: 'ZIP herunterladen'
         },
         editPrompt: 'Titel der Ressource',
-        empty: 'Keine gespeicherten Webseiten in diesem Browser.',
+        empty: 'Keine gespeicherten Ressourcen in diesem Browser.',
         siteNoUrl: 'Website ohne URL',
         noDate: 'ohne Datum'
       },
@@ -1420,7 +1420,10 @@
 
   function getStoredNumber(key, fallback) {
     try {
-      var value = Number(localStorage.getItem(key));
+      var raw = localStorage.getItem(key);
+      if (raw === null || raw === '') return fallback;
+      var value = Number(raw);
+      if (value === 0) return fallback;
       if (typeof value !== 'number' || isNaN(value)) return fallback;
       return value;
     } catch (err) {
@@ -2381,10 +2384,18 @@
     if (!managerList) return;
     managerList.innerHTML = '';
     if (!sites.length) {
+      var managerToolbar = document.querySelector('.manager-toolbar');
+      if (managerToolbar) {
+        managerToolbar.setAttribute('hidden', '');
+      }
       var empty = document.createElement('p');
       empty.textContent = t('manager.empty');
       managerList.appendChild(empty);
       return;
+    }
+    var managerToolbar = document.querySelector('.manager-toolbar');
+    if (managerToolbar) {
+      managerToolbar.removeAttribute('hidden');
     }
     var sortedSites = sortManagerSites(sites);
     sortedSites.forEach(function (site) {
