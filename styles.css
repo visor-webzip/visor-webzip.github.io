@@ -49,14 +49,25 @@ header {
 
 .title-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   flex-wrap: wrap;
 }
 
+.title-stack {
+  display: grid;
+  gap: 4px;
+}
+
+.header-subtitle {
+  margin: 0;
+  color: var(--ink-muted);
+  line-height: 1.25;
+}
+
 .app-mark {
-  width: 44px;
-  height: 44px;
+  width: 100px;
+  height: 100px;
   opacity: 0.9;
 }
 
@@ -81,9 +92,15 @@ header {
 }
 
 .lang-switch {
-  position: absolute;
-  top: 18px;
-  right: 18px;
+  position: static;
+}
+
+.title-actions {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
 }
 
 .sr-only {

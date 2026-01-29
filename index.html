@@ -24,27 +24,30 @@
   </div>
   <main data-main>
     <header>
-      <div class="lang-switch">
-        <label for="lang-select" class="sr-only" data-i18n="lang.label">Idioma</label>
-        <select id="lang-select" data-lang-select>
-          <option value="es" data-i18n="lang.es">Español</option>
-          <option value="ca" data-i18n="lang.ca">Català</option>
-          <option value="gl" data-i18n="lang.gl">Galego</option>
-          <option value="eu" data-i18n="lang.eu">Euskara</option>
-          <option value="en" data-i18n="lang.en">English</option>
-          <option value="de" data-i18n="lang.de">Deutsch</option>
-        </select>
-      </div>
-      <p class="eyebrow" data-i18n="header.eyebrow">Materiales en ZIP</p>
       <div class="title-row">
         <img class="app-mark" src="favicon.svg" alt="" aria-hidden="true">
-        <h1 data-i18n="header.title">Visor Web-ZIP</h1>
-        <button class="help-pill" type="button" data-about-open data-i18n-aria-label="header.help">
-          <span class="help-pill__icon">?</span>
-          <span class="help-pill__tooltip" role="tooltip" data-i18n="header.help">Ayuda</span>
-        </button>
+        <div class="title-stack">
+          <h1 data-i18n="header.title">Visor Web-ZIP</h1>
+          <p class="header-subtitle" data-i18n="header.subtitle">Comparte tus recursos educativos desde tu almacenamiento favorito en la nube.</p>
+        </div>
+        <div class="title-actions">
+          <div class="lang-switch">
+            <label for="lang-select" class="sr-only" data-i18n="lang.label">Idioma</label>
+            <select id="lang-select" data-lang-select>
+              <option value="es" data-i18n="lang.es">Español</option>
+              <option value="ca" data-i18n="lang.ca">Català</option>
+              <option value="gl" data-i18n="lang.gl">Galego</option>
+              <option value="eu" data-i18n="lang.eu">Euskara</option>
+              <option value="en" data-i18n="lang.en">English</option>
+              <option value="de" data-i18n="lang.de">Deutsch</option>
+            </select>
+          </div>
+          <button class="help-pill" type="button" data-about-open data-i18n-aria-label="header.help">
+            <span class="help-pill__icon">?</span>
+            <span class="help-pill__tooltip" role="tooltip" data-i18n="header.help">Ayuda</span>
+          </button>
+        </div>
       </div>
-      <p data-i18n="header.subtitle">Comparte tus recursos educativos desde tu almacenamiento favorito en la nube.</p>
     </header>
 
     <div class="tabs" role="tablist" aria-label="Secciones" data-i18n-aria-label="tabs.label">
