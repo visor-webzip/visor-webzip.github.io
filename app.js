@@ -100,6 +100,10 @@
           summary: '¿Qué es un ZIP?',
           bodyHtml: 'Un <strong>ZIP</strong> es un archivo comprimido que agrupa varios archivos (y carpetas) en uno solo. Para usarlo, normalmente se descomprime al abrirlo.'
         },
+        htmlHelp: {
+          summary: '¿Qué es el HTML y dónde lo obtengo?',
+          bodyHtml: 'El <strong>HTML</strong> es el código de una página web. Si una IA te crea una web, normalmente te da el código y un botón de “Copiar” para copiarlo. En muchos proyectos el archivo principal es <code>index.html</code> y se abre por defecto (normalmente el de la carpeta principal).'
+        },
         choice: {
           zipper: {
             title: 'Crea un ZIP',
@@ -353,6 +357,10 @@
         zipHelp: {
           summary: 'Què és un ZIP?',
           bodyHtml: 'Un <strong>ZIP</strong> és un fitxer comprimit que agrupa diversos fitxers (i carpetes) en un de sol. Per fer-lo servir, normalment es descomprimeix en obrir-lo.'
+        },
+        htmlHelp: {
+          summary: 'Què és l’HTML i d’on l’obtinc?',
+          bodyHtml: 'L’<strong>HTML</strong> és el codi d’una pàgina web. Si una IA et crea una web, normalment et dona el codi i un botó de “Copiar” per copiar-lo. En molts projectes el fitxer principal és <code>index.html</code> i s’obre per defecte (normalment el de la carpeta principal).'
         },
         choice: {
           zipper: {
@@ -608,6 +616,10 @@
           summary: 'Que é un ZIP?',
           bodyHtml: 'Un <strong>ZIP</strong> é un ficheiro comprimido que agrupa varios ficheiros (e cartafoles) nun só. Para usalo, normalmente descomprímese ao abrilo.'
         },
+        htmlHelp: {
+          summary: 'Que é o HTML e onde o consigo?',
+          bodyHtml: 'O <strong>HTML</strong> é o código dunha páxina web. Se unha IA che crea unha web, normalmente dálle o código e un botón de “Copiar” para copialo. En moitos proxectos o ficheiro principal é <code>index.html</code> e ábrese por defecto (normalmente o do cartafol principal).'
+        },
         choice: {
           zipper: {
             title: 'Crear un ZIP',
@@ -861,6 +873,10 @@
         zipHelp: {
           summary: 'Zer da ZIP bat?',
           bodyHtml: '<strong>ZIP</strong> bat fitxategi konprimatua da: hainbat fitxategi (eta karpeta) fitxategi bakarrean biltzen ditu. Erabiltzeko, normalean deskonprimatu egiten da irekitzean.'
+        },
+        htmlHelp: {
+          summary: 'Zer da HTMLa eta non lortzen dut?',
+          bodyHtml: '<strong>HTML</strong>a web-orri baten kodea da. IA batek web bat sortzen badizu, normalean kodea eta “Kopiatu” botoia ematen dizu kopiatzeko. Proiektu askotan fitxategi nagusia <code>index.html</code> da eta lehenetsita irekitzen da (normalean karpeta nagusikoa).'
         },
         choice: {
           zipper: {
@@ -1116,6 +1132,10 @@
           summary: 'What is a ZIP?',
           bodyHtml: 'A <strong>ZIP</strong> is a compressed file that bundles multiple files (and folders) into one. To use it, you usually extract it when you open it.'
         },
+        htmlHelp: {
+          summary: 'What is HTML and where do I get it?',
+          bodyHtml: '<strong>HTML</strong> is the code of a web page. If an AI creates a website for you, it usually shows the code and a “Copy” button so you can copy it. In many projects the main file is <code>index.html</code> and it opens by default (usually the one in the top folder).'
+        },
         choice: {
           zipper: {
             title: 'Create a ZIP',
@@ -1369,6 +1389,10 @@
         zipHelp: {
           summary: 'Was ist eine ZIP-Datei?',
           bodyHtml: 'Eine <strong>ZIP</strong>-Datei ist ein komprimiertes Archiv, das mehrere Dateien (und Ordner) in einer Datei bündelt. Zum Verwenden wird sie beim Öffnen meist entpackt.'
+        },
+        htmlHelp: {
+          summary: 'Was ist HTML und woher bekomme ich es?',
+          bodyHtml: '<strong>HTML</strong> ist der Code einer Webseite. Wenn dir eine KI eine Webseite erstellt, zeigt sie meist den Code und eine Schaltfläche „Kopieren“, um ihn zu kopieren. In vielen Projekten heißt die Hauptdatei <code>index.html</code> und wird standardmäßig geöffnet (meist die im Hauptordner).'
         },
         choice: {
           zipper: {

@@ -483,6 +483,10 @@ textarea:focus-visible {
 
 .zip-explainer {
   margin-top: 10px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .zip-explainer__summary {
@@ -492,7 +496,7 @@ textarea:focus-visible {
   align-items: center;
   gap: 6px;
   color: var(--accent);
-  font-weight: 600;
+  font-weight: 400;
   font-size: 0.9rem;
   text-decoration: underline;
   text-decoration-color: rgba(37, 99, 235, 0.35);
