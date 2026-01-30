@@ -96,6 +96,10 @@
         title: 'Publicar un recurso',
         subtitle: 'Elige cómo quieres empezar. Puedes volver a esta elección cuando quieras.',
         back: 'Volver al inicio',
+        zipHelp: {
+          summary: '¿Qué es un ZIP?',
+          bodyHtml: 'Un <strong>ZIP</strong> es un archivo comprimido que agrupa varios archivos (y carpetas) en uno solo. Para usarlo, normalmente se descomprime al abrirlo.'
+        },
         choice: {
           zipper: {
             title: 'Crea un ZIP',
@@ -346,6 +350,10 @@
         title: 'Publicar un recurs',
         subtitle: 'Tria com vols començar. Pots tornar a aquesta elecció quan vulguis.',
         back: "Tornar a l'inici",
+        zipHelp: {
+          summary: 'Què és un ZIP?',
+          bodyHtml: 'Un <strong>ZIP</strong> és un fitxer comprimit que agrupa diversos fitxers (i carpetes) en un de sol. Per fer-lo servir, normalment es descomprimeix en obrir-lo.'
+        },
         choice: {
           zipper: {
             title: 'Crear un ZIP',
@@ -596,6 +604,10 @@
         title: 'Publicar un recurso',
         subtitle: 'Escolle como queres comezar. Podes volver a esta elección cando queiras.',
         back: 'Volver ao inicio',
+        zipHelp: {
+          summary: 'Que é un ZIP?',
+          bodyHtml: 'Un <strong>ZIP</strong> é un ficheiro comprimido que agrupa varios ficheiros (e cartafoles) nun só. Para usalo, normalmente descomprímese ao abrilo.'
+        },
         choice: {
           zipper: {
             title: 'Crear un ZIP',
@@ -846,6 +858,10 @@
         title: 'Baliabide bat argitaratu',
         subtitle: 'Aukeratu nola hasi nahi duzun. Nahi duzunean itzul zaitezke aukera honetara.',
         back: 'Hasierara itzuli',
+        zipHelp: {
+          summary: 'Zer da ZIP bat?',
+          bodyHtml: '<strong>ZIP</strong> bat fitxategi konprimatua da: hainbat fitxategi (eta karpeta) fitxategi bakarrean biltzen ditu. Erabiltzeko, normalean deskonprimatu egiten da irekitzean.'
+        },
         choice: {
           zipper: {
             title: 'ZIP bat sortu',
@@ -1096,6 +1112,10 @@
         title: 'Publish a resource',
         subtitle: 'Choose how you want to start. You can return to this choice anytime.',
         back: 'Back to start',
+        zipHelp: {
+          summary: 'What is a ZIP?',
+          bodyHtml: 'A <strong>ZIP</strong> is a compressed file that bundles multiple files (and folders) into one. To use it, you usually extract it when you open it.'
+        },
         choice: {
           zipper: {
             title: 'Create a ZIP',
@@ -1346,6 +1366,10 @@
         title: 'Ressource veröffentlichen',
         subtitle: 'Wähle, wie du starten möchtest. Du kannst jederzeit zu dieser Auswahl zurückkehren.',
         back: 'Zurück zum Start',
+        zipHelp: {
+          summary: 'Was ist eine ZIP-Datei?',
+          bodyHtml: 'Eine <strong>ZIP</strong>-Datei ist ein komprimiertes Archiv, das mehrere Dateien (und Ordner) in einer Datei bündelt. Zum Verwenden wird sie beim Öffnen meist entpackt.'
+        },
         choice: {
           zipper: {
             title: 'ZIP erstellen',
