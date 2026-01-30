@@ -128,6 +128,7 @@
             </div>
             <div class="actions">
               <button class="ghost-button" type="button" data-copy disabled data-i18n="main.output.copy">Copiar enlace</button>
+              <button class="ghost-button" type="button" data-embed disabled data-i18n="main.output.embed">Insertar en una web</button>
               <a class="open-link" data-open href="#" target="_blank" rel="noopener" aria-disabled="true" data-i18n="main.output.open">Abrir vista previa</a>
             </div>
           </div>
@@ -317,10 +318,28 @@
       </div>
     </div>
 
+    <div class="modal" data-embed-modal hidden>
+      <div class="modal__overlay" data-embed-close></div>
+      <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="embed-title">
+        <div class="modal__header">
+          <h2 id="embed-title" data-i18n="embed.title">Insertar en una web</h2>
+          <button class="modal__close" type="button" data-embed-close data-i18n-aria-label="common.close">×</button>
+        </div>
+        <div class="modal__content">
+          <p class="manager-subtitle" data-i18n="embed.subtitle">Copia y pega este código HTML en tu web. Incluye autoajuste de altura si la página permite scripts.</p>
+          <textarea class="embed-code-textarea" data-embed-code readonly></textarea>
+          <div class="html-picker__actions">
+            <button class="ghost-button" type="button" data-embed-close data-i18n="common.close">Cerrar</button>
+            <button type="button" data-embed-copy data-i18n="embed.copy">Copiar código</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <footer class="site-footer">
       <a class="footer-link" href="https://bilateria.org" target="_blank" rel="noopener">(c) 2026 Juan Jose de Haro</a>
       <span class="footer-sep">·</span>
-      <span class="footer-link">v1.2.3</span>
+      <span class="footer-link">v1.3.0</span>
       <span class="footer-sep">·</span>
       <a class="footer-link" href="https://github.com/visor-webzip/visor-webzip.github.io" target="_blank" rel="noopener">
         <svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
@@ -333,8 +352,19 @@
     </footer>
   </main>
 
+  <div class="embed-shell" data-embed-shell hidden>
+    <iframe class="embed-frame" data-embed-frame title="Contenido" allow="fullscreen"></iframe>
+    <div class="embed-fallback" data-embed-fallback hidden>
+      <div class="embed-fallback__card">
+        <h1 class="embed-fallback__title" data-i18n="embed.fallback.title">No se puede abrir incrustado</h1>
+        <p class="embed-fallback__subtitle" data-i18n="embed.fallback.subtitle">Tu navegador o la página donde se inserta está bloqueando el almacenamiento necesario. Abre el recurso en una pestaña nueva.</p>
+        <a class="open-link" data-embed-open-fallback href="#" target="_blank" rel="noopener" data-i18n="embed.fallback.open">Abrir en pestaña nueva</a>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
   <script src="config.js"></script>
-  <script src="app.js?v=14"></script>
-</body>
-</html>
+  <script src="app.js?v=16"></script>
+ </body>
+ </html>

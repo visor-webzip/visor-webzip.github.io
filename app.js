@@ -3,12 +3,21 @@
   var input = document.querySelector('[data-url]');
   var output = document.querySelector('[data-output]');
   var copyButton = document.querySelector('[data-copy]');
+  var embedButton = document.querySelector('[data-embed]');
   var openLink = document.querySelector('[data-open]');
   var stepThree = document.querySelector('[data-step-three]');
   var loadingScreen = document.querySelector('[data-loading]');
   var loadingMessage = document.querySelector('[data-loading-message]');
   var loadingBar = document.querySelector('[data-loading-bar]');
   var mainContent = document.querySelector('[data-main]');
+  var embedShell = document.querySelector('[data-embed-shell]');
+  var embedFrame = document.querySelector('[data-embed-frame]');
+  var embedFallback = document.querySelector('[data-embed-fallback]');
+  var embedOpenFallback = document.querySelector('[data-embed-open-fallback]');
+  var embedModal = document.querySelector('[data-embed-modal]');
+  var embedCode = document.querySelector('[data-embed-code]');
+  var embedCopyButton = document.querySelector('[data-embed-copy]');
+  var embedCloseButtons = document.querySelectorAll('[data-embed-close]');
   var aboutOpen = document.querySelector('[data-about-open]');
   var aboutModal = document.querySelector('[data-about-modal]');
   var aboutCloseButtons = document.querySelectorAll('[data-about-close]');
@@ -48,6 +57,7 @@
   var managerSortSelect = document.querySelector('[data-manager-sort]');
 
   var currentShareLink = '';
+  var currentZipUrl = '';
   var loadingActive = false;
   var progressTimer = null;
   var selectedFiles = [];
@@ -59,6 +69,10 @@
   var inlineToastTimer = null;
   var activeTitleEdit = null;
   var activePublishModule = '';
+  var isEmbedMode = false;
+  var currentEmbedId = '';
+  var embedHeightTimer = null;
+  var lastEmbedHeight = 0;
 
   var DB_NAME = 'visor-web-sites';
   var DB_VERSION = 1;
@@ -131,6 +145,7 @@
           step: 'Copia el enlace o abre la vista previa.',
           placeholder: 'Enlace para compartir',
           copy: 'Copiar enlace',
+          embed: 'Insertar en una web',
           open: 'Abrir vista previa'
         }
       },
@@ -181,6 +196,7 @@
         actions: {
           view: 'Ver',
           share: 'Compartir',
+          embed: 'Insertar en una web',
           edit: 'Editar',
           download: 'Descargar ZIP'
         },
@@ -259,6 +275,16 @@
         title: 'Elige el HTML inicial',
         subtitle: 'No se encontró un index.html. Selecciona el archivo HTML que quieres abrir primero.',
         confirm: 'Usar este HTML'
+      },
+      embed: {
+        title: 'Insertar en una web',
+        subtitle: 'Copia y pega este código HTML en tu web. Incluye autoajuste de altura si la página permite scripts.',
+        copy: 'Copiar código',
+        fallback: {
+          title: 'No se puede abrir incrustado',
+          subtitle: 'Tu navegador o la página donde se inserta está bloqueando el almacenamiento necesario. Abre el recurso en una pestaña nueva.',
+          open: 'Abrir en pestaña nueva'
+        }
       },
       about: {
         title: '¿Qué hace este visor?',
@@ -389,6 +415,7 @@
           step: 'Copia l’enllaç o obre la vista prèvia.',
           placeholder: 'Enllaç per compartir',
           copy: 'Copiar enllaç',
+          embed: 'Inserir en una web',
           open: 'Obrir vista prèvia'
         }
       },
@@ -439,6 +466,7 @@
         actions: {
           view: 'Veure',
           share: 'Compartir',
+          embed: 'Inserir en una web',
           edit: 'Editar',
           download: 'Descarregar ZIP'
         },
@@ -517,6 +545,16 @@
         title: 'Tria l’HTML inicial',
         subtitle: 'No s’ha trobat un index.html. Selecciona el fitxer HTML que vols obrir primer.',
         confirm: 'Fes servir aquest HTML'
+      },
+      embed: {
+        title: 'Inserir en una web',
+        subtitle: 'Copia i enganxa aquest codi HTML a la teva web. Inclou autoajust d’alçada si la pàgina permet scripts.',
+        copy: 'Copiar codi',
+        fallback: {
+          title: 'No es pot obrir incrustat',
+          subtitle: 'El teu navegador o la pàgina on s’insereix està bloquejant l’emmagatzematge necessari. Obre el recurs en una pestanya nova.',
+          open: 'Obrir en una pestanya nova'
+        }
       },
       about: {
         title: 'Què fa aquest visor?',
@@ -647,6 +685,7 @@
           step: 'Copia a ligazón ou abre a vista previa.',
           placeholder: 'Ligazón para compartir',
           copy: 'Copiar ligazón',
+          embed: 'Inserir nunha web',
           open: 'Abrir vista previa'
         }
       },
@@ -697,6 +736,7 @@
         actions: {
           view: 'Ver',
           share: 'Compartir',
+          embed: 'Inserir nunha web',
           edit: 'Editar',
           download: 'Descargar ZIP'
         },
@@ -775,6 +815,16 @@
         title: 'Escolle o HTML inicial',
         subtitle: 'Non se atopou un index.html. Selecciona o ficheiro HTML que queres abrir primeiro.',
         confirm: 'Usar este HTML'
+      },
+      embed: {
+        title: 'Inserir nunha web',
+        subtitle: 'Copia e pega este código HTML na túa web. Inclúe autoaxuste de altura se a páxina permite scripts.',
+        copy: 'Copiar código',
+        fallback: {
+          title: 'Non se pode abrir incrustado',
+          subtitle: 'O teu navegador ou a páxina onde se insire está bloqueando o almacenamento necesario. Abre o recurso nunha nova lapela.',
+          open: 'Abrir nunha nova lapela'
+        }
       },
       about: {
         title: 'Que fai este visor?',
@@ -905,6 +955,7 @@
           step: 'Kopiatu esteka edo ireki aurrebista.',
           placeholder: 'Partekatze esteka',
           copy: 'Esteka kopiatu',
+          embed: 'Web batean txertatu',
           open: 'Aurrebista ireki'
         }
       },
@@ -955,6 +1006,7 @@
         actions: {
           view: 'Ikusi',
           share: 'Partekatu',
+          embed: 'Web batean txertatu',
           edit: 'Editatu',
           download: 'ZIPa deskargatu'
         },
@@ -1033,6 +1085,16 @@
         title: 'Aukeratu hasierako HTMLa',
         subtitle: 'Ez da index.html aurkitu. Hautatu lehenik ireki nahi duzun HTML fitxategia.',
         confirm: 'Erabili HTML hau'
+      },
+      embed: {
+        title: 'Web batean txertatu',
+        subtitle: 'Kopiatu eta itsatsi HTML kode hau zure webgunean. Altuera automatikoki egokitzen du orriak scriptak onartzen baditu.',
+        copy: 'Kodea kopiatu',
+        fallback: {
+          title: 'Ezin da txertatuta ireki',
+          subtitle: 'Zure nabigatzailea edo txertatzen den orria beharrezko biltegiratzea blokeatzen ari da. Ireki baliabidea fitxa berri batean.',
+          open: 'Fitxa berri batean ireki'
+        }
       },
       about: {
         title: 'Zer egiten du bisore honek?',
@@ -1163,6 +1225,7 @@
           step: 'Copy the link or open the preview.',
           placeholder: 'Shareable link',
           copy: 'Copy link',
+          embed: 'Embed in a website',
           open: 'Open preview'
         }
       },
@@ -1213,6 +1276,7 @@
         actions: {
           view: 'View',
           share: 'Share',
+          embed: 'Embed in a website',
           edit: 'Edit',
           download: 'Download ZIP'
         },
@@ -1291,6 +1355,16 @@
         title: 'Choose the initial HTML',
         subtitle: 'index.html was not found. Select the HTML file you want to open first.',
         confirm: 'Use this HTML'
+      },
+      embed: {
+        title: 'Embed in a website',
+        subtitle: 'Copy and paste this HTML code into your website. It includes auto height resizing if the page allows scripts.',
+        copy: 'Copy code',
+        fallback: {
+          title: 'Cannot open embedded',
+          subtitle: 'Your browser or the host page is blocking the required storage. Open the resource in a new tab.',
+          open: 'Open in a new tab'
+        }
       },
       about: {
         title: 'What does this viewer do?',
@@ -1421,6 +1495,7 @@
           step: 'Kopiere den Link oder öffne die Vorschau.',
           placeholder: 'Link zum Teilen',
           copy: 'Link kopieren',
+          embed: 'In Website einbetten',
           open: 'Vorschau öffnen'
         }
       },
@@ -1471,6 +1546,7 @@
         actions: {
           view: 'Ansehen',
           share: 'Teilen',
+          embed: 'In eine Website einbetten',
           edit: 'Bearbeiten',
           download: 'ZIP herunterladen'
         },
@@ -1549,6 +1625,16 @@
         title: 'Start-HTML auswählen',
         subtitle: 'index.html wurde nicht gefunden. Wähle die HTML-Datei, die zuerst geöffnet werden soll.',
         confirm: 'Dieses HTML verwenden'
+      },
+      embed: {
+        title: 'In Website einbetten',
+        subtitle: 'Kopiere diesen HTML-Code und füge ihn in deine Website ein. Er enthält eine automatische Höhenanpassung, wenn die Seite Skripte erlaubt.',
+        copy: 'Code kopieren',
+        fallback: {
+          title: 'Eingebettet nicht möglich',
+          subtitle: 'Dein Browser oder die Host-Seite blockiert den benötigten Speicher. Öffne die Ressource in einem neuen Tab.',
+          open: 'In neuem Tab öffnen'
+        }
       },
       about: {
         title: 'Was macht dieser Viewer?',
@@ -1947,11 +2033,14 @@
     if (copyButton) {
       copyButton.disabled = !link;
     }
+    if (embedButton) {
+      embedButton.disabled = !link;
+    }
     if (openLink) {
       openLink.href = link || '#';
       openLink.setAttribute('aria-disabled', link ? 'false' : 'true');
     }
-    if (link && stepThree) {
+    if (link && stepThree && !isEmbedMode) {
       stepThree.scrollIntoView({ behavior: 'smooth', block: 'center' });
       stepThree.setAttribute('tabindex', '-1');
       stepThree.focus({ preventScroll: true });
@@ -2732,6 +2821,15 @@
       shareButton.setAttribute('data-tooltip', t('manager.actions.share'));
       shareButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="M8.6 10.7l6.8-3.4"></path><path d="M8.6 13.3l6.8 3.4"></path></svg>';
       actions.appendChild(shareButton);
+      var embedManagerButton = document.createElement('button');
+      embedManagerButton.type = 'button';
+      embedManagerButton.className = 'icon-button';
+      embedManagerButton.setAttribute('data-action', 'embed');
+      embedManagerButton.setAttribute('data-zip-url', site.url || '');
+      embedManagerButton.setAttribute('aria-label', t('manager.actions.embed'));
+      embedManagerButton.setAttribute('data-tooltip', t('manager.actions.embed'));
+      embedManagerButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M16 18l6-6-6-6"></path><path d="M8 6l-6 6 6 6"></path><path d="M14 4l-4 16"></path></svg>';
+      actions.appendChild(embedManagerButton);
       var editButton = document.createElement('button');
       editButton.type = 'button';
       editButton.className = 'icon-button';
@@ -2907,12 +3005,197 @@
     return base;
   }
 
+  function createEmbedId() {
+    return 'vwz-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7);
+  }
+
+  function buildEmbedLink(zipUrl, embedId) {
+    var base = appBase() + '?url=' + encodeURIComponent(zipUrl) + '&embed=1';
+    if (embedId) {
+      base += '&embedId=' + encodeURIComponent(embedId);
+    }
+    return base;
+  }
+
+  function buildEmbedSnippet(zipUrl) {
+    var embedId = createEmbedId();
+    var iframeId = 'visor-webzip-' + embedId;
+    var src = buildEmbedLink(zipUrl, embedId);
+    var origin = window.location.origin;
+    return '<iframe id="' + iframeId + '" src="' + src + '" style="width:100%;height:80vh;border:0" loading="lazy" allow="fullscreen"></iframe>\n'
+      + '<script>\n'
+      + '(function(){\n'
+      + '  var iframe=document.getElementById(' + JSON.stringify(iframeId) + ');\n'
+      + '  if(!iframe) return;\n'
+      + '  window.addEventListener(\"message\", function(event){\n'
+      + '    if(event.origin!==' + JSON.stringify(origin) + ') return;\n'
+      + '    var data=event.data||{};\n'
+      + '    if(data.type!==\"visor-webzip:height\") return;\n'
+      + '    if(data.embedId!==' + JSON.stringify(embedId) + ') return;\n'
+      + '    var height=Number(data.height)||0;\n'
+      + '    if(height>0) iframe.style.height=height+\"px\";\n'
+      + '  }, false);\n'
+      + '})();\n'
+      + '</script>';
+  }
+
   function buildSiteUrl(siteId, indexPath) {
     var base = appBase() + 'site/' + siteId + '/';
     if (indexPath) {
       return base + encodeURI(indexPath);
     }
     return base;
+  }
+
+  function closeEmbedModal() {
+    if (!embedModal) return;
+    embedModal.setAttribute('hidden', '');
+  }
+
+  function openEmbedModalForZip(zipUrl) {
+    if (!embedModal || !embedCode || !zipUrl) return;
+    embedCode.value = buildEmbedSnippet(zipUrl);
+    embedModal.removeAttribute('hidden');
+    try {
+      embedCode.focus();
+      embedCode.select();
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  function setEmbedMode(enabled, embedId) {
+    isEmbedMode = !!enabled;
+    currentEmbedId = embedId || '';
+    if (!isEmbedMode) {
+      stopEmbedHeightTracking();
+    }
+    if (mainContent) {
+      if (isEmbedMode) {
+        mainContent.setAttribute('hidden', '');
+      } else {
+        mainContent.removeAttribute('hidden');
+      }
+    }
+    if (embedShell) {
+      if (isEmbedMode) {
+        embedShell.removeAttribute('hidden');
+      } else {
+        embedShell.setAttribute('hidden', '');
+      }
+    }
+  }
+
+  function postToParent(message) {
+    if (!isEmbedMode) return;
+    if (!currentEmbedId) return;
+    if (!window.parent || window.parent === window) return;
+    try {
+      window.parent.postMessage(message, '*');
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  function sendEmbedHeight(height) {
+    postToParent({
+      type: 'visor-webzip:height',
+      embedId: currentEmbedId,
+      height: height,
+      url: window.location.href
+    });
+  }
+
+  function sendEmbedReady(siteUrl) {
+    postToParent({
+      type: 'visor-webzip:ready',
+      embedId: currentEmbedId,
+      siteUrl: siteUrl || '',
+      url: window.location.href
+    });
+  }
+
+  function sendEmbedError(message) {
+    postToParent({
+      type: 'visor-webzip:error',
+      embedId: currentEmbedId,
+      message: message || '',
+      url: window.location.href
+    });
+  }
+
+  function stopEmbedHeightTracking() {
+    if (embedHeightTimer) {
+      clearInterval(embedHeightTimer);
+      embedHeightTimer = null;
+    }
+  }
+
+  function getEmbedContentHeight() {
+    if (!embedFrame) return 0;
+    try {
+      var doc = embedFrame.contentDocument;
+      if (!doc) return 0;
+      var body = doc.body;
+      var html = doc.documentElement;
+      var height = Math.max(
+        body ? body.scrollHeight : 0,
+        html ? html.scrollHeight : 0,
+        body ? body.offsetHeight : 0,
+        html ? html.offsetHeight : 0
+      );
+      return height || 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function startEmbedHeightTracking() {
+    if (!isEmbedMode) return;
+    stopEmbedHeightTracking();
+    lastEmbedHeight = 0;
+    embedHeightTimer = setInterval(function () {
+      var height = getEmbedContentHeight();
+      if (!height) return;
+      if (Math.abs(height - lastEmbedHeight) < 2) return;
+      lastEmbedHeight = height;
+      sendEmbedHeight(height);
+    }, 450);
+  }
+
+  function showEmbedFallback(zipUrl, message) {
+    if (embedFallback) {
+      embedFallback.removeAttribute('hidden');
+    }
+    if (embedOpenFallback) {
+      embedOpenFallback.href = buildShareLink(zipUrl, true);
+    }
+    if (message) {
+      sendEmbedError(message);
+    }
+    stopProgress();
+    setLoading(false);
+  }
+
+  function openEmbedSite(siteUrl) {
+    if (!embedFrame) return;
+    if (embedFallback) {
+      embedFallback.setAttribute('hidden', '');
+    }
+    setLoading(true);
+    embedFrame.onload = function () {
+      setLoading(false);
+      sendEmbedReady(siteUrl);
+      startEmbedHeightTracking();
+      setTimeout(function () {
+        var height = getEmbedContentHeight();
+        if (height) {
+          lastEmbedHeight = height;
+          sendEmbedHeight(height);
+        }
+      }, 60);
+    };
+    embedFrame.src = siteUrl;
   }
 
   function base64ToBytes(base64) {
@@ -3020,12 +3303,17 @@
         });
       })
       .then(function (result) {
+        currentZipUrl = effectiveZipUrl;
         var shareLink = buildShareLink(effectiveZipUrl, true);
         setShareLink(shareLink);
 
         if (result.cached && !opts.force) {
           var siteUrl = buildSiteUrl(result.siteId, result.site.indexPath);
           return controlPromise.then(function () {
+            if (opts.embed) {
+              openEmbedSite(siteUrl);
+              return { siteId: result.siteId, siteUrl: siteUrl };
+            }
             if (autoOpen) {
               setProgress(100);
               window.location.assign(siteUrl);
@@ -3124,6 +3412,10 @@
                   return saveFiles(files).then(function () {
                     var siteUrl = buildSiteUrl(result.siteId, indexPath);
                     return controlPromise.then(function () {
+                      if (opts.embed) {
+                        openEmbedSite(siteUrl);
+                        return { siteId: result.siteId, siteUrl: siteUrl };
+                      }
                       if (autoOpen) {
                         window.location.assign(siteUrl);
                       }
@@ -3146,8 +3438,14 @@
         setStatus(currentShareLink);
       })
       .catch(function (err) {
+        var message = formatUserError(err);
+        if (opts.embed) {
+          setShareLink('');
+          showEmbedFallback(effectiveZipUrl, message);
+          return;
+        }
         setShareLink('');
-        setStatus(formatUserError(err));
+        setStatus(message);
         if (autoOpen) {
           setLoading(false);
         }
@@ -3192,6 +3490,39 @@
         return;
       }
       copyText(currentShareLink);
+    });
+  }
+
+  if (embedButton) {
+    embedButton.addEventListener('click', function () {
+      if (!currentZipUrl) {
+        return;
+      }
+      openEmbedModalForZip(currentZipUrl);
+    });
+  }
+
+  if (embedModal) {
+    if (embedCloseButtons && embedCloseButtons.length) {
+      embedCloseButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          closeEmbedModal();
+        });
+      });
+    }
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        closeEmbedModal();
+      }
+    });
+  }
+
+  if (embedCopyButton) {
+    embedCopyButton.addEventListener('click', function () {
+      if (!embedCode || !embedCode.value) {
+        return;
+      }
+      copyText(embedCode.value, embedCopyButton);
     });
   }
 
@@ -3370,6 +3701,10 @@
         copyText(buildShareLink(zipUrl, true), button);
         return;
       }
+      if (action === 'embed' && zipUrl) {
+        copyText(buildEmbedSnippet(zipUrl), button);
+        return;
+      }
       if (action === 'download' && zipUrl) {
         var downloadUrl = normalizeZipUrl(zipUrl);
         window.open(downloadUrl, '_blank');
@@ -3468,11 +3803,21 @@
       input.value = urlParam;
     }
     var viewParam = (params.get('view') || '').toLowerCase();
+    var embedParam = (params.get('embed') || '').toLowerCase();
+    var embedActive = embedParam === '1' || embedParam === 'true' || embedParam === 'yes';
     var autoOpen = viewParam === 'full' || viewParam === '1';
-    setActiveTab('publish');
-    setPublishModule('main');
-    loadZip(urlParam, { force: false, autoOpen: autoOpen });
+    if (embedActive) {
+      var embedIdParam = params.get('embedId') || '';
+      setEmbedMode(true, embedIdParam);
+      loadZip(urlParam, { force: false, autoOpen: false, embed: true, embedId: embedIdParam });
+    } else {
+      setEmbedMode(false, '');
+      setActiveTab('publish');
+      setPublishModule('main');
+      loadZip(urlParam, { force: false, autoOpen: autoOpen });
+    }
   } else {
+    setEmbedMode(false, '');
     setPublishModule('');
     setLoading(false);
   }
