@@ -71,7 +71,7 @@
                   <path d="M12 5v14m-7-7h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
               </span>
-              <span class="publish-choice-card__title" data-i18n="publish.choice.zipper.title">Crear un ZIP</span>
+              <span class="publish-choice-card__title" data-i18n="publish.choice.zipper.title">Crea un ZIP</span>
               <span class="publish-choice-card__note" data-i18n="publish.choice.zipper.note">Empieza creando un ZIP desde tus archivos o desde HTML.</span>
             </button>
             <button class="publish-choice-card" type="button" data-publish-start="main">
@@ -89,7 +89,14 @@
 
         <div class="publish-module" data-publish-module="main" hidden>
           <div class="publish-module__nav">
-            <button class="publish-back" type="button" data-publish-back data-i18n="publish.back">Cambiar punto de partida</button>
+            <button class="publish-back" type="button" data-publish-back>
+              <span class="publish-back__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span class="publish-back__label" data-i18n="publish.back">Volver al inicio</span>
+            </button>
           </div>
           <p class="manager-subtitle" data-i18n="main.subtitle">Si ya tienes tu recurso en formato ZIP en un servicio con enlace público (Drive, Dropbox, etc.), pega aquí el enlace para generar el enlace del visor.</p>
           <form data-form>
@@ -114,7 +121,14 @@
 
         <div class="publish-module" data-publish-module="zipper" hidden>
           <div class="publish-module__nav">
-            <button class="publish-back" type="button" data-publish-back data-i18n="publish.back">Cambiar punto de partida</button>
+            <button class="publish-back" type="button" data-publish-back>
+              <span class="publish-back__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span class="publish-back__label" data-i18n="publish.back">Volver al inicio</span>
+            </button>
           </div>
           <div class="manager-card">
             <div class="manager-header">
@@ -292,7 +306,7 @@
     <footer class="site-footer">
       <a class="footer-link" href="https://bilateria.org" target="_blank" rel="noopener">(c) 2026 Juan Jose de Haro</a>
       <span class="footer-sep">·</span>
-      <span class="footer-link">v1.2.0</span>
+      <span class="footer-link">v1.2.1</span>
       <span class="footer-sep">·</span>
       <a class="footer-link" href="https://github.com/visor-webzip/visor-webzip.github.io" target="_blank" rel="noopener">
         <svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
@@ -307,6 +321,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
   <script src="config.js"></script>
-  <script src="app.js?v=10"></script>
+  <script src="app.js?v=12"></script>
 </body>
 </html>

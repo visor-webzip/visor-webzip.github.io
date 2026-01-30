@@ -499,6 +499,7 @@ textarea:focus-visible {
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto auto;
+  font-weight: 400;
   gap: 6px;
   cursor: pointer;
   transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
@@ -545,6 +546,7 @@ textarea:focus-visible {
 .publish-choice-card__note {
   font-size: 0.95rem;
   color: var(--ink-muted);
+  font-weight: 400;
   line-height: 1.35;
 }
 
@@ -552,19 +554,45 @@ textarea:focus-visible {
   appearance: none;
   border: none;
   background: transparent;
-  color: var(--ink-muted);
+  color: var(--accent);
   padding: 4px 8px;
   font-size: 0.85rem;
   font-weight: 600;
   box-shadow: none;
   border-radius: 10px;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: underline;
+  text-decoration-color: rgba(37, 99, 235, 0.35);
+  text-underline-offset: 3px;
+}
+
+.publish-back__icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-muted);
+}
+
+.publish-back__icon svg {
+  width: 18px;
+  height: 18px;
 }
 
 .publish-back:hover,
 .publish-back:focus-visible {
-  color: var(--accent);
+  color: var(--accent-strong);
   background: var(--accent-wash);
+  text-decoration-color: rgba(29, 78, 216, 0.5);
+}
+
+.publish-back:hover .publish-back__icon,
+.publish-back:focus-visible .publish-back__icon {
+  color: var(--accent);
 }
 
 .publish-back:active {
@@ -1167,7 +1195,7 @@ textarea:focus-visible {
   z-index: 1100;
   display: grid;
   place-items: center;
-  padding: 24px;
+  padding: 32px;
 }
 
 .modal__overlay {
@@ -1179,13 +1207,13 @@ textarea:focus-visible {
 .modal__card {
   position: relative;
   z-index: 1;
-  width: min(640px, 92vw);
+  width: min(980px, 96vw);
   background: var(--surface);
   border-radius: 20px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
-  padding: 24px;
-  max-height: calc(100vh - 48px);
+  padding: 26px 30px;
+  max-height: min(820px, calc(100vh - 128px));
   overflow: auto;
 }
 
@@ -1237,6 +1265,21 @@ textarea:focus-visible {
 .about-guide {
   display: grid;
   gap: 14px;
+}
+
+.about-guide > p {
+  margin: 0;
+}
+
+.about-guide > :first-child {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 920px) {
+  .about-guide {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
 }
 
 .about-section {

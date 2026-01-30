@@ -95,10 +95,10 @@
       publish: {
         title: 'Publicar un recurso',
         subtitle: 'Elige cómo quieres empezar. Puedes volver a esta elección cuando quieras.',
-        back: 'Cambiar punto de partida',
+        back: 'Volver al inicio',
         choice: {
           zipper: {
-            title: 'Crear un ZIP',
+            title: 'Crea un ZIP',
             note: 'Empieza creando un ZIP desde tus archivos o desde HTML.'
           },
           main: {
@@ -345,7 +345,7 @@
       publish: {
         title: 'Publicar un recurs',
         subtitle: 'Tria com vols començar. Pots tornar a aquesta elecció quan vulguis.',
-        back: 'Canviar punt de partida',
+        back: "Tornar a l'inici",
         choice: {
           zipper: {
             title: 'Crear un ZIP',
@@ -530,12 +530,12 @@
           title: 'Important sobre Google Drive',
           note: 'Google Drive limita la descàrrega directa d’arxius grans (aprox. 25 MB). Si el teu ZIP supera aquesta mida, pot fallar. Dropbox, Nextcloud i altres serveis solen permetre fitxers més grans sense aquest límit.'
         },
-        body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
-          + '<div class="about-section"><h3>Publicar</h3><ul><li><strong>Crear un ZIP</strong>: crea y descarga un ZIP desde tus archivos o pegando HTML.</li><li><strong>Ya tengo un ZIP</strong>: pega el enlace público al ZIP y pulsa "Crear enlace" para obtener el enlace del visor.</li><li>Opcional: copia el enlace o abre la vista previa.</li></ul></div>'
-          + '<div class="about-section"><h3>Crear un ZIP</h3><ul><li><strong>¿No tienes archivos? Pega el HTML</strong>: pega el HTML completo y se creará un ZIP con <code>index.html</code>.</li><li><strong>¿Tienes archivos? Crea el ZIP</strong>: arrastra la carpeta o los archivos y pulsa "Crear y descargar ZIP".</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>Ya tengo un ZIP</h3><ul><li>Pega el enlace público del ZIP.</li><li>Pulsa "Crear enlace" y copia el resultado o abre la vista previa.</li></ul></div>'
-          + '<div class="about-section"><h3>Gestor de recursos</h3><ul><li>Aquí puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Descargar</strong> baja el ZIP original.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
-          + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
+        body: '<p>Aquest visor genera enllaços permanents a recursos educatius en format web allotjats en serveis d’emmagatzematge al núvol com Google Drive o Dropbox, facilitant-ne la publicació i l’accés per part de l’alumnat.</p>'
+          + '<div class="about-section"><h3>Publicar</h3><ul><li><strong>Crear un ZIP</strong>: crea i descarrega un ZIP des dels teus fitxers o enganxant HTML.</li><li><strong>Ja tinc un ZIP</strong>: enganxa l’enllaç públic al ZIP i prem “Crear enllaç” per obtenir l’enllaç del visor.</li><li>Opcional: copia l’enllaç o obre la vista prèvia.</li></ul></div>'
+          + '<div class="about-section"><h3>Crear un ZIP</h3><ul><li><strong>No tens fitxers? Enganxa l’HTML</strong>: enganxa l’HTML complet i es crearà un ZIP amb <code>index.html</code>.</li><li><strong>Tens fitxers? Crea el ZIP</strong>: arrossega la carpeta o els fitxers i prem “Crear i descarregar ZIP”.</li><li>Si no hi ha <code>index.html</code>, el visor et demanarà quin HTML obrir primer.</li></ul></div>'
+          + '<div class="about-section"><h3>Ja tinc un ZIP</h3><ul><li>Enganxa l’enllaç públic del ZIP.</li><li>Prem “Crear enllaç” i copia el resultat o obre la vista prèvia.</li></ul></div>'
+          + '<div class="about-section"><h3>Gestor de recursos</h3><ul><li>Aquí pots veure i gestionar els recursos que has obert des d’aquest navegador.</li><li><strong>Veure</strong> obre el recurs desat.</li><li><strong>Compartir</strong> copia l’enllaç del visor (pantalla completa).</li><li><strong>Editar</strong> canvia el títol.</li><li><strong>Descarregar</strong> baixa el ZIP original.</li><li><strong>Eliminar</strong> esborra el recurs del navegador.</li></ul></div>'
+          + '<div class="about-section"><h3>Què funciona i què pot fallar</h3><ul><li>Funciona amb webs estàtiques (HTML, CSS, imatges, àudio, vídeo, PDF...).</li><li>No funciona amb webs que requereixen servidor (formularis amb BD, PHP, etc.).</li><li>Google Drive limita les descàrregues directes d’arxius grans (~25 MB).</li></ul></div>'
       },
       error: {
         driveTooLarge: 'El fitxer és massa gran i Google Drive limita les descàrregues.',
@@ -595,7 +595,7 @@
       publish: {
         title: 'Publicar un recurso',
         subtitle: 'Escolle como queres comezar. Podes volver a esta elección cando queiras.',
-        back: 'Cambiar punto de partida',
+        back: 'Volver ao inicio',
         choice: {
           zipper: {
             title: 'Crear un ZIP',
@@ -780,12 +780,12 @@
           title: 'Importante sobre Google Drive',
           note: 'Google Drive limita a descarga directa de ficheiros grandes (aprox. 25 MB). Se o teu ZIP supera ese tamaño, pode fallar. Dropbox, Nextcloud e outros servizos adoitan permitir ficheiros máis grandes sen ese límite.'
         },
-        body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
-          + '<div class="about-section"><h3>Publicar</h3><ul><li><strong>Crear un ZIP</strong>: crea y descarga un ZIP desde tus archivos o pegando HTML.</li><li><strong>Ya tengo un ZIP</strong>: pega el enlace público al ZIP y pulsa "Crear enlace" para obtener el enlace del visor.</li><li>Opcional: copia el enlace o abre la vista previa.</li></ul></div>'
-          + '<div class="about-section"><h3>Crear un ZIP</h3><ul><li><strong>¿No tienes archivos? Pega el HTML</strong>: pega el HTML completo y se creará un ZIP con <code>index.html</code>.</li><li><strong>¿Tienes archivos? Crea el ZIP</strong>: arrastra la carpeta o los archivos y pulsa "Crear y descargar ZIP".</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>Ya tengo un ZIP</h3><ul><li>Pega el enlace público del ZIP.</li><li>Pulsa "Crear enlace" y copia el resultado o abre la vista previa.</li></ul></div>'
-          + '<div class="about-section"><h3>Gestor de recursos</h3><ul><li>Aquí puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Descargar</strong> baja el ZIP original.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
-          + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
+        body: '<p>Este visor xera ligazóns permanentes a recursos educativos en formato web almacenados en servizos de almacenamento na nube como Google Drive ou Dropbox, facilitando a súa publicación e o acceso por parte do alumnado.</p>'
+          + '<div class="about-section"><h3>Publicar</h3><ul><li><strong>Crear un ZIP</strong>: crea e descarga un ZIP desde os teus ficheiros ou pegando HTML.</li><li><strong>Xa teño un ZIP</strong>: pega a ligazón pública ao ZIP e preme “Crear ligazón” para obter a ligazón do visor.</li><li>Opcional: copia a ligazón ou abre a vista previa.</li></ul></div>'
+          + '<div class="about-section"><h3>Crear un ZIP</h3><ul><li><strong>Non tes ficheiros? Pega o HTML</strong>: pega o HTML completo e crearase un ZIP con <code>index.html</code>.</li><li><strong>Tes ficheiros? Crea o ZIP</strong>: arrastra o cartafol ou os ficheiros e preme “Crear e descargar ZIP”.</li><li>Se non hai <code>index.html</code>, o visor pedirache que HTML abrir primeiro.</li></ul></div>'
+          + '<div class="about-section"><h3>Xa teño un ZIP</h3><ul><li>Pega a ligazón pública do ZIP.</li><li>Preme “Crear ligazón” e copia o resultado ou abre a vista previa.</li></ul></div>'
+          + '<div class="about-section"><h3>Xestor de recursos</h3><ul><li>Aquí podes ver e xestionar os recursos que abríches desde este navegador.</li><li><strong>Ver</strong> abre o recurso gardado.</li><li><strong>Compartir</strong> copia a ligazón do visor (pantalla completa).</li><li><strong>Editar</strong> cambia o título.</li><li><strong>Descargar</strong> baixa o ZIP orixinal.</li><li><strong>Eliminar</strong> borra o recurso do navegador.</li></ul></div>'
+          + '<div class="about-section"><h3>Que funciona e que pode fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imaxes, audio, vídeo, PDF...).</li><li>Non funciona con webs que requiren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de ficheiros grandes (~25 MB).</li></ul></div>'
       },
       error: {
         driveTooLarge: 'O ficheiro é demasiado grande e Google Drive limita as descargas.',
@@ -845,7 +845,7 @@
       publish: {
         title: 'Baliabide bat argitaratu',
         subtitle: 'Aukeratu nola hasi nahi duzun. Nahi duzunean itzul zaitezke aukera honetara.',
-        back: 'Hasierako aukera aldatu',
+        back: 'Hasierara itzuli',
         choice: {
           zipper: {
             title: 'ZIP bat sortu',
@@ -1030,12 +1030,12 @@
           title: 'Google Drive-ri buruzko oharra',
           note: 'Google Drivek fitxategi handien deskarga zuzena mugatzen du (gutxi gorabehera 25 MB). Zure ZIPak tamaina hori gainditzen badu, huts egin dezake. Dropbox, Nextcloud eta beste zerbitzu batzuek, normalean, handiagoak onartzen dituzte muga horik gabe.'
         },
-        body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
-          + '<div class="about-section"><h3>Publicar</h3><ul><li><strong>Crear un ZIP</strong>: crea y descarga un ZIP desde tus archivos o pegando HTML.</li><li><strong>Ya tengo un ZIP</strong>: pega el enlace público al ZIP y pulsa "Crear enlace" para obtener el enlace del visor.</li><li>Opcional: copia el enlace o abre la vista previa.</li></ul></div>'
-          + '<div class="about-section"><h3>Crear un ZIP</h3><ul><li><strong>¿No tienes archivos? Pega el HTML</strong>: pega el HTML completo y se creará un ZIP con <code>index.html</code>.</li><li><strong>¿Tienes archivos? Crea el ZIP</strong>: arrastra la carpeta o los archivos y pulsa "Crear y descargar ZIP".</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>Ya tengo un ZIP</h3><ul><li>Pega el enlace público del ZIP.</li><li>Pulsa "Crear enlace" y copia el resultado o abre la vista previa.</li></ul></div>'
-          + '<div class="about-section"><h3>Gestor de recursos</h3><ul><li>Aquí puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Descargar</strong> baja el ZIP original.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
-          + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
+        body: '<p>Bisore honek hezkuntza-baliabideak web formatuan (Google Drive edo Dropbox bezalako hodei-zerbitzuetan) partekatzeko esteka iraunkorrak sortzen ditu, ikasleek errazago eskuratu ditzaten.</p>'
+          + '<div class="about-section"><h3>Argitaratu</h3><ul><li><strong>ZIP bat sortu</strong>: sortu eta deskargatu ZIP bat zure fitxategietatik edo HTMLa itsatsita.</li><li><strong>ZIP bat badaukat</strong>: itsatsi ZIParen esteka publikoa eta sakatu “Esteka sortu” bisorearen esteka lortzeko.</li><li>Aukerakoa: kopiatu esteka edo ireki aurrebista.</li></ul></div>'
+          + '<div class="about-section"><h3>ZIP bat sortu</h3><ul><li><strong>Ez duzu fitxategirik? Itsatsi HTMLa</strong>: itsatsi HTML osoa eta ZIP bat sortuko da <code>index.html</code>arekin.</li><li><strong>Fitxategiak dituzu? Sortu ZIPa</strong>: arrastatu karpeta edo fitxategiak eta sakatu “Sortu eta deskargatu ZIPa”.</li><li><code>index.html</code> ez badago, bisoreak lehenik zein HTML ireki galdetuko dizu.</li></ul></div>'
+          + '<div class="about-section"><h3>ZIP bat badaukat</h3><ul><li>Itsatsi ZIParen esteka publikoa.</li><li>Sakatu “Esteka sortu” eta kopiatu emaitza edo ireki aurrebista.</li></ul></div>'
+          + '<div class="about-section"><h3>Baliabide kudeatzailea</h3><ul><li>Hemen nabigatzaile honetan irekitako baliabideak ikusi eta kudeatu ditzakezu.</li><li><strong>Ikusi</strong> gordetako baliabidea irekitzen du.</li><li><strong>Partekatu</strong> bisorearen esteka kopiatzen du (pantaila osoa).</li><li><strong>Editatu</strong> izenburua aldatzen du.</li><li><strong>Deskargatu</strong> jatorrizko ZIPa jaisten du.</li><li><strong>Ezabatu</strong> baliabidea nabigatzailetik kentzen du.</li></ul></div>'
+          + '<div class="about-section"><h3>Zer dabil eta zer huts egin dezake</h3><ul><li>Web estatikoekin dabil (HTML, CSS, irudiak, audioa, bideoa, PDF...).</li><li>Ez dabil zerbitzaria behar duten webekin (DBko formularioak, PHP, etab.).</li><li>Google Drivek fitxategi handien deskarga zuzena mugatzen du (~25 MB).</li></ul></div>'
       },
       error: {
         driveTooLarge: 'Fitxategia handiegia da eta Google Drivek deskargak mugatzen ditu.',
@@ -1095,7 +1095,7 @@
       publish: {
         title: 'Publish a resource',
         subtitle: 'Choose how you want to start. You can return to this choice anytime.',
-        back: 'Change starting point',
+        back: 'Back to start',
         choice: {
           zipper: {
             title: 'Create a ZIP',
@@ -1280,12 +1280,12 @@
           title: 'Important about Google Drive',
           note: 'Google Drive limits direct downloads of large files (approx. 25 MB). If your ZIP exceeds that size, it may fail. Dropbox, Nextcloud and other services usually allow larger files without that limit.'
         },
-        body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
-          + '<div class="about-section"><h3>Publicar</h3><ul><li><strong>Crear un ZIP</strong>: crea y descarga un ZIP desde tus archivos o pegando HTML.</li><li><strong>Ya tengo un ZIP</strong>: pega el enlace público al ZIP y pulsa "Crear enlace" para obtener el enlace del visor.</li><li>Opcional: copia el enlace o abre la vista previa.</li></ul></div>'
-          + '<div class="about-section"><h3>Crear un ZIP</h3><ul><li><strong>¿No tienes archivos? Pega el HTML</strong>: pega el HTML completo y se creará un ZIP con <code>index.html</code>.</li><li><strong>¿Tienes archivos? Crea el ZIP</strong>: arrastra la carpeta o los archivos y pulsa "Crear y descargar ZIP".</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>Ya tengo un ZIP</h3><ul><li>Pega el enlace público del ZIP.</li><li>Pulsa "Crear enlace" y copia el resultado o abre la vista previa.</li></ul></div>'
-          + '<div class="about-section"><h3>Gestor de recursos</h3><ul><li>Aquí puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Descargar</strong> baja el ZIP original.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
-          + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
+        body: '<p>This viewer generates permanent links to educational resources in web format hosted on cloud storage services such as Google Drive or Dropbox, making publishing and access easier for students.</p>'
+          + '<div class="about-section"><h3>Publish</h3><ul><li><strong>Create a ZIP</strong>: create and download a ZIP from your files or by pasting HTML.</li><li><strong>I already have a ZIP</strong>: paste the public ZIP link and click “Create link” to get the viewer link.</li><li>Optional: copy the link or open the preview.</li></ul></div>'
+          + '<div class="about-section"><h3>Create a ZIP</h3><ul><li><strong>No files? Paste the HTML</strong>: paste the full HTML and a ZIP with <code>index.html</code> will be created.</li><li><strong>Have files? Create the ZIP</strong>: drop the folder/files and click “Create and download ZIP”.</li><li>If there is no <code>index.html</code>, the viewer will ask which HTML to open first.</li></ul></div>'
+          + '<div class="about-section"><h3>I already have a ZIP</h3><ul><li>Paste the public ZIP link.</li><li>Click “Create link” and copy the result or open the preview.</li></ul></div>'
+          + '<div class="about-section"><h3>Resource manager</h3><ul><li>Here you can review and manage the resources you opened from this browser.</li><li><strong>View</strong> opens the saved resource.</li><li><strong>Share</strong> copies the viewer link (full screen).</li><li><strong>Edit</strong> changes the title.</li><li><strong>Download</strong> downloads the original ZIP.</li><li><strong>Delete</strong> removes the resource from the browser.</li></ul></div>'
+          + '<div class="about-section"><h3>What works and what may fail</h3><ul><li>Works with static websites (HTML, CSS, images, audio, video, PDF...).</li><li>Does not work with sites that require a server (database forms, PHP, etc.).</li><li>Google Drive limits direct downloads of large files (~25 MB).</li></ul></div>'
       },
       error: {
         driveTooLarge: 'The file is too large and Google Drive limits downloads.',
@@ -1345,7 +1345,7 @@
       publish: {
         title: 'Ressource veröffentlichen',
         subtitle: 'Wähle, wie du starten möchtest. Du kannst jederzeit zu dieser Auswahl zurückkehren.',
-        back: 'Startpunkt ändern',
+        back: 'Zurück zum Start',
         choice: {
           zipper: {
             title: 'ZIP erstellen',
@@ -1530,12 +1530,12 @@
           title: 'Wichtig zu Google Drive',
           note: 'Google Drive begrenzt direkte Downloads großer Dateien (ca. 25 MB). Wenn dein ZIP größer ist, kann es fehlschlagen. Dropbox, Nextcloud und andere Dienste erlauben meist größere Dateien ohne dieses Limit.'
         },
-        body: '<p>Visor Web_ZIP genera enlaces permanentes a recursos educativos en formato web almacenados en servicios de almacenamiento en la nube como Google Drive o Dropbox, facilitando su publicación y acceso por parte del alumnado.</p>'
-          + '<div class="about-section"><h3>Publicar</h3><ul><li><strong>Crear un ZIP</strong>: crea y descarga un ZIP desde tus archivos o pegando HTML.</li><li><strong>Ya tengo un ZIP</strong>: pega el enlace público al ZIP y pulsa "Crear enlace" para obtener el enlace del visor.</li><li>Opcional: copia el enlace o abre la vista previa.</li></ul></div>'
-          + '<div class="about-section"><h3>Crear un ZIP</h3><ul><li><strong>¿No tienes archivos? Pega el HTML</strong>: pega el HTML completo y se creará un ZIP con <code>index.html</code>.</li><li><strong>¿Tienes archivos? Crea el ZIP</strong>: arrastra la carpeta o los archivos y pulsa "Crear y descargar ZIP".</li><li>Si no hay <code>index.html</code>, el visor te pedirá qué HTML abrir primero.</li></ul></div>'
-          + '<div class="about-section"><h3>Ya tengo un ZIP</h3><ul><li>Pega el enlace público del ZIP.</li><li>Pulsa "Crear enlace" y copia el resultado o abre la vista previa.</li></ul></div>'
-          + '<div class="about-section"><h3>Gestor de recursos</h3><ul><li>Aquí puedes ver y gestionar los recursos que has abierto desde este navegador.</li><li><strong>Ver</strong> abre el recurso guardado.</li><li><strong>Compartir</strong> copia el enlace del visor (pantalla completa).</li><li><strong>Editar</strong> cambia el título.</li><li><strong>Descargar</strong> baja el ZIP original.</li><li><strong>Eliminar</strong> borra ese recurso del navegador.</li></ul></div>'
-          + '<div class="about-section"><h3>Qué funciona y qué puede fallar</h3><ul><li>Funciona con webs estáticas (HTML, CSS, imágenes, audio, vídeo, PDF...).</li><li>No funciona con webs que requieren servidor (formularios con BD, PHP, etc.).</li><li>Google Drive limita descargas directas de archivos grandes (~25 MB).</li></ul></div>'
+        body: '<p>Dieser Viewer erstellt dauerhafte Links zu Bildungsressourcen im Web-Format, die in Cloud-Speichern wie Google Drive oder Dropbox liegen, und erleichtert so Veröffentlichung und Zugriff.</p>'
+          + '<div class="about-section"><h3>Veröffentlichen</h3><ul><li><strong>ZIP erstellen</strong>: Erstelle und lade ein ZIP aus deinen Dateien herunter oder indem du HTML einfügst.</li><li><strong>Ich habe bereits ein ZIP</strong>: Füge den öffentlichen ZIP-Link ein und klicke auf „Link erstellen“, um den Viewer-Link zu erhalten.</li><li>Optional: Link kopieren oder Vorschau öffnen.</li></ul></div>'
+          + '<div class="about-section"><h3>ZIP erstellen</h3><ul><li><strong>Keine Dateien? HTML einfügen</strong>: Füge das vollständige HTML ein und es wird ein ZIP mit <code>index.html</code> erstellt.</li><li><strong>Dateien vorhanden? ZIP erstellen</strong>: Ordner/Dateien ablegen und „ZIP erstellen und herunterladen“ klicken.</li><li>Wenn es kein <code>index.html</code> gibt, fragt der Viewer, welche HTML-Datei zuerst geöffnet werden soll.</li></ul></div>'
+          + '<div class="about-section"><h3>Ich habe bereits ein ZIP</h3><ul><li>Füge den öffentlichen ZIP-Link ein.</li><li>Klicke auf „Link erstellen“ und kopiere das Ergebnis oder öffne die Vorschau.</li></ul></div>'
+          + '<div class="about-section"><h3>Ressourcenverwaltung</h3><ul><li>Hier kannst du die in diesem Browser geöffneten Ressourcen ansehen und verwalten.</li><li><strong>Ansehen</strong> öffnet die gespeicherte Ressource.</li><li><strong>Teilen</strong> kopiert den Viewer-Link (Vollbild).</li><li><strong>Bearbeiten</strong> ändert den Titel.</li><li><strong>ZIP herunterladen</strong> lädt das Original-ZIP herunter.</li><li><strong>Löschen</strong> entfernt die Ressource aus dem Browser.</li></ul></div>'
+          + '<div class="about-section"><h3>Was funktioniert und was scheitern kann</h3><ul><li>Funktioniert mit statischen Webseiten (HTML, CSS, Bilder, Audio, Video, PDF...).</li><li>Funktioniert nicht mit Seiten, die einen Server benötigen (DB-Formulare, PHP usw.).</li><li>Google Drive begrenzt direkte Downloads großer Dateien (~25 MB).</li></ul></div>'
       },
       error: {
         driveTooLarge: 'Die Datei ist zu groß und Google Drive begrenzt Downloads.',
