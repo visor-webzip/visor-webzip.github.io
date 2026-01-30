@@ -49,6 +49,26 @@ Enlaces:
 
 - Para que el alumnado vea la web directamente en pantalla completa, comparte la URL con `&view=full`.
 
+- Para **insertar el recurso en otra web (iframe)**, el visor incluye un modo `embed=1` que carga el material dentro de un iframe interno y envía la altura al contenedor mediante `postMessage` (autoajuste si la página permite scripts).
+
+  - **Opción recomendada**: usar el botón **“Insertar en una web”** que aparece al generar el enlace (y también el icono equivalente en el gestor). Ese botón genera un código listo para copiar y pegar.
+  - **Manual**: el modo embed se activa con:
+    - `?url=...&embed=1`
+
+  - **Ejemplo** (mínimo):
+
+    ```html
+    <iframe
+      src="https://visor-webzip.github.io/?url=URL_DEL_ZIP_ENCODEADA&embed=1"
+      style="width:100%;height:80vh;border:0"
+      loading="lazy"
+      allow="fullscreen"></iframe>
+    ```
+
+  - **Importante sobre iframes**:
+    - En algunos navegadores/plataformas, un iframe de terceros puede limitar `IndexedDB`/service worker y la persistencia puede fallar (especialmente en entornos con privacidad estricta). En ese caso el visor mostrará un botón de **“Abrir en pestaña nueva”** como alternativa fiable.
+    - Si la plataforma añade `sandbox` al iframe, puede romper scripts/navegación interna del recurso. Evítalo o configura permisos adecuados.
+
 - El ZIP debe estar compartido publicamente (Drive con "Cualquiera con el enlace").
 - El primer acceso descarga y descomprime el ZIP en el navegador.
 - El limite del proxy es 100 MB (antes de base64). Si necesitas mas, hay que aumentar el limite en `gas/Code.js`.
