@@ -108,7 +108,7 @@
       },
       publish: {
         title: 'Publicar un recurso',
-        subtitle: 'Elige cómo quieres empezar. Puedes volver a esta elección cuando quieras.',
+        subtitle: 'Elige cómo quieres empezar.',
         back: 'Volver al inicio',
         zipHelp: {
           summary: '¿Qué es un ZIP?',
@@ -165,6 +165,7 @@
         title: 'Recursos guardados',
         subtitle: 'Gestiona el espacio que ocupan los materiales guardados en este navegador.',
         deleteAll: 'Eliminar todos los recursos',
+        deleteAllConfirm: '¿Seguro que quieres eliminar todos los recursos guardados en este navegador? Esta acción no se puede deshacer.',
         stats: {
           used: 'Espacio usado',
           total: 'Espacio total',
@@ -197,7 +198,7 @@
           view: 'Ver',
           share: 'Compartir',
           embed: 'Insertar en una web',
-          edit: 'Editar',
+          edit: 'Editar el título',
           download: 'Descargar ZIP'
         },
         editPrompt: 'Título del recurso',
@@ -378,7 +379,7 @@
       },
       publish: {
         title: 'Publicar un recurs',
-        subtitle: 'Tria com vols començar. Pots tornar a aquesta elecció quan vulguis.',
+        subtitle: 'Tria com vols començar.',
         back: "Tornar a l'inici",
         zipHelp: {
           summary: 'Què és un ZIP?',
@@ -435,6 +436,7 @@
         title: 'Recursos desats',
         subtitle: 'Gestiona l’espai que ocupen els materials desats en aquest navegador.',
         deleteAll: 'Eliminar tots els recursos',
+        deleteAllConfirm: 'Segur que vols eliminar tots els recursos desats en aquest navegador? Aquesta acció no es pot desfer.',
         deleteAllHelp: 'Esborra tots els recursos desats en aquest navegador.',
         stats: {
           used: 'Espai usat',
@@ -467,7 +469,7 @@
           view: 'Veure',
           share: 'Compartir',
           embed: 'Inserir en una web',
-          edit: 'Editar',
+          edit: 'Editar el títol',
           download: 'Descarregar ZIP'
         },
         editPrompt: 'Títol del recurs',
@@ -478,7 +480,7 @@
       zipper: {
         title: 'Crear ZIP per al visor',
         accordion: {
-          filesTitle: '¿Tienes archivos? Crea el ZIP'
+          filesTitle: 'Tens fitxers? Crea el ZIP'
         },
         subtitle: {
           lead: 'Per compartir el teu recurs has de comprimir els fitxers (o la carpeta que els conté) en un arxiu ZIP.',
@@ -522,10 +524,10 @@
         },
         build: 'Crear i descarregar ZIP',
         html: {
-          title: '¿No tienes archivos? Pega el HTML',
-          note: 'Pega el HTML completo y el visor creará un ZIP con un <code>index.html</code> listo para descargar.',
+          title: 'No tens fitxers? Enganxa l’HTML',
+          note: 'Enganxa l’HTML complet i el visor crearà un ZIP amb un <code>index.html</code> llest per descarregar.',
           placeholder: '<!doctype html>...',
-          build: 'Crear ZIP desde HTML',
+          build: 'Crear ZIP des d’HTML',
           status: {
             ready: 'Listo para crear el ZIP desde tu HTML.',
             empty: '',
@@ -648,7 +650,7 @@
       },
       publish: {
         title: 'Publicar un recurso',
-        subtitle: 'Escolle como queres comezar. Podes volver a esta elección cando queiras.',
+        subtitle: 'Escolle como queres comezar.',
         back: 'Volver ao inicio',
         zipHelp: {
           summary: 'Que é un ZIP?',
@@ -705,6 +707,7 @@
         title: 'Recursos gardados',
         subtitle: 'Xestiona o espazo que ocupan os materiais gardados neste navegador.',
         deleteAll: 'Eliminar todos os recursos',
+        deleteAllConfirm: 'Seguro que queres eliminar todos os recursos gardados neste navegador? Esta acción non se pode desfacer.',
         deleteAllHelp: 'Borra todos os recursos gardados neste navegador.',
         stats: {
           used: 'Espazo usado',
@@ -737,7 +740,7 @@
           view: 'Ver',
           share: 'Compartir',
           embed: 'Inserir nunha web',
-          edit: 'Editar',
+          edit: 'Editar o título',
           download: 'Descargar ZIP'
         },
         editPrompt: 'Título do recurso',
@@ -748,7 +751,7 @@
       zipper: {
         title: 'Crear ZIP para o visor',
         accordion: {
-          filesTitle: '¿Tienes archivos? Crea el ZIP'
+          filesTitle: 'Tes ficheiros? Crea o ZIP'
         },
         subtitle: {
           lead: 'Para compartir o teu recurso necesitas comprimir os ficheiros (ou o cartafol que os contén) nun arquivo ZIP.',
@@ -792,8 +795,8 @@
         },
         build: 'Crear e descargar ZIP',
         html: {
-          title: '¿No tienes archivos? Pega el HTML',
-          note: 'Pega el HTML completo y el visor creará un ZIP con un <code>index.html</code> listo para descargar.',
+          title: 'Non tes ficheiros? Pega o HTML',
+          note: 'Pega o HTML completo e o visor creará un ZIP cun <code>index.html</code> listo para descargar.',
           placeholder: '<!doctype html>...',
           build: 'Crear ZIP desde HTML',
           status: {
@@ -918,7 +921,7 @@
       },
       publish: {
         title: 'Baliabide bat argitaratu',
-        subtitle: 'Aukeratu nola hasi nahi duzun. Nahi duzunean itzul zaitezke aukera honetara.',
+        subtitle: 'Aukeratu nola hasi nahi duzun.',
         back: 'Hasierara itzuli',
         zipHelp: {
           summary: 'Zer da ZIP bat?',
@@ -975,6 +978,7 @@
         title: 'Gordetako baliabideak',
         subtitle: 'Kudeatu nabigatzaile honetan gordetako materialen okupazioa.',
         deleteAll: 'Baliabide guztiak ezabatu',
+        deleteAllConfirm: 'Ziur zaude nabigatzaile honetan gordetako baliabide guztiak ezabatu nahi dituzula? Ekintza hau ezin da desegin.',
         deleteAllHelp: 'Nabigatzaile honetan gordetako baliabide guztiak ezabatzen ditu.',
         stats: {
           used: 'Erabilitako espazioa',
@@ -1007,7 +1011,7 @@
           view: 'Ikusi',
           share: 'Partekatu',
           embed: 'Web batean txertatu',
-          edit: 'Editatu',
+          edit: 'Izenburua editatu',
           download: 'ZIPa deskargatu'
         },
         editPrompt: 'Baliabidearen izenburua',
@@ -1018,7 +1022,7 @@
       zipper: {
         title: 'Bisorerako ZIP sortu',
         accordion: {
-          filesTitle: '¿Tienes archivos? Crea el ZIP'
+          filesTitle: 'Fitxategiak dituzu? Sortu ZIPa'
         },
         subtitle: {
           lead: 'Zure baliabidea partekatzeko, fitxategiak (edo horiek dituen karpeta) ZIP fitxategi batean konprimitu behar dituzu.',
@@ -1062,10 +1066,10 @@
         },
         build: 'Sortu eta deskargatu ZIPa',
         html: {
-          title: '¿No tienes archivos? Pega el HTML',
-          note: 'Pega el HTML completo y el visor creará un ZIP con un <code>index.html</code> listo para descargar.',
+          title: 'Ez duzu fitxategirik? Itsatsi HTMLa',
+          note: 'Itsatsi HTML osoa eta bisoreak ZIP bat sortuko du, deskargatzeko prest dagoen <code>index.html</code> batekin.',
           placeholder: '<!doctype html>...',
-          build: 'Crear ZIP desde HTML',
+          build: 'HTMLtik ZIPa sortu',
           status: {
             ready: 'Listo para crear el ZIP desde tu HTML.',
             empty: '',
@@ -1188,7 +1192,7 @@
       },
       publish: {
         title: 'Publish a resource',
-        subtitle: 'Choose how you want to start. You can return to this choice anytime.',
+        subtitle: 'Choose how you want to start.',
         back: 'Back to start',
         zipHelp: {
           summary: 'What is a ZIP?',
@@ -1245,6 +1249,7 @@
         title: 'Saved resources',
         subtitle: 'Manage the space used by materials stored in this browser.',
         deleteAll: 'Delete all resources',
+        deleteAllConfirm: 'Are you sure you want to delete all resources saved in this browser? This action cannot be undone.',
         deleteAllHelp: 'Deletes all resources saved in this browser.',
         stats: {
           used: 'Space used',
@@ -1277,7 +1282,7 @@
           view: 'View',
           share: 'Share',
           embed: 'Embed in a website',
-          edit: 'Edit',
+          edit: 'Edit title',
           download: 'Download ZIP'
         },
         editPrompt: 'Resource title',
@@ -1288,7 +1293,7 @@
       zipper: {
         title: 'Create ZIP for the viewer',
         accordion: {
-          filesTitle: '¿Tienes archivos? Crea el ZIP'
+          filesTitle: 'Have files? Create the ZIP'
         },
         subtitle: {
           lead: 'To share your resource, compress the files (or the folder that contains them) into a .zip file.',
@@ -1332,10 +1337,10 @@
         },
         build: 'Create and download ZIP',
         html: {
-          title: '¿No tienes archivos? Pega el HTML',
-          note: 'Pega el HTML completo y el visor creará un ZIP con un <code>index.html</code> listo para descargar.',
+          title: 'No files? Paste the HTML',
+          note: 'Paste the full HTML and the viewer will create a ZIP with an <code>index.html</code> ready to download.',
           placeholder: '<!doctype html>...',
-          build: 'Crear ZIP desde HTML',
+          build: 'Create ZIP from HTML',
           status: {
             ready: 'Listo para crear el ZIP desde tu HTML.',
             empty: '',
@@ -1458,7 +1463,7 @@
       },
       publish: {
         title: 'Ressource veröffentlichen',
-        subtitle: 'Wähle, wie du starten möchtest. Du kannst jederzeit zu dieser Auswahl zurückkehren.',
+        subtitle: 'Wähle, wie du starten möchtest.',
         back: 'Zurück zum Start',
         zipHelp: {
           summary: 'Was ist eine ZIP-Datei?',
@@ -1515,6 +1520,7 @@
         title: 'Gespeicherte Ressourcen',
         subtitle: 'Verwalte den Speicherplatz der in diesem Browser gespeicherten Materialien.',
         deleteAll: 'Alle Ressourcen löschen',
+        deleteAllConfirm: 'Möchtest du wirklich alle in diesem Browser gespeicherten Ressourcen löschen? Diese Aktion kann nicht rückgängig gemacht werden.',
         deleteAllHelp: 'Löscht alle in diesem Browser gespeicherten Ressourcen.',
         stats: {
           used: 'Belegter Speicher',
@@ -1547,7 +1553,7 @@
           view: 'Ansehen',
           share: 'Teilen',
           embed: 'In eine Website einbetten',
-          edit: 'Bearbeiten',
+          edit: 'Titel bearbeiten',
           download: 'ZIP herunterladen'
         },
         editPrompt: 'Titel der Ressource',
@@ -1558,7 +1564,7 @@
       zipper: {
         title: 'ZIP für den Viewer erstellen',
         accordion: {
-          filesTitle: '¿Tienes archivos? Crea el ZIP'
+          filesTitle: 'Dateien vorhanden? ZIP erstellen'
         },
         subtitle: {
           lead: 'Um deine Ressource zu teilen, komprimiere die Dateien (oder den Ordner, der sie enthält) in eine ZIP-Datei.',
@@ -1602,10 +1608,10 @@
         },
         build: 'ZIP erstellen und herunterladen',
         html: {
-          title: '¿No tienes archivos? Pega el HTML',
-          note: 'Pega el HTML completo y el visor creará un ZIP con un <code>index.html</code> listo para descargar.',
+          title: 'Keine Dateien? HTML einfügen',
+          note: 'Füge das vollständige HTML ein und der Viewer erstellt ein ZIP mit einer <code>index.html</code>, das sofort heruntergeladen werden kann.',
           placeholder: '<!doctype html>...',
-          build: 'Crear ZIP desde HTML',
+          build: 'ZIP aus HTML erstellen',
           status: {
             ready: 'Listo para crear el ZIP desde tu HTML.',
             empty: '',
@@ -3756,6 +3762,9 @@
   }
   if (deleteAllButton) {
     deleteAllButton.addEventListener('click', function () {
+      if (!confirm(t('manager.deleteAllConfirm'))) {
+        return;
+      }
       getAllSites().then(function (sites) {
         var ids = sites.map(function (site) { return site.id; });
         return deleteSitesSequential(ids);
