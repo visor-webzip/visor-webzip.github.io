@@ -25,6 +25,10 @@
   var htmlList = document.querySelector('[data-html-list]');
   var htmlConfirm = document.querySelector('[data-html-confirm]');
   var htmlCloseButtons = document.querySelectorAll('[data-html-close]');
+  var reactModal = document.querySelector('[data-react-modal]');
+  var reactPrompt = document.querySelector('[data-react-prompt]');
+  var reactCopyButton = document.querySelector('[data-react-copy]');
+  var reactCloseButtons = document.querySelectorAll('[data-react-close]');
   var tabButtons = document.querySelectorAll('[data-tab]');
   var tabPanels = document.querySelectorAll('[data-tab-panel]');
   var publishChoice = document.querySelector('[data-publish-choice]');
@@ -259,6 +263,7 @@
           build: 'Crear ZIP desde HTML',
           status: {
             ready: 'Listo para crear el ZIP desde tu HTML.',
+            reactDetected: 'Este contenido parece React/JSX (no HTML). Copia el prompt y pégalo en el chat de tu IA para convertirlo a HTML.',
             empty: '',
             creating: 'Creando ZIP...',
             downloaded: 'ZIP descargado.',
@@ -286,6 +291,12 @@
           subtitle: 'Tu navegador o la página donde se inserta está bloqueando el almacenamiento necesario. Abre el recurso en una pestaña nueva.',
           open: 'Abrir en pestaña nueva'
         }
+      },
+      reactPrompt: {
+        title: 'Esto parece React',
+        subtitle: 'Este contenido parece React/JSX (no HTML). Copia este prompt y pégalo en el chat de tu IA para que lo convierta a HTML.',
+        prompt: 'Convierte este código hecho en React/JSX en un único `index.html` que funcione al abrirlo directamente en el navegador (solo HTML, CSS y JavaScript). Devuélveme únicamente el contenido completo del archivo HTML.',
+        copy: 'Copiar prompt'
       },
       about: {
         title: '¿Qué hace este visor?',
@@ -529,11 +540,12 @@
           placeholder: '<!doctype html>...',
           build: 'Crear ZIP des d’HTML',
           status: {
-            ready: 'Listo para crear el ZIP desde tu HTML.',
+            ready: 'A punt per crear el ZIP des del teu HTML.',
+            reactDetected: 'Aquest contingut sembla React/JSX (no HTML). Copia el prompt i enganxa’l al xat de la teva IA per convertir-lo a HTML.',
             empty: '',
-            creating: 'Creando ZIP...',
-            downloaded: 'ZIP descargado.',
-            failed: 'No se pudo crear el ZIP. Revisa el HTML.'
+            creating: 'Creant ZIP...',
+            downloaded: 'ZIP descarregat.',
+            failed: 'No s’ha pogut crear el ZIP. Revisa l’HTML.'
           }
         },
         help: {
@@ -557,6 +569,12 @@
           subtitle: 'El teu navegador o la pàgina on s’insereix està bloquejant l’emmagatzematge necessari. Obre el recurs en una pestanya nova.',
           open: 'Obrir en una pestanya nova'
         }
+      },
+      reactPrompt: {
+        title: 'Això sembla React',
+        subtitle: 'Aquest contingut sembla React/JSX (no HTML). Copia aquest prompt i enganxa’l al xat de la teva IA perquè el converteixi a HTML.',
+        prompt: 'Converteix aquest codi fet en React/JSX en un únic `index.html` que funcioni en obrir-lo directament al navegador (només HTML, CSS i JavaScript). Retorna només el contingut complet del fitxer HTML.',
+        copy: 'Copiar prompt'
       },
       about: {
         title: 'Què fa aquest visor?',
@@ -801,6 +819,7 @@
           build: 'Crear ZIP desde HTML',
           status: {
             ready: 'Listo para crear el ZIP desde tu HTML.',
+            reactDetected: 'Este contido parece React/JSX (non HTML). Copia o prompt e pégao no chat da túa IA para convertelo a HTML.',
             empty: '',
             creating: 'Creando ZIP...',
             downloaded: 'ZIP descargado.',
@@ -828,6 +847,12 @@
           subtitle: 'O teu navegador ou a páxina onde se insire está bloqueando o almacenamento necesario. Abre o recurso nunha nova lapela.',
           open: 'Abrir nunha nova lapela'
         }
+      },
+      reactPrompt: {
+        title: 'Isto parece React',
+        subtitle: 'Este contido parece React/JSX (non HTML). Copia este prompt e pégao no chat da túa IA para que o converta a HTML.',
+        prompt: 'Converte este código feito en React/JSX nun único `index.html` que funcione ao abrilo directamente no navegador (só HTML, CSS e JavaScript). Devólveme unicamente o contido completo do arquivo HTML.',
+        copy: 'Copiar prompt'
       },
       about: {
         title: 'Que fai este visor?',
@@ -1072,6 +1097,7 @@
           build: 'HTMLtik ZIPa sortu',
           status: {
             ready: 'Listo para crear el ZIP desde tu HTML.',
+            reactDetected: 'Honek React/JSX dirudi (ez HTML). Kopiatu prompta eta itsatsi zure IAren txatean HTMLra bihurtzeko.',
             empty: '',
             creating: 'Creando ZIP...',
             downloaded: 'ZIP descargado.',
@@ -1099,6 +1125,12 @@
           subtitle: 'Zure nabigatzailea edo txertatzen den orria beharrezko biltegiratzea blokeatzen ari da. Ireki baliabidea fitxa berri batean.',
           open: 'Fitxa berri batean ireki'
         }
+      },
+      reactPrompt: {
+        title: 'Honek React dirudi',
+        subtitle: 'Eduki honek React/JSX dirudi (ez HTML). Kopiatu prompt hau eta itsatsi zure IAren txatean HTMLra bihur dezan.',
+        prompt: 'Bihurtu React/JSX-en egindako kode hau `index.html` fitxategi bakarrean, nabigatzailean zuzenean irekitzean funtziona dezan (HTML, CSS eta JavaScript bakarrik). Itzul iezadazu HTML fitxategiaren eduki osoa bakarrik.',
+        copy: 'Prompta kopiatu'
       },
       about: {
         title: 'Zer egiten du bisore honek?',
@@ -1342,11 +1374,12 @@
           placeholder: '<!doctype html>...',
           build: 'Create ZIP from HTML',
           status: {
-            ready: 'Listo para crear el ZIP desde tu HTML.',
+            ready: 'Ready to create the ZIP from your HTML.',
+            reactDetected: 'This content looks like React/JSX (not HTML). Copy the prompt and paste it into your AI chat to convert it to HTML.',
             empty: '',
-            creating: 'Creando ZIP...',
-            downloaded: 'ZIP descargado.',
-            failed: 'No se pudo crear el ZIP. Revisa el HTML.'
+            creating: 'Creating ZIP...',
+            downloaded: 'ZIP downloaded.',
+            failed: 'Could not create the ZIP. Check the HTML.'
           }
         },
         help: {
@@ -1370,6 +1403,12 @@
           subtitle: 'Your browser or the host page is blocking the required storage. Open the resource in a new tab.',
           open: 'Open in a new tab'
         }
+      },
+      reactPrompt: {
+        title: 'This looks like React',
+        subtitle: 'This content looks like React/JSX (not HTML). Copy this prompt and paste it into your AI chat so it converts it to HTML.',
+        prompt: 'Convert this React/JSX code into a single `index.html` that works when opened directly in the browser (only HTML, CSS and JavaScript). Return only the full contents of the HTML file.',
+        copy: 'Copy prompt'
       },
       about: {
         title: 'What does this viewer do?',
@@ -1613,11 +1652,12 @@
           placeholder: '<!doctype html>...',
           build: 'ZIP aus HTML erstellen',
           status: {
-            ready: 'Listo para crear el ZIP desde tu HTML.',
+            ready: 'Bereit, ein ZIP aus deinem HTML zu erstellen.',
+            reactDetected: 'Dieser Inhalt sieht nach React/JSX aus (nicht HTML). Kopiere den Prompt und füge ihn in deinen KI-Chat ein, um ihn in HTML umzuwandeln.',
             empty: '',
-            creating: 'Creando ZIP...',
-            downloaded: 'ZIP descargado.',
-            failed: 'No se pudo crear el ZIP. Revisa el HTML.'
+            creating: 'ZIP wird erstellt...',
+            downloaded: 'ZIP heruntergeladen.',
+            failed: 'ZIP konnte nicht erstellt werden. Prüfe das HTML.'
           }
         },
         help: {
@@ -1641,6 +1681,12 @@
           subtitle: 'Dein Browser oder die Host-Seite blockiert den benötigten Speicher. Öffne die Ressource in einem neuen Tab.',
           open: 'In neuem Tab öffnen'
         }
+      },
+      reactPrompt: {
+        title: 'Das sieht nach React aus',
+        subtitle: 'Dieser Inhalt sieht nach React/JSX aus (nicht HTML). Kopiere diesen Prompt und füge ihn in deinen KI-Chat ein, damit es in HTML umgewandelt wird.',
+        prompt: 'Wandle diesen in React/JSX geschriebenen Code in eine einzige `index.html` um, die direkt im Browser funktioniert (nur HTML, CSS und JavaScript). Gib ausschließlich den vollständigen Inhalt der HTML-Datei zurück.',
+        copy: 'Prompt kopieren'
       },
       about: {
         title: 'Was macht dieser Viewer?',
@@ -2428,6 +2474,11 @@
       setHtmlZipStatus(t('zipper.html.status.empty'));
       return;
     }
+    if (looksLikeReactJsx(htmlText)) {
+      setHtmlZipStatus(t('zipper.html.status.reactDetected'));
+      openReactPromptModal(htmlText);
+      return;
+    }
     if (!window.fflate || !window.fflate.zipSync) {
       setHtmlZipStatus(t('zipper.status.engineMissing'));
       return;
@@ -2451,6 +2502,27 @@
     } catch (err) {
       setHtmlZipStatus(t('zipper.html.status.failed'));
     }
+  }
+
+  function looksLikeHtmlDocument(text) {
+    var head = String(text || '').slice(0, 600);
+    return /^\s*<!doctype\s+html\b/i.test(head) || /^\s*<html\b/i.test(head);
+  }
+
+  function looksLikeReactJsx(text) {
+    var value = String(text || '');
+    if (looksLikeHtmlDocument(value)) return false;
+    var sample = value.slice(0, 6000);
+    if (/\bimport\s+React\b/.test(sample)) return true;
+    if (/\bfrom\s+['"]react['"]/.test(sample)) return true;
+    if (/\breact-dom\b/.test(sample) && /\bcreateRoot\s*\(/.test(sample)) return true;
+    if (/\buseState\s*\(/.test(sample) || /\buseEffect\s*\(/.test(sample)) {
+      if (/\breturn\s*\(\s*<[\w]/.test(sample) || /\bclassName\s*=/.test(sample)) {
+        return true;
+      }
+    }
+    if (/\bexport\s+default\b/.test(sample) && /\breturn\s*\(\s*<[\w]/.test(sample)) return true;
+    return false;
   }
 
   function registerServiceWorker() {
@@ -3065,6 +3137,28 @@
     try {
       embedCode.focus();
       embedCode.select();
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  function closeReactPromptModal() {
+    if (!reactModal) return;
+    reactModal.setAttribute('hidden', '');
+  }
+
+  function openReactPromptModal(code) {
+    if (!reactModal || !reactPrompt) return;
+    var basePrompt = t('reactPrompt.prompt');
+    var fullPrompt = basePrompt;
+    if (code) {
+      fullPrompt += '\n\n' + String(code);
+    }
+    reactPrompt.value = fullPrompt;
+    reactModal.removeAttribute('hidden');
+    try {
+      reactPrompt.focus();
+      reactPrompt.select();
     } catch (e) {
       // ignore
     }
@@ -3802,6 +3896,28 @@
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape') {
         closeHtmlPicker();
+      }
+    });
+  }
+  if (reactModal) {
+    if (reactCloseButtons && reactCloseButtons.length) {
+      reactCloseButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          closeReactPromptModal();
+        });
+      });
+    }
+    if (reactCopyButton) {
+      reactCopyButton.addEventListener('click', function () {
+        if (!reactPrompt || !reactPrompt.value) {
+          return;
+        }
+        copyText(reactPrompt.value, reactCopyButton);
+      });
+    }
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        closeReactPromptModal();
       }
     });
   }

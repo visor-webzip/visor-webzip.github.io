@@ -302,6 +302,24 @@
       </div>
     </div>
 
+    <div class="modal" data-react-modal hidden>
+      <div class="modal__overlay" data-react-close></div>
+      <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="react-title">
+        <div class="modal__header">
+          <h2 id="react-title" data-i18n="reactPrompt.title">Esto parece React</h2>
+          <button class="modal__close" type="button" data-react-close data-i18n-aria-label="common.close">×</button>
+        </div>
+        <div class="modal__content">
+          <p class="manager-subtitle" data-i18n="reactPrompt.subtitle">Este contenido parece React/JSX (no HTML). Copia este prompt y pégalo en el chat de tu IA para que lo convierta a HTML.</p>
+          <textarea class="embed-code-textarea" data-react-prompt readonly></textarea>
+          <div class="html-picker__actions">
+            <button class="ghost-button" type="button" data-react-close data-i18n="common.close">Cerrar</button>
+            <button type="button" data-react-copy data-i18n="reactPrompt.copy">Copiar prompt</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="modal" data-about-modal hidden>
       <div class="modal__overlay" data-about-close></div>
       <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="about-title">
@@ -338,7 +356,7 @@
     <footer class="site-footer">
       <a class="footer-link" href="https://bilateria.org" target="_blank" rel="noopener">(c) 2026 Juan Jose de Haro</a>
       <span class="footer-sep">·</span>
-	      <span class="footer-link">v1.3.2</span>
+<span class="footer-link">v1.3.3</span>
       <span class="footer-sep">·</span>
       <a class="footer-link" href="https://github.com/visor-webzip/visor-webzip.github.io" target="_blank" rel="noopener">
         <svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
@@ -364,6 +382,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
   <script src="config.js"></script>
-	  <script src="app.js?v=18"></script>
+	  <script src="app.js?v=21"></script>
  </body>
  </html>
