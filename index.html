@@ -227,6 +227,14 @@
             <h2 data-i18n="manager.title">Recursos guardados</h2>
             <p class="manager-subtitle" data-i18n="manager.subtitle">Gestiona el espacio que ocupan los materiales guardados en este navegador.</p>
           </div>
+          <div>
+            <button class="icon-button" type="button" data-manager-settings-open data-i18n-aria-label="manager.settings.open" data-i18n-tooltip="manager.settings.open">
+              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
         </div>
         <div class="manager-stats">
           <div class="stat">
@@ -243,34 +251,8 @@
             <span class="stat-value" data-storage-count>0</span>
           </div>
         </div>
-        <div class="manager-settings" data-manager-settings>
-          <div class="setting-card">
-            <div>
-              <span class="stat-label" data-i18n="manager.settings.usage.label">Límite de uso antes de limpiar</span>
-              <p class="setting-help" data-i18n="manager.settings.usage.help">Si se supera este porcentaje de la cuota, se borran los recursos más antiguos.</p>
-            </div>
-            <div class="setting-control">
-              <input type="range" min="40" max="95" step="5" value="70" data-cleanup-threshold>
-              <span class="setting-value"><span data-cleanup-threshold-value>70</span>%</span>
-            </div>
-          </div>
-          <div class="setting-card">
-            <div>
-              <span class="stat-label" data-i18n="manager.settings.days.label">Días para borrar recursos antiguos</span>
-              <p class="setting-help" data-i18n="manager.settings.days.help">Si un recurso no se abre en este periodo, se eliminará automáticamente.</p>
-            </div>
-            <div class="setting-control">
-              <input type="number" min="7" max="365" step="1" value="30" data-cleanup-days>
-              <span class="setting-suffix" data-i18n="manager.settings.days.suffix">días</span>
-            </div>
-          </div>
-        </div>
         <div class="manager-toolbar">
           <div class="manager-toolbar__left">
-            <button class="ghost-button ghost-button--small" type="button" data-reset-cleanup data-i18n="manager.settings.reset" data-i18n-tooltip="manager.settings.resetHelp">Restaurar valores por defecto</button>
-            <button class="ghost-button ghost-button--small" type="button" data-delete-all data-i18n="manager.deleteAll" data-i18n-tooltip="manager.deleteAllHelp">Eliminar todos los recursos</button>
-          </div>
-          <div class="manager-toolbar__right">
             <span class="stat-label" data-i18n="manager.sort.label">Ordenar por</span>
             <select class="manager-sort" data-manager-sort>
               <option value="title" data-i18n="manager.sort.title">Título</option>
@@ -279,10 +261,51 @@
             </select>
             <button class="ghost-button ghost-button--small manager-sort-dir" type="button" data-manager-sort-dir data-i18n-tooltip="manager.sort.dirHelp" aria-label="Orden ascendente/descendente">↑</button>
           </div>
+          <div class="manager-toolbar__right">
+            <button class="ghost-button ghost-button--small" type="button" data-delete-all data-i18n="manager.deleteAll" data-i18n-tooltip="manager.deleteAllHelp">Eliminar todos los recursos</button>
+          </div>
         </div>
         <div class="manager-list" data-manager-list></div>
       </div>
     </section>
+
+    <div class="modal" data-manager-settings-modal hidden>
+      <div class="modal__overlay" data-manager-settings-close></div>
+      <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="manager-settings-title">
+        <div class="modal__header">
+          <h2 id="manager-settings-title" data-i18n="manager.settings.modalTitle">Ajustes de limpieza</h2>
+          <button class="modal__close" type="button" data-manager-settings-close data-i18n-aria-label="common.close">×</button>
+        </div>
+        <div class="modal__content">
+          <div class="manager-settings manager-settings--modal" data-manager-settings>
+            <div class="setting-card">
+              <div>
+                <span class="stat-label" data-i18n="manager.settings.usage.label">Límite de uso antes de limpiar</span>
+                <p class="setting-help" data-i18n="manager.settings.usage.help">Si se supera este porcentaje de la cuota, se borran los recursos más antiguos.</p>
+              </div>
+              <div class="setting-control">
+                <input type="range" min="40" max="95" step="5" value="70" data-cleanup-threshold>
+                <span class="setting-value"><span data-cleanup-threshold-value>70</span>%</span>
+              </div>
+            </div>
+            <div class="setting-card">
+              <div>
+                <span class="stat-label" data-i18n="manager.settings.days.label">Días para borrar recursos antiguos</span>
+                <p class="setting-help" data-i18n="manager.settings.days.help">Si un recurso no se abre en este periodo, se eliminará automáticamente.</p>
+              </div>
+              <div class="setting-control">
+                <input type="number" min="7" max="365" step="1" value="30" data-cleanup-days>
+                <span class="setting-suffix" data-i18n="manager.settings.days.suffix">días</span>
+              </div>
+            </div>
+          </div>
+          <div class="html-picker__actions">
+            <button class="ghost-button" type="button" data-manager-settings-close data-i18n="common.close">Cerrar</button>
+            <button class="ghost-button" type="button" data-reset-cleanup data-i18n="manager.settings.reset" data-i18n-tooltip="manager.settings.resetHelp">Restaurar valores por defecto</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="modal" data-html-modal hidden>
       <div class="modal__overlay" data-html-close></div>
@@ -356,7 +379,7 @@
     <footer class="site-footer">
       <a class="footer-link" href="https://bilateria.org" target="_blank" rel="noopener">(c) 2026 Juan Jose de Haro</a>
       <span class="footer-sep">·</span>
-<span class="footer-link">v1.3.3</span>
+<span class="footer-link">v1.3.4</span>
       <span class="footer-sep">·</span>
       <a class="footer-link" href="https://github.com/visor-webzip/visor-webzip.github.io" target="_blank" rel="noopener">
         <svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
@@ -382,6 +405,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
   <script src="config.js"></script>
-	  <script src="app.js?v=21"></script>
+	  <script src="app.js?v=22"></script>
  </body>
  </html>

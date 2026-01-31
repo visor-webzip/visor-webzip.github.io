@@ -960,6 +960,11 @@ textarea:focus-visible {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.manager-settings--modal {
+  margin-top: 0;
+  grid-template-columns: 1fr;
+}
+
 .setting-card {
   display: grid;
   gap: 12px;
@@ -1459,6 +1464,8 @@ textarea:focus-visible {
   gap: 12px;
   justify-content: flex-end;
   flex-wrap: wrap;
+  margin-top: 12px;
+  margin-bottom: 8px;
 }
 
 

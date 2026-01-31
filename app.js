@@ -59,6 +59,9 @@
   var cleanupDaysInput = document.querySelector('[data-cleanup-days]');
   var resetCleanupButton = document.querySelector('[data-reset-cleanup]');
   var managerSortSelect = document.querySelector('[data-manager-sort]');
+  var managerSettingsOpenButton = document.querySelector('[data-manager-settings-open]');
+  var managerSettingsModal = document.querySelector('[data-manager-settings-modal]');
+  var managerSettingsCloseButtons = document.querySelectorAll('[data-manager-settings-close]');
 
   var currentShareLink = '';
   var currentZipUrl = '';
@@ -186,6 +189,8 @@
         },
         deleteAllHelp: 'Borra todos los recursos guardados en este navegador.',
         settings: {
+          open: 'Ajustes de limpieza',
+          modalTitle: 'Ajustes de limpieza',
           usage: {
             label: 'Límite de uso antes de limpiar',
             help: 'Si se supera este porcentaje de la cuota, se borran los recursos más antiguos.'
@@ -464,6 +469,8 @@
           dirHelp: 'Canviar el sentit d’ordenació.'
         },
         settings: {
+          open: 'Ajustos de neteja',
+          modalTitle: 'Ajustos de neteja',
           usage: {
             label: 'Límit d’ús abans de netejar',
             help: 'Si se supera aquest percentatge de la quota, s’esborraran els recursos més antics.'
@@ -742,6 +749,8 @@
           dirHelp: 'Cambiar o sentido de orde.'
         },
         settings: {
+          open: 'Axustes de limpeza',
+          modalTitle: 'Axustes de limpeza',
           usage: {
             label: 'Límite de uso antes de limpar',
             help: 'Se se supera esta porcentaxe da cota, borraranse os recursos máis antigos.'
@@ -1020,6 +1029,8 @@
           dirHelp: 'Ordena norabidea aldatu.'
         },
         settings: {
+          open: 'Garbiketa-ezarpenak',
+          modalTitle: 'Garbiketa-ezarpenak',
           usage: {
             label: 'Garbitu aurreko erabilera-muga',
             help: 'Kota-portzentaje hau gainditzen bada, baliabide zaharrenak ezabatuko dira.'
@@ -1298,6 +1309,8 @@
           dirHelp: 'Change sort direction.'
         },
         settings: {
+          open: 'Cleanup settings',
+          modalTitle: 'Cleanup settings',
           usage: {
             label: 'Usage limit before cleanup',
             help: 'If this percentage of the quota is exceeded, the oldest resources are deleted.'
@@ -1576,6 +1589,8 @@
           dirHelp: 'Sortierreihenfolge wechseln.'
         },
         settings: {
+          open: 'Bereinigungseinstellungen',
+          modalTitle: 'Bereinigungseinstellungen',
           usage: {
             label: 'Nutzungsgrenze vor Bereinigung',
             help: 'Wenn dieser Prozentsatz der Quote überschritten wird, werden die ältesten Ressourcen gelöscht.'
@@ -3142,6 +3157,23 @@
     }
   }
 
+  function closeManagerSettingsModal() {
+    if (!managerSettingsModal) return;
+    managerSettingsModal.setAttribute('hidden', '');
+  }
+
+  function openManagerSettingsModal() {
+    if (!managerSettingsModal) return;
+    managerSettingsModal.removeAttribute('hidden');
+    try {
+      if (cleanupThresholdInput) {
+        cleanupThresholdInput.focus();
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
   function closeReactPromptModal() {
     if (!reactModal) return;
     reactModal.setAttribute('hidden', '');
@@ -3865,6 +3897,23 @@
       }).then(function () {
         refreshManager();
       });
+    });
+  }
+  if (managerSettingsOpenButton && managerSettingsModal) {
+    managerSettingsOpenButton.addEventListener('click', function () {
+      openManagerSettingsModal();
+    });
+    if (managerSettingsCloseButtons && managerSettingsCloseButtons.length) {
+      managerSettingsCloseButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          closeManagerSettingsModal();
+        });
+      });
+    }
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        closeManagerSettingsModal();
+      }
     });
   }
   if (aboutOpen && aboutModal) {
