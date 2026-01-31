@@ -661,9 +661,9 @@ textarea:focus-visible {
 
 .output-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: 1fr;
   gap: 12px;
-  align-items: center;
+  align-items: start;
   padding: 20px;
   border-radius: 18px;
   background: var(--surface);

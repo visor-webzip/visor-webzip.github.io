@@ -112,24 +112,23 @@
               <span class="publish-back__label" data-i18n="publish.back">Volver al inicio</span>
             </button>
           </div>
-          <p class="manager-subtitle" data-i18n="main.subtitle">Si ya tienes tu recurso en formato ZIP en un servicio con enlace público (Drive, Dropbox, etc.), pega aquí el enlace para generar el enlace del visor.</p>
           <form data-form>
             <span class="field-title" data-i18n="main.form.title">Pega aqui el enlace publico</span>
-            <p class="step-note" data-i18n="main.form.step">Pega el enlace público al ZIP y pulsa “Crear enlace”.</p>
+            <p class="step-note" data-i18n="main.subtitle">Si ya tienes tu recurso en formato ZIP en un servicio con enlace público (Drive, Dropbox, etc.), pega aquí el enlace para generar el enlace.</p>
             <input data-url type="url" placeholder="Pega aqui el enlace publico del ZIP" data-i18n-placeholder="main.form.placeholder" required>
             <button type="submit" data-i18n="main.form.submit">Crear enlace</button>
           </form>
 
-          <div class="output-row">
-            <div class="output-group" data-step-three>
-              <span class="field-title" data-i18n="main.output.title">Enlace para compartir</span>
-              <p class="step-note" data-i18n="main.output.step">Copia el enlace o abre la vista previa.</p>
-              <section class="output" data-output data-i18n="main.output.placeholder" data-i18n-dynamic>Enlace para compartir</section>
-            </div>
-            <div class="actions">
-              <button class="ghost-button" type="button" data-copy disabled data-i18n="main.output.copy">Copiar enlace</button>
-              <button class="ghost-button" type="button" data-embed disabled data-i18n="main.output.embed">Insertar en una web</button>
-              <a class="open-link" data-open href="#" target="_blank" rel="noopener" aria-disabled="true" data-i18n="main.output.open">Abrir vista previa</a>
+	          <div class="output-row">
+	            <div class="output-group" data-step-three>
+	              <span class="field-title" data-i18n="main.output.title">Enlace para compartir</span>
+	              <p class="step-note" data-i18n="main.output.step">Copia el enlace para compartir, copia el código para insertar el recurso en otra web o abre la vista previa.</p>
+	              <section class="output" data-output data-i18n="main.output.placeholder" data-i18n-dynamic>Aquí se mostrará el enlace</section>
+	            </div>
+	            <div class="actions">
+	              <button class="ghost-button" type="button" data-copy disabled data-i18n="main.output.copy">Copiar enlace</button>
+	              <button class="ghost-button" type="button" data-embed disabled data-i18n="main.output.embed">Insertar en una web</button>
+	              <a class="open-link" data-open href="#" target="_blank" rel="noopener" aria-disabled="true" data-i18n="main.output.open">Abrir vista previa</a>
             </div>
           </div>
         </div>
@@ -339,7 +338,7 @@
     <footer class="site-footer">
       <a class="footer-link" href="https://bilateria.org" target="_blank" rel="noopener">(c) 2026 Juan Jose de Haro</a>
       <span class="footer-sep">·</span>
-      <span class="footer-link">v1.3.1</span>
+	      <span class="footer-link">v1.3.2</span>
       <span class="footer-sep">·</span>
       <a class="footer-link" href="https://github.com/visor-webzip/visor-webzip.github.io" target="_blank" rel="noopener">
         <svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
@@ -365,6 +364,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
   <script src="config.js"></script>
-  <script src="app.js?v=17"></script>
+	  <script src="app.js?v=18"></script>
  </body>
  </html>

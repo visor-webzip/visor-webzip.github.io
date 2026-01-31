@@ -133,7 +133,7 @@
         label: 'Secciones'
       },
       main: {
-        subtitle: 'Si ya tienes tu recurso en formato ZIP en un servicio con enlace público (Drive, Dropbox, etc.), pega aquí el enlace para generar el enlace del visor.',
+        subtitle: 'Si ya tienes tu recurso en formato ZIP en un servicio con enlace público (Drive, Dropbox, etc.), pega aquí el enlace para generar el enlace.',
         form: {
           title: 'Pega aquí el enlace público',
           step: 'Pega el enlace público al ZIP y pulsa “Crear enlace”.',
@@ -142,8 +142,8 @@
         },
         output: {
           title: 'Enlace para compartir',
-          step: 'Copia el enlace o abre la vista previa.',
-          placeholder: 'Enlace para compartir',
+          step: 'Copia el enlace para compartir, copia el código para insertar el recurso en otra web o abre la vista previa.',
+          placeholder: 'Aquí se mostrará el enlace',
           copy: 'Copiar enlace',
           embed: 'Insertar en una web',
           open: 'Abrir vista previa'
