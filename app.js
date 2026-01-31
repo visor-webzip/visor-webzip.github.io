@@ -91,7 +91,7 @@
         eyebrow: 'Materiales en ZIP',
         title: 'Visor Web-ZIP',
         help: 'Ayuda',
-        subtitle: 'Comparte tus recursos educativos desde tu almacenamiento favorito en la nube.'
+        subtitle: 'Autopublicación de recursos educativos desde tu almacenamiento en la nube.'
       },
       lang: {
         label: 'Idioma',
