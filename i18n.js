@@ -114,8 +114,13 @@
           uploadTitle: 'Cargar recurso'
         },
         quick: {
+          optionALabel: 'Opción A',
+          optionAText: 'Si tu recurso está en tu ordenador (archivos y carpetas), lo has copiado de una IA (código HTML), o si necesitas aplicar fechas u otras restricciones, súbelo o pégalo aquí.',
+          optionBLabel: 'Opción B',
+          optionBText: 'Si ya tienes un ZIP, ELPX o H5P compartido en la nube (Drive, Dropbox, Nextcloud, etc.) con enlace público, pega la dirección directamente aquí.',
           intro: 'Elige una de estas dos opciones:<br><br>1. Si tu recurso educativo digital está en carpetas, archivos o código HTML, o si necesitas establecer fechas de accesibilidad u otras restricciones, cárgalo primero en la zona superior.<br><br>2. Si ya tienes un ZIP, ELPX o H5P con enlace público en tu servicio de almacenamiento en la nube (Drive, Dropbox, Nextcloud, etc.) y no necesitas modificarlo, pega esa dirección en «Crear enlace».',
-          newResource: 'Recurso nuevo',
+          newResource: 'Reiniciar',
+          newResourceTooltip: 'Reinicia la aplicación para añadir nuevos recursos o cambiar de opción.',
           files: {
             title: 'Cargar archivos o carpetas',
             dropTitle: 'Arrastra aquí la carpeta o los archivos',
@@ -258,6 +263,23 @@
           availabilityEdit: 'Cambiar configuración',
           availabilityInfo: 'Definir cuándo estará visible el recurso y qué acciones estarán disponibles en el gestor de recursos.'
         },
+        panel: {
+          configTitle: 'Configuración del recurso',
+          stateTitle: 'Estado del recurso',
+          actionsTitle: 'Acciones',
+          startLabel: 'Inicio',
+          endLabel: 'Fin',
+          permissionsLabel: 'Permisos',
+          startImmediate: 'Inmediato',
+          noEnd: 'Sin fecha de fin',
+          stateAvailable: 'Recurso disponible',
+          stateAvailableHelp: 'El recurso puede abrirse en este momento.',
+          stateAvailableUntil: 'Disponible hasta el {date}.',
+          stateScheduled: 'Pendiente de apertura',
+          stateScheduledHelp: 'Se abrirá el {date}.',
+          stateClosed: 'Recurso no disponible',
+          stateClosedHelp: 'La disponibilidad terminó el {date}.'
+        },
         restrict: {
           summaryTitle: 'Acceso limitado por fechas'
         },
@@ -362,6 +384,8 @@
           previewAction: 'Previsualizar',
           previewApplyRestrictions: 'Aplicar restricciones en la previsualización',
           previewApplyRestrictionsNote: 'Actívalo para comprobar cómo se abre y se cierra el recurso según las fechas configuradas.',
+          previewHideResource: 'Previsualizar como recurso oculto',
+          previewOpeningBlocked: 'Este recurso no está visible ahora mismo en la previsualización. Desactiva esta opción si quieres ver cómo quedará cuando esté abierto. Déjala activada si quieres ver cómo se ve cuando no está visible.',
           previewApplyRestrictionsInfo: 'Más información',
           previewApplyRestrictionsInfoHtml: 'Úsalo para comprobar cómo se abre y se cierra el recurso según las fechas configuradas.',
           goTab: 'Ir a ② Crear enlace para pegar el enlace público'
@@ -390,7 +414,7 @@
       },
       about: {
         title: 'Ayuda',
-        intro: 'Guía rápida para publicar, compartir y gestionar recursos en el visor.',
+        intro: 'Aquí tienes una explicación clara de las dos opciones de trabajo, del botón Reiniciar y de cómo compartir y actualizar tus recursos.',
         can: {
           title: 'Qué puedes subir',
           item1: 'ZIPs con páginas web estáticas y sus recursos (archivos HTML, imágenes, audio, vídeo, PDF, etc.).',
@@ -417,7 +441,7 @@
           title: 'Importante sobre Google Drive',
           note: 'Google Drive limita la descarga directa de archivos grandes (aprox. 25 MB). Si tu ZIP supera ese tamaño, puede fallar. Dropbox, Nextcloud y otros servicios suelen permitir archivos más grandes sin ese límite.'
         },
-        body: '<nav class="about-index" data-help-nav aria-label="Índice de ayuda"><p class="about-index__title">Índice</p><ul><li><a href="#help-objetivo">Objetivo</a></li><li><a href="#help-ruta">Ruta rápida para compartir</a></li><li><a href="#help-pestanas">Pestañas de trabajo</a></li><li><a href="#help-visor">Qué visor se crea automáticamente</a></li><li><a href="#help-opciones">Opciones antes de descargar</a></li><li><a href="#help-disponibilidad">Disponibilidad y acciones</a></li><li><a href="#help-gestor">Gestor de recursos</a></li><li><a href="#help-faq">FAQ: privacidad y datos</a></li></ul></nav><section aria-labelledby="help-objetivo"><h3 class="about-section-title" id="help-objetivo" tabindex="-1">Objetivo</h3><p>Compartir recursos con tu alumnado de forma sencilla: preparas el material, generas el enlace y lo distribuyes.</p></section><section aria-labelledby="help-ruta"><h3 class="about-section-title" id="help-ruta" tabindex="-1">Ruta rápida para compartir</h3><ol class="about-steps"><li>En <strong>① Cargar recurso</strong>, carga tu recurso (carpetas, archivos o ZIP/ELPX/H5P) o pega el código HTML.</li><li>Revisa el resumen y, si lo necesitas, ajusta <strong>Opciones</strong> (título, disponibilidad y forzar visor de carpetas).</li><li>En <strong>Opciones</strong>, crea el archivo final. Después súbelo a tu nube con enlace público y, en <strong>② Crear enlace</strong>, pega esa dirección.</li></ol><p>Si ya tienes el ZIP, ELPX o H5P en la nube con enlace público, ve a <strong>② Crear enlace</strong> y pega la dirección.</p></section><section aria-labelledby="help-pestanas"><h3 class="about-section-title" id="help-pestanas" tabindex="-1">Pestañas de trabajo</h3><ul><li><strong>Inicio</strong>: contiene las dos partes del flujo: <strong>① Cargar recurso</strong> y <strong>② Crear enlace</strong>.</li><li><strong>Gestor de recursos</strong>: abres, copias, insertas, actualizas y eliminas recursos guardados en tu navegador.</li></ul></section><section aria-labelledby="help-visor"><h3 class="about-section-title" id="help-visor" tabindex="-1">Qué visor se crea automáticamente</h3><p>El programa detecta el contenido y elige el visor más adecuado:</p><ul><li><strong>Visor web</strong>: para recursos con páginas HTML y paquetes SCORM 1.2.</li><li><strong>Visor H5P</strong>: para contenidos <code>.h5p</code>, tanto sueltos como dentro de ZIP/ELPX/H5P.</li><li><strong>Visor de documentos</strong>: para PDF, DOCX, TXT, MD y CSV (incluye renderizado de fórmulas en Markdown).</li><li><strong>Visor de carpetas</strong>: para navegar por carpetas y archivos de cualquier tipo.</li></ul><p>Puedes ver el programa en funcionamiento con estos ejemplos:</p><ul><li><a href="https://visor-webzip.github.io/?key=NO9-KQ_Vkmi6&view=full&entry=__vwz_folder_index.html" target="_blank" rel="noopener">Visor de carpetas</a></li><li><a href="https://visor-webzip.github.io/?key=crBAg-o4BARB&view=full&entry=tetris%2Findex.html" target="_blank" rel="noopener">Visor web</a></li><li><a href="https://visor-webzip.github.io/?key=z3loPNMOj1pW&view=full&entry=__vwz_docs_index.html" target="_blank" rel="noopener">Visor de documentos</a></li><li><a href="https://visor-webzip.github.io/?key=sFUKNJkh0Joq&view=full&entry=__vwz_h5p_index.html" target="_blank" rel="noopener">Visor H5P</a></li></ul><p>Te recomendamos abrir también el <strong>Gestor de recursos</strong> para revisar qué acciones puedes realizar con cada ejemplo (compartir, insertar en una web, descargar o actualizar).</p></section><section aria-labelledby="help-opciones"><h3 class="about-section-title" id="help-opciones" tabindex="-1">Opciones antes de descargar</h3><ul><li><strong>Poner un título al recurso</strong>: opcional, para personalizar cómo aparecerá.</li><li><strong>Configurar la disponibilidad del recurso</strong>: opcional, para decidir cuándo se puede abrir y qué acciones estarán permitidas.</li><li><strong>Forzar visor de carpetas</strong>: útil si quieres que siempre se vea como explorador de archivos.</li><li><strong>Previsualizar</strong>: abre una vista temporal local para comprobar el resultado antes de subirlo.</li></ul></section><section aria-labelledby="help-disponibilidad"><h3 class="about-section-title" id="help-disponibilidad" tabindex="-1">Disponibilidad y acciones</h3><p>En <strong>Opciones</strong> puedes activar la disponibilidad por fechas y definir inicio, fin opcional y acciones del gestor (compartir, insertar en web, descargar) mientras el recurso sea accesible.</p><p>Si cargas un ZIP, ELPX o H5P ya creado, también puedes añadir o cambiar estas restricciones y previsualizar el resultado antes de generar el enlace final.</p></section><section aria-labelledby="help-gestor"><h3 class="about-section-title" id="help-gestor" tabindex="-1">Gestor de recursos</h3><p>El gestor guarda los recursos en este navegador. Desde ahí puedes abrirlos, compartirlos, insertarlos en web, actualizarlos si cambia el archivo en la nube y eliminarlos cuando ya no los necesites.</p></section><section aria-labelledby="help-faq"><h3 class="about-section-title" id="help-faq" tabindex="-1">FAQ: privacidad y datos</h3><ul><li><strong>¿Dónde se guardan los recursos?</strong> En el almacenamiento local del navegador de cada dispositivo.</li><li><strong>¿Se suben mis recursos a GitHub o al programa?</strong> No. Tú alojas el ZIP/ELPX/H5P en tu nube. El visor solo lo descarga y lo abre en el navegador.</li><li><strong>¿Se envían datos a terceros?</strong> No. Solo se realiza la descarga del ZIP/ELPX/H5P desde el enlace público que tú has indicado.</li><li><strong>¿Qué pasa si borro datos del navegador o cambio de dispositivo?</strong> Los recursos locales desaparecen en ese navegador/dispositivo.</li><li><strong>¿Quién puede ver el recurso?</strong> Quien tenga el enlace del visor y, además, acceso al enlace público del archivo.</li><li><strong>¿Cómo actualizo un recurso?</strong> Sustituye el archivo en la nube sin borrar el anterior, cualquier usuario que abra el enlace compartido recibirá una notificación para actualizar el recurso.</li></ul></section>'
+        body: '<nav class="about-index" data-help-nav aria-label="Índice de ayuda"><p class="about-index__title">Índice</p><ul><li><a href="#help-que-es">Qué hace esta aplicación</a></li><li><a href="#help-opcion-a">Cuándo usar la opción A</a></li><li><a href="#help-opcion-b">Cuándo usar la opción B</a></li><li><a href="#help-visores">Qué visor se crea automáticamente</a></li><li><a href="#help-panel-final">Qué revisar antes de terminar</a></li><li><a href="#help-fechas">Fechas, previsualización y Reiniciar</a></li><li><a href="#help-gestor">Gestor de recursos</a></li><li><a href="#help-faq">Preguntas frecuentes</a></li></ul></nav><section aria-labelledby="help-que-es"><h3 class="about-section-title" id="help-que-es" tabindex="-1">Qué hace esta aplicación</h3><p>Esta aplicación te ayuda a preparar un recurso digital para compartirlo con tu alumnado mediante un enlace web. Tú eliges una de las dos formas de trabajo del panel principal. La aplicación prepara el material, detecta el visor más adecuado y te guía hasta el enlace final.</p><p>La idea clave es sencilla: si el material todavía está en tu ordenador, normalmente empezarás por la opción A; si ya lo tienes publicado en la nube con enlace público, normalmente usarás la opción B.</p></section><section aria-labelledby="help-opcion-a"><h3 class="about-section-title" id="help-opcion-a" tabindex="-1">Cuándo usar la opción A</h3><p>Usa la <strong>opción A</strong> cuando el recurso todavía está en tu ordenador, cuando quieres pegar un HTML generado por una IA o cuando necesitas configurar fechas de apertura, cierre u otras restricciones.</p><p>En esta opción puedes subir archivos y carpetas, pegar código HTML y completar la configuración final del recurso. Si en algún momento eliges esta vía, la aplicación se centra en ella para que la otra opción no distraiga.</p></section><section aria-labelledby="help-opcion-b"><h3 class="about-section-title" id="help-opcion-b" tabindex="-1">Cuándo usar la opción B</h3><p>Usa la <strong>opción B</strong> cuando ya tienes un ZIP, ELPX o H5P compartido en la nube con enlace público, por ejemplo en Drive, Dropbox o Nextcloud. Muchas veces ese archivo lo habrás preparado antes con la opción A, pero no siempre: también puede venir de eXeLearning, de otra herramienta o de un material que ya tenías hecho.</p><p>Por tanto, la opción B no sirve solo para continuar lo que has hecho aquí, sino también para trabajar con archivos que ya estaban preparados de antemano. El enlace que se genera en esta opción es el que compartirás con tu alumnado para que pueda abrir el recurso en su navegador. Si has configurado fechas de apertura o cierre, el recurso solo estará disponible dentro de ese intervalo.</p></section><section aria-labelledby="help-visores"><h3 class="about-section-title" id="help-visores" tabindex="-1">Qué visor se crea automáticamente</h3><p>La aplicación detecta el contenido y elige el visor más adecuado para cada caso.</p><ul><li><strong>Visor de carpetas</strong>: para navegar por carpetas y archivos de distinto tipo.</li><li><strong>Visor web</strong>: para recursos con páginas HTML y materiales tipo SCORM 1.2.</li><li><strong>Visor de documentos</strong>: para PDF, DOCX, TXT, MD y CSV.</li><li><strong>Visor H5P</strong>: para contenidos <code>.h5p</code>, tanto sueltos como dentro de ZIP, ELPX o H5P.</li></ul><p>Si quieres ver ejemplos reales, puedes abrir estos enlaces:</p><ul><li><a href="https://visor-webzip.github.io/?key=NO9-KQ_Vkmi6&view=full&entry=__vwz_folder_index.html" target="_blank" rel="noopener">Ejemplo de visor de carpetas</a></li><li><a href="https://visor-webzip.github.io/?key=crBAg-o4BARB&view=full&entry=tetris%2Findex.html" target="_blank" rel="noopener">Ejemplo de visor web</a></li><li><a href="https://visor-webzip.github.io/?key=z3loPNMOj1pW&view=full&entry=__vwz_docs_index.html" target="_blank" rel="noopener">Ejemplo de visor de documentos</a></li><li><a href="https://visor-webzip.github.io/?key=sFUKNJkh0Joq&view=full&entry=__vwz_h5p_index.html" target="_blank" rel="noopener">Ejemplo de visor H5P</a></li></ul></section><section aria-labelledby="help-panel-final"><h3 class="about-section-title" id="help-panel-final" tabindex="-1">Qué revisar antes de terminar</h3><p>Si trabajas con la opción A, al cargar el material aparecerá un panel de configuración. Ahí puedes poner un título más claro, forzar el visor de carpetas si te interesa y, si lo necesitas, activar la disponibilidad del recurso.</p><p>También puedes previsualizar el resultado antes de generar el ZIP definitivo. Esa previsualización sirve para comprobar que todo se ve como esperas antes de subir el archivo a tu servicio en la nube.</p></section><section aria-labelledby="help-fechas"><h3 class="about-section-title" id="help-fechas" tabindex="-1">Fechas, previsualización y Reiniciar</h3><p>La opción <strong>Configurar la disponibilidad del recurso</strong> permite indicar desde cuándo estará visible y, si lo deseas, hasta cuándo. Cuando esa opción está activada, el panel te muestra el estado del recurso y los permisos disponibles.</p><p>Si necesitas empezar de nuevo o cambiar de una opción a la otra, utiliza <strong>Reiniciar</strong>. Ese botón limpia la sesión actual y devuelve la pantalla al estado inicial.</p></section><section aria-labelledby="help-gestor"><h3 class="about-section-title" id="help-gestor" tabindex="-1">Gestor de recursos</h3><p>El <strong>Gestor de recursos</strong> guarda en este navegador los materiales que ya has abierto o generado. Desde ahí puedes volver a abrirlos, copiarlos, insertarlos en una web, descargarlos, eliminarlos o actualizar su contenido si el archivo de la nube ha cambiado.</p><p>Es útil para no tener que repetir el proceso cada vez desde cero, sobre todo cuando trabajas con los mismos materiales varias veces.</p></section><section aria-labelledby="help-faq"><h3 class="about-section-title" id="help-faq" tabindex="-1">Preguntas frecuentes</h3><ul><li><strong>¿Dónde se guardan los recursos?</strong> En el almacenamiento local del navegador de cada dispositivo.</li><li><strong>¿Se suben mis recursos a GitHub o al programa?</strong> No. Tú alojas el ZIP, el ELPX o el H5P en tu nube. El visor solo lo descarga y lo abre en el navegador.</li><li><strong>¿Se envían datos a terceros?</strong> No. Solo se realiza la descarga del archivo desde el enlace público que tú has indicado.</li><li><strong>¿Qué pasa si borro datos del navegador o cambio de dispositivo?</strong> Los recursos locales desaparecen en ese navegador o en ese dispositivo.</li><li><strong>¿Quién puede ver el recurso?</strong> Quien tenga el enlace del visor y, además, acceso al enlace público del archivo.</li><li><strong>¿Cómo actualizo un recurso?</strong> Sustituye el archivo en la nube sin borrar el anterior. Cuando alguien vuelva a abrir el enlace compartido, el gestor puede avisar de que hay una versión nueva.</li><li><strong>¿Cuándo conviene usar Reiniciar?</strong> Cuando quieres empezar otra publicación distinta o cambiar de la opción A a la opción B sin arrastrar lo que estabas haciendo.</li><li><strong>¿Necesito hacer algo más después de crear el ZIP?</strong> Sí. Después debes subirlo a tu servicio en la nube con enlace público y, a continuación, pegar esa dirección en la opción B para generar el enlace final del visor.</li></ul></section>'
       },
       error: {
         driveTooLarge: 'El archivo es demasiado grande y Google Drive limita las descargas. Intenta usando Nextcloud, Dropbox u otro servicio.',
@@ -614,8 +638,13 @@
           uploadTitle: 'Carregar recurs'
         },
         quick: {
+          optionALabel: 'Opció A',
+          optionAText: 'Si el teu recurs és al teu ordinador (fitxers i carpetes), l’has copiat d’una IA (codi HTML), o si necessites aplicar dates o altres restriccions, puja’l o enganxa’l aquí.',
+          optionBLabel: 'Opció B',
+          optionBText: 'Si ja tens un ZIP, ELPX o H5P compartit al núvol (Drive, Dropbox, Nextcloud, etc.) amb enllaç públic, enganxa l’adreça directament aquí.',
           intro: 'Tria una d’aquestes dues opcions:<br><br>1. Si el teu recurs educatiu digital és en carpetes, fitxers o codi HTML, o si necessites establir dates d’accessibilitat o altres restriccions, carrega’l primer a la zona superior.<br><br>2. Si ja tens un ZIP, ELPX o H5P amb enllaç públic al teu servei d’emmagatzematge al núvol (Drive, Dropbox, Nextcloud, etc.) i no cal modificar-lo, enganxa aquesta adreça a «Crear enllaç».',
-          newResource: 'Recurs nou',
+          newResource: 'Reiniciar',
+          newResourceTooltip: 'Reinicia l’aplicació per afegir recursos nous o canviar d’opció.',
           files: {
             title: 'Carregar fitxers o carpetes',
             dropTitle: 'Arrossega aquí la carpeta o els fitxers',
@@ -758,6 +787,23 @@
           availabilityEdit: 'Canviar configuració',
           availabilityInfo: 'Definir quan el recurs serà visible i quines accions estaran disponibles al gestor de recursos.'
         },
+        panel: {
+          configTitle: 'Configuració del recurs',
+          stateTitle: 'Estat del recurs',
+          actionsTitle: 'Accions',
+          startLabel: 'Inici',
+          endLabel: 'Fi',
+          permissionsLabel: 'Permisos',
+          startImmediate: 'Immediat',
+          noEnd: 'Sense data de fi',
+          stateAvailable: 'Recurs disponible',
+          stateAvailableHelp: 'El recurs es pot obrir en aquest moment.',
+          stateAvailableUntil: 'Disponible fins al {date}.',
+          stateScheduled: 'Pendent d’obertura',
+          stateScheduledHelp: 'S’obrirà el {date}.',
+          stateClosed: 'Recurs no disponible',
+          stateClosedHelp: 'La disponibilitat va acabar el {date}.'
+        },
         accordion: {
           filesTitle: 'El teu recurs té fitxers o ja tens un ZIP/ELPX/H5P? Carrega\'l aquí'
         },
@@ -860,6 +906,8 @@
           previewAction: 'Previsualitzar',
           previewApplyRestrictions: 'Aplicar restriccions en la previsualització',
           previewApplyRestrictionsNote: 'Activa-ho per comprovar com s’obre i es tanca el recurs segons les dates configurades.',
+          previewHideResource: 'Previsualitzar com a recurs ocult',
+          previewOpeningBlocked: 'Aquest recurs no és visible ara mateix a la previsualització. Desactiva aquesta opció si vols veure com quedarà quan estigui obert. Deixa-la activada si vols veure com es veu quan no és visible.',
           previewApplyRestrictionsInfo: 'Més informació',
           previewApplyRestrictionsInfoHtml: 'Fes-lo servir per comprovar com s’obre i es tanca el recurs segons les dates configurades.',
           goTab: 'Anar a ② Crear enllaç per enganxar l’enllaç públic'
@@ -1105,8 +1153,13 @@
           uploadTitle: 'Cargar recurso'
         },
         quick: {
+          optionALabel: 'Opción A',
+          optionAText: 'Se o teu recurso está no teu ordenador (ficheiros e cartafoles), copiáchelo dunha IA (código HTML), ou se precisas aplicar datas ou outras restricións, súbeo ou pégao aquí.',
+          optionBLabel: 'Opción B',
+          optionBText: 'Se xa tes un ZIP, ELPX ou H5P compartido na nube (Drive, Dropbox, Nextcloud, etc.) cunha ligazón pública, pega o enderezo directamente aquí.',
           intro: 'Escolle unha destas dúas opcións:<br><br>1. Se o teu recurso educativo dixital está en cartafoles, ficheiros ou código HTML, ou se necesitas establecer datas de accesibilidade ou outras restricións, cárgao primeiro na zona superior.<br><br>2. Se xa tes un ZIP, ELPX ou H5P con ligazón pública no teu servizo de almacenamento na nube (Drive, Dropbox, Nextcloud, etc.) e non precisas modificalo, pega ese enderezo en «Crear ligazón».',
-          newResource: 'Recurso novo',
+          newResource: 'Reiniciar',
+          newResourceTooltip: 'Reinicia a aplicación para engadir novos recursos ou cambiar de opción.',
           files: {
             title: 'Cargar ficheiros ou cartafoles',
             dropTitle: 'Arrastra aquí o cartafol ou os ficheiros',
@@ -1249,6 +1302,23 @@
           availabilityEdit: 'Cambiar configuración',
           availabilityInfo: 'Definir cando estará visible o recurso e que accións estarán dispoñibles no xestor de recursos.'
         },
+        panel: {
+          configTitle: 'Configuración do recurso',
+          stateTitle: 'Estado do recurso',
+          actionsTitle: 'Accións',
+          startLabel: 'Inicio',
+          endLabel: 'Fin',
+          permissionsLabel: 'Permisos',
+          startImmediate: 'Inmediato',
+          noEnd: 'Sen data de fin',
+          stateAvailable: 'Recurso dispoñible',
+          stateAvailableHelp: 'O recurso pode abrirse neste momento.',
+          stateAvailableUntil: 'Dispoñible ata o {date}.',
+          stateScheduled: 'Pendente de apertura',
+          stateScheduledHelp: 'Abrirase o {date}.',
+          stateClosed: 'Recurso non dispoñible',
+          stateClosedHelp: 'A dispoñibilidade rematou o {date}.'
+        },
         accordion: {
           filesTitle: 'O teu recurso ten ficheiros ou xa tes un ZIP/ELPX/H5P? Cárgao aquí'
         },
@@ -1351,6 +1421,8 @@
           previewAction: 'Previsualizar',
           previewApplyRestrictions: 'Aplicar restricións na previsualización',
           previewApplyRestrictionsNote: 'Actívao para comprobar como se abre e se pecha o recurso segundo as datas configuradas.',
+          previewHideResource: 'Previsualizar como recurso oculto',
+          previewOpeningBlocked: 'Este recurso non está visible agora mesmo na previsualización. Desactiva esta opción se queres ver como quedará cando estea aberto. Déixaa activada se queres ver como se ve cando non está visible.',
           previewApplyRestrictionsInfo: 'Máis información',
           previewApplyRestrictionsInfoHtml: 'Úsao para comprobar como se abre e se pecha o recurso segundo as datas configuradas.',
           goTab: 'Ir a ② Crear ligazón para pegar a ligazón pública'
@@ -1596,8 +1668,13 @@
           uploadTitle: 'Kargatu baliabidea'
         },
         quick: {
+          optionALabel: 'A aukera',
+          optionAText: 'Zure baliabidea ordenagailuan badago (fitxategiak eta karpetak), IA batetik kopiatu baduzu (HTML kodea), edo datak nahiz bestelako murrizketak aplikatu behar badituzu, igo edo itsatsi hemen.',
+          optionBLabel: 'B aukera',
+          optionBText: 'Dagoeneko ZIP, ELPX edo H5P bat hodeian partekatuta baduzu (Drive, Dropbox, Nextcloud, etab.) esteka publikoarekin, itsatsi helbidea zuzenean hemen.',
           intro: 'Aukeratu bi aukera hauetako bat:<br><br>1. Zure baliabide digitala karpetetan, fitxategietan edo HTML kodean badago, edo eskuragarritasun datak edo beste murrizketa batzuk ezarri behar badituzu, kargatu lehenik goiko eremuan.<br><br>2. Dagoeneko ZIP, ELPX edo H5P bat esteka publikoarekin baduzu zure hodeiko biltegiratze-zerbitzuan (Drive, Dropbox, Nextcloud, etab.) eta ez baduzu aldatu behar, itsatsi helbide hori «Esteka sortu» atalean.',
-          newResource: 'Baliabide berria',
+          newResource: 'Berrabiarazi',
+          newResourceTooltip: 'Berrabiarazi aplikazioa baliabide berriak gehitzeko edo aukeraz aldatzeko.',
           files: {
             title: 'Kargatu fitxategiak edo karpetak',
             dropTitle: 'Arrastatu hona karpeta edo fitxategiak',
@@ -1740,6 +1817,23 @@
           availabilityEdit: 'Aldatu konfigurazioa',
           availabilityInfo: 'Zehaztu noiz egongo den baliabidea ikusgai eta zein ekintza egongo diren erabilgarri baliabideen kudeatzailean.'
         },
+        panel: {
+          configTitle: 'Baliabidearen konfigurazioa',
+          stateTitle: 'Baliabidearen egoera',
+          actionsTitle: 'Ekintzak',
+          startLabel: 'Hasiera',
+          endLabel: 'Amaiera',
+          permissionsLabel: 'Baimenak',
+          startImmediate: 'Berehala',
+          noEnd: 'Amaiera-datarik gabe',
+          stateAvailable: 'Baliabidea erabilgarri',
+          stateAvailableHelp: 'Baliabidea une honetan ireki daiteke.',
+          stateAvailableUntil: '{date} arte erabilgarri.',
+          stateScheduled: 'Irekitzeko zain',
+          stateScheduledHelp: '{date} egunean irekiko da.',
+          stateClosed: 'Baliabidea ez dago erabilgarri',
+          stateClosedHelp: 'Erabilgarritasuna {date} egunean amaitu zen.'
+        },
         accordion: {
           filesTitle: 'Zure baliabideak fitxategiak ditu edo ZIP/ELPX/H5P bat baduzu? Kargatu hemen'
         },
@@ -1842,6 +1936,8 @@
           previewAction: 'Aurreikusi',
           previewApplyRestrictions: 'Murrizketak aplikatu aurrebistan',
           previewApplyRestrictionsNote: 'Aktibatu baliabidea nola irekitzen eta ixten den egiaztatzeko, konfiguratutako daten arabera.',
+          previewHideResource: 'Aurreikusi baliabidea ezkutuan',
+          previewOpeningBlocked: 'Baliabide hau ez dago ikusgai une honetan aurrebistan. Desaktibatu aukera hau irekita dagoenean nola geratuko den ikusi nahi baduzu. Utzi aktibatuta ikusgai ez dagoenean nola ikusten den ikusi nahi baduzu.',
           previewApplyRestrictionsInfo: 'Informazio gehiago',
           previewApplyRestrictionsInfoHtml: 'Erabili baliabidea nola irekitzen eta ixten den egiaztatzeko, konfiguratutako daten arabera.',
           goTab: 'Joan ② Esteka sortu atalera esteka publikoa itsasteko'
@@ -2087,8 +2183,13 @@
           uploadTitle: 'Load resource'
         },
         quick: {
+          optionALabel: 'Option A',
+          optionAText: 'If your resource is on your computer (files and folders), copied from an AI tool (HTML code), or if you need to apply dates or other restrictions, upload it or paste it here.',
+          optionBLabel: 'Option B',
+          optionBText: 'If you already have a ZIP, ELPX, or H5P shared in the cloud (Drive, Dropbox, Nextcloud, etc.) with a public link, paste the address directly here.',
           intro: 'Choose one of these two options:<br><br>1. If your digital educational resource is in folders, files, or HTML code, or if you need to set access dates or other restrictions, load it first in the top area.<br><br>2. If you already have a ZIP, ELPX, or H5P with a public link in your cloud storage service (Drive, Dropbox, Nextcloud, etc.) and you don’t need to modify it, paste that address in «Create link».',
-          newResource: 'New resource',
+          newResource: 'Reset',
+          newResourceTooltip: 'Reset the app to add new resources or switch to the other option.',
           files: {
             title: 'Load files or folders',
             dropTitle: 'Drag the folder or files here',
@@ -2231,6 +2332,23 @@
           availabilityEdit: 'Change settings',
           availabilityInfo: 'Define when the resource will be visible and which actions will be available in the resource manager.'
         },
+        panel: {
+          configTitle: 'Resource settings',
+          stateTitle: 'Resource status',
+          actionsTitle: 'Actions',
+          startLabel: 'Start',
+          endLabel: 'End',
+          permissionsLabel: 'Permissions',
+          startImmediate: 'Immediate',
+          noEnd: 'No end date',
+          stateAvailable: 'Resource available',
+          stateAvailableHelp: 'The resource can be opened right now.',
+          stateAvailableUntil: 'Available until {date}.',
+          stateScheduled: 'Waiting to open',
+          stateScheduledHelp: 'It will open on {date}.',
+          stateClosed: 'Resource unavailable',
+          stateClosedHelp: 'Availability ended on {date}.'
+        },
         accordion: {
           filesTitle: 'Does your resource have files or a ready ZIP/ELPX/H5P? Load it here'
         },
@@ -2334,6 +2452,8 @@
           previewAction: 'Preview',
           previewApplyRestrictions: 'Apply restrictions in preview',
           previewApplyRestrictionsNote: 'Enable it to check how the resource opens and closes based on the configured dates.',
+          previewHideResource: 'Preview as hidden resource',
+          previewOpeningBlocked: 'This resource is not visible right now in the preview. Disable this option if you want to see how it will look when it is open. Leave it enabled if you want to see how it looks when it is not visible.',
           previewApplyRestrictionsInfo: 'More information',
           previewApplyRestrictionsInfoHtml: 'Use it to check how the resource opens and closes based on the configured dates.',
           goTab: 'Go to ② Create link to paste the public link'
@@ -2579,8 +2699,13 @@
           uploadTitle: 'Ressource laden'
         },
         quick: {
+          optionALabel: 'Option A',
+          optionAText: 'Wenn sich deine Ressource auf deinem Computer befindet (Dateien und Ordner), du sie aus einer KI kopiert hast (HTML-Code) oder Daten bzw. andere Einschränkungen anwenden musst, lade sie hier hoch oder füge sie hier ein.',
+          optionBLabel: 'Option B',
+          optionBText: 'Wenn du bereits eine ZIP-, ELPX- oder H5P-Datei in der Cloud (Drive, Dropbox, Nextcloud usw.) mit öffentlichem Link freigegeben hast, füge die Adresse direkt hier ein.',
           intro: 'Wähle eine der beiden Optionen:<br><br>1. Wenn deine digitale Bildungsressource in Ordnern, Dateien oder als HTML-Code vorliegt oder du Zugriffszeiten bzw. andere Einschränkungen festlegen musst, lade sie zuerst im oberen Bereich.<br><br>2. Wenn du bereits eine ZIP-, ELPX- oder H5P-Datei mit öffentlichem Link in deinem Cloud-Speicher (Drive, Dropbox, Nextcloud usw.) hast und sie nicht ändern musst, füge diese Adresse in «Link erstellen» ein.',
-          newResource: 'Neue Ressource',
+          newResource: 'Zurücksetzen',
+          newResourceTooltip: 'Setzt die Anwendung zurück, um neue Ressourcen hinzuzufügen oder die Option zu wechseln.',
           files: {
             title: 'Dateien oder Ordner laden',
             dropTitle: 'Ordner oder Dateien hierher ziehen',
@@ -2723,6 +2848,23 @@
           availabilityEdit: 'Konfiguration ändern',
           availabilityInfo: 'Lege fest, wann die Ressource sichtbar ist und welche Aktionen im Ressourcenmanager verfügbar sind.'
         },
+        panel: {
+          configTitle: 'Ressourcenkonfiguration',
+          stateTitle: 'Status der Ressource',
+          actionsTitle: 'Aktionen',
+          startLabel: 'Beginn',
+          endLabel: 'Ende',
+          permissionsLabel: 'Berechtigungen',
+          startImmediate: 'Sofort',
+          noEnd: 'Kein Enddatum',
+          stateAvailable: 'Ressource verfügbar',
+          stateAvailableHelp: 'Die Ressource kann im Moment geöffnet werden.',
+          stateAvailableUntil: 'Verfügbar bis {date}.',
+          stateScheduled: 'Wartet auf Freigabe',
+          stateScheduledHelp: 'Sie wird am {date} geöffnet.',
+          stateClosed: 'Ressource nicht verfügbar',
+          stateClosedHelp: 'Die Verfügbarkeit endete am {date}.'
+        },
         accordion: {
           filesTitle: 'Hat deine Ressource Dateien oder bereits eine ZIP/ELPX/H5P? Lade sie hier'
         },
@@ -2826,6 +2968,8 @@
           previewAction: 'Vorschau',
           previewApplyRestrictions: 'Einschränkungen in der Vorschau anwenden',
           previewApplyRestrictionsNote: 'Aktiviere dies, um zu prüfen, wie sich die Ressource gemäß den eingestellten Daten öffnet und schließt.',
+          previewHideResource: 'Als ausgeblendete Ressource in der Vorschau zeigen',
+          previewOpeningBlocked: 'Diese Ressource ist in der Vorschau im Moment nicht sichtbar. Deaktiviere diese Option, wenn du sehen möchtest, wie sie aussieht, wenn sie geöffnet ist. Lass sie aktiviert, wenn du sehen möchtest, wie sie aussieht, wenn sie nicht sichtbar ist.',
           previewApplyRestrictionsInfo: 'Mehr Informationen',
           previewApplyRestrictionsInfoHtml: 'Damit kannst du prüfen, wie sich die Ressource gemäß den eingestellten Daten öffnet und schließt.',
           goTab: 'Zu ② Link erstellen gehen und öffentlichen Link einfügen'

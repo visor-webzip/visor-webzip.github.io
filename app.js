@@ -49,6 +49,8 @@
   var tabZipperButton = document.querySelector('[data-tab="zipper"]');
   var tabPanels = document.querySelectorAll('[data-tab-panel]');
   var publishChoice = document.querySelector('[data-publish-choice]');
+  var publishRouteCards = document.querySelectorAll('[data-publish-route-card]');
+  var publishRoutePanels = document.querySelectorAll('[data-publish-route]');
   var publishModules = document.querySelectorAll('[data-publish-module]');
   var managerList = document.querySelector('[data-manager-list]');
   var storageUsed = document.querySelector('[data-storage-used]');
@@ -69,12 +71,19 @@
   var quickHtmlInput = document.querySelector('[data-quick-html-input]');
   var newResourceButton = document.querySelector('[data-new-resource]');
   var uploadStatus = document.querySelector('[data-upload-status]');
-  var zipDownloadTitleNode = document.querySelector('[data-zip-download-title]');
   var buildZipButton = document.querySelector('[data-build-zip]');
   var forceFolderViewerInput = document.querySelector('[data-force-folder-viewer]');
   var forceFolderNoteNode = document.querySelector('[data-force-folder-note]');
   var previewResourceButton = document.querySelector('[data-preview-resource]');
   var previewApplyRestrictionsInput = document.querySelector('[data-preview-apply-restrictions]');
+  var previewRestrictionsWrap = document.querySelector('[data-preview-restrictions-wrap]');
+  var previewRestrictionsMessage = document.querySelector('[data-preview-restrictions-message]');
+  var resourceStatePanel = document.querySelector('[data-resource-state-panel]');
+  var resourceStateBadge = document.querySelector('[data-resource-state-badge]');
+  var resourceStateSummary = document.querySelector('[data-resource-state-summary]');
+  var resourceStateStart = document.querySelector('[data-resource-state-start]');
+  var resourceStateEnd = document.querySelector('[data-resource-state-end]');
+  var resourceStatePermissions = document.querySelector('[data-resource-state-permissions]');
   var previewStatusNode = document.querySelector('[data-preview-status]');
   var zipStatus = document.querySelector('[data-zip-status]');
   var zipNameInput = document.querySelector('[data-zip-name]');
@@ -695,6 +704,7 @@
         node.innerHTML = value;
       }
     });
+    syncHelpExampleLinks();
     var placeholders = document.querySelectorAll('[data-i18n-placeholder]');
     placeholders.forEach(function (node) {
       var key = node.getAttribute('data-i18n-placeholder');
@@ -726,6 +736,18 @@
       if (value) {
         node.setAttribute('data-tooltip', value);
       }
+    });
+  }
+
+  function syncHelpExampleLinks() {
+    var helpRoot = document.querySelector('.about-guide');
+    if (!helpRoot) return;
+    var links = helpRoot.querySelectorAll('a[href^="https://visor-webzip.github.io/"]');
+    var base = appBase();
+    links.forEach(function (link) {
+      var href = link.getAttribute('href') || '';
+      if (!href) return;
+      link.setAttribute('href', href.replace(/^https:\/\/visor-webzip\.github\.io\//, base));
     });
   }
 
@@ -762,6 +784,32 @@
     }
     createLinkFeedback.textContent = text;
     createLinkFeedback.removeAttribute('hidden');
+  }
+
+  function setPublishRoute(mode) {
+    var normalized = mode === 'a' || mode === 'b' ? mode : '';
+    if (!publishChoice) return;
+    if (normalized) {
+      publishChoice.setAttribute('data-active-route', normalized);
+    } else {
+      publishChoice.removeAttribute('data-active-route');
+    }
+    publishRouteCards.forEach(function (node) {
+      var route = node && node.getAttribute('data-publish-route-card');
+      var isActive = normalized && route === normalized;
+      node.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      node.setAttribute('data-route-state', isActive ? 'active' : (normalized ? 'inactive' : 'idle'));
+    });
+    publishRoutePanels.forEach(function (node) {
+      var route = node && node.getAttribute('data-publish-route');
+      if (!route) return;
+      if (normalized && route !== normalized) {
+        node.setAttribute('hidden', '');
+      } else {
+        node.removeAttribute('hidden');
+      }
+    });
+    updateNewResourceVisibility();
   }
 
   function resetPublishFlow() {
@@ -813,6 +861,7 @@
     restrictionZipFile = null;
     if (restrictionZipStatus) restrictionZipStatus.textContent = '';
     updateRestrictZipAccordionState();
+    setPublishRoute('');
   }
 
   function refreshFooterVersion() {
@@ -899,6 +948,106 @@
     // El input de título siempre es visible en el nuevo layout; no-op.
   }
 
+  function getPreviewRestrictionsState() {
+    var restrictions = RestrictionUI && RestrictionUI.buildRestrictionsPayload
+      ? RestrictionUI.buildRestrictionsPayload()
+      : null;
+    var blockedByOpening = !!(restrictions
+      && Restrictions.isRestrictionActive(restrictions)
+      && Restrictions.isRestrictionBeforeStart(restrictions));
+    return {
+      restrictions: restrictions,
+      blockedByOpening: blockedByOpening
+    };
+  }
+
+  function syncPreviewRestrictionsVisibility() {
+    if (!previewRestrictionsWrap) return;
+    var state = getPreviewRestrictionsState();
+    var show = !!state.blockedByOpening;
+    if (previewRestrictionsMessage) {
+      previewRestrictionsMessage.textContent = t('zipper.help.previewHideResource')
+        || 'Previsualizar como recurso oculto';
+    }
+    if (show) {
+      var wasHidden = previewRestrictionsWrap.hasAttribute('hidden');
+      previewRestrictionsWrap.removeAttribute('hidden');
+      if (wasHidden && previewApplyRestrictionsInput) {
+        previewApplyRestrictionsInput.checked = true;
+      }
+      return;
+    }
+    previewRestrictionsWrap.setAttribute('hidden', '');
+    if (previewApplyRestrictionsInput) {
+      previewApplyRestrictionsInput.checked = false;
+    }
+  }
+
+  function renderResourceStatePanel() {
+    if (!resourceStatePanel || !resourceStateBadge || !resourceStateSummary || !resourceStateStart || !resourceStateEnd || !resourceStatePermissions) {
+      return;
+    }
+    var availabilityEnabled = !!(restrictionToggle && restrictionToggle.checked);
+    if (!availabilityEnabled) {
+      resourceStatePanel.setAttribute('hidden', '');
+      return;
+    }
+    resourceStatePanel.removeAttribute('hidden');
+    var restrictions = RestrictionUI && RestrictionUI.buildRestrictionsPayload
+      ? RestrictionUI.buildRestrictionsPayload()
+      : null;
+    var startText = restrictions && restrictions.startAt
+      ? (Restrictions.formatRestrictionDate(restrictions.startAt, currentLang) || restrictions.startAt)
+      : (t('zipper.panel.startImmediate') || 'Inmediato');
+    var endText = restrictions && !restrictions.neverExpires && restrictions.endAt
+      ? (Restrictions.formatRestrictionDate(restrictions.endAt, currentLang) || restrictions.endAt)
+      : (t('zipper.panel.noEnd') || 'Sin fecha de fin');
+    var allowShareNow = !restrictions || !!restrictions.allowShare;
+    var allowEmbedNow = !restrictions || !!restrictions.allowEmbed;
+    var allowDownloadNow = !restrictions || !!restrictions.allowDownload;
+    var permissions = [];
+    if (allowShareNow) permissions.push({ label: t('settings.allowShare') || 'Compartir', kind: 'share' });
+    if (allowEmbedNow) permissions.push({ label: t('settings.allowEmbed') || 'Insertar en web', kind: 'embed' });
+    if (allowDownloadNow) permissions.push({ label: t('settings.allowDownload') || 'Descargar', kind: 'download' });
+    var badgeText = t('zipper.panel.stateAvailable') || 'Recurso disponible';
+    var summaryText = t('zipper.panel.stateAvailableHelp') || 'El recurso puede abrirse en este momento.';
+    var badgeClass = 'is-available';
+    if (restrictions && Restrictions.isRestrictionBeforeStart(restrictions)) {
+      badgeText = t('zipper.panel.stateScheduled') || 'Pendiente de apertura';
+      summaryText = t('zipper.panel.stateScheduledHelp', { date: startText })
+        || ('Se abrirá el ' + startText + '.');
+      badgeClass = 'is-scheduled';
+    } else if (restrictions && Restrictions.isRestrictionExpired(restrictions)) {
+      badgeText = t('zipper.panel.stateClosed') || 'Recurso no disponible';
+      summaryText = t('zipper.panel.stateClosedHelp', { date: endText })
+        || ('La disponibilidad terminó el ' + endText + '.');
+      badgeClass = 'is-closed';
+    } else if (restrictions && !restrictions.neverExpires && restrictions.endAt) {
+      summaryText = t('zipper.panel.stateAvailableUntil', { date: endText })
+        || ('Disponible hasta el ' + endText + '.');
+    }
+    resourceStateBadge.textContent = badgeText;
+    resourceStateBadge.classList.remove('is-available', 'is-scheduled', 'is-closed');
+    resourceStateBadge.classList.add(badgeClass);
+    resourceStateSummary.textContent = summaryText;
+    resourceStateStart.textContent = startText;
+    resourceStateEnd.textContent = endText;
+    resourceStatePermissions.innerHTML = '';
+    if (!permissions.length) {
+      var emptyPermission = document.createElement('span');
+      emptyPermission.className = 'resource-state-permission-chip is-muted';
+      emptyPermission.textContent = t('settings.summaryNoActions') || 'ninguna';
+      resourceStatePermissions.appendChild(emptyPermission);
+      return;
+    }
+    permissions.forEach(function (item) {
+      var chip = document.createElement('span');
+      chip.className = 'resource-state-permission-chip resource-state-permission-chip--' + item.kind;
+      chip.textContent = item.label;
+      resourceStatePermissions.appendChild(chip);
+    });
+  }
+
   function setPreviewStatus(message, options) {
     if (!previewStatusNode) return;
     previewStatusNode.textContent = message || '';
@@ -958,6 +1107,7 @@
     syncZipNameDefault();
     syncResourceTitleDefault();
     syncResourceTitleToggleState();
+    renderResourceStatePanel();
     setCleanupThreshold(getCleanupThreshold());
     setCleanupDays(getCleanupDays());
     Manager.updateSortDirButton(Manager.getManagerSortDir());
@@ -976,6 +1126,8 @@
     RestrictionUI.applyRestrictionUiState();
     RestrictionUI.updateRestrictionDefaults();
     RestrictionUI.updateRestrictionSummary();
+    syncPreviewRestrictionsVisibility();
+    renderResourceStatePanel();
     if (managerList) {
       Manager.refreshManager();
     }
@@ -1421,7 +1573,8 @@
 
   function updateNewResourceVisibility() {
     if (!newResourceWrap) return;
-    if (hasLoadedZipperContent()) {
+    var hasActiveRoute = !!(publishChoice && publishChoice.getAttribute('data-active-route'));
+    if (hasLoadedZipperContent() || hasActiveRoute) {
       newResourceWrap.removeAttribute('hidden');
     } else {
       newResourceWrap.setAttribute('hidden', '');
@@ -1606,6 +1759,57 @@
     return filename.replace(/\.[^/.]+$/, '').replace(/[_-]+/g, ' ').trim();
   }
 
+  function deriveTitleFromHtmlText(htmlText) {
+    var text = String(htmlText || '').trim();
+    if (!text) return '';
+    var title = '';
+    if (typeof DOMParser !== 'undefined') {
+      try {
+        var doc = new DOMParser().parseFromString(text, 'text/html');
+        title = doc && doc.title ? doc.title : '';
+        if (!title && doc && doc.querySelector) {
+          var metaTitleNode = doc.querySelector('meta[property="og:title"], meta[name="twitter:title"], meta[name="title"]');
+          title = metaTitleNode ? (metaTitleNode.getAttribute('content') || '') : '';
+        }
+        if (!title && doc && doc.body) {
+          var heading = doc.body.querySelector('h1');
+          title = heading ? (heading.textContent || '') : '';
+        }
+      } catch (err) {
+        title = '';
+      }
+    }
+    if (!title) {
+      var titleMatch = text.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+      title = titleMatch ? titleMatch[1] : '';
+    }
+    if (!title) {
+      var metaMatch = text.match(/<meta[^>]+(?:property|name)=["'](?:og:title|twitter:title|title)["'][^>]+content=["']([\s\S]*?)["'][^>]*>/i);
+      title = metaMatch ? metaMatch[1] : '';
+    }
+    if (!title) {
+      var h1Match = text.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+      title = h1Match ? h1Match[1] : '';
+    }
+    title = String(title || '')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/&nbsp;/gi, ' ')
+      .replace(/&amp;/gi, '&')
+      .replace(/&lt;/gi, '<')
+      .replace(/&gt;/gi, '>')
+      .replace(/&quot;/gi, '"')
+      .replace(/&#39;/gi, "'")
+      .replace(/\s+/g, ' ')
+      .trim();
+    return normalizeResourceTitle(title);
+  }
+
+  function syncResourceTitleFromHtml(htmlText) {
+    if (!resourceTitleInput || resourceTitleDirty) return;
+    resourceTitleInput.value = deriveTitleFromHtmlText(htmlText) || '';
+    syncResourceTitleToggleState();
+  }
+
   function dispatchInputEvent(node) {
     if (!node) return;
     try {
@@ -1618,6 +1822,7 @@
   }
 
   function focusZipperFlow(flow) {
+    setPublishRoute('a');
     preferredZipBuildFlow = flow === 'html' ? 'html' : 'files';
     if (flow === 'html') {
       if (selectedFiles && selectedFiles.length) {
@@ -1637,11 +1842,13 @@
     var htmlText = String(quickHtmlInput.value || '');
     if (!htmlText.trim()) return;
     if (!htmlZipInput) return;
+    setPublishRoute('a');
     preferredZipBuildFlow = 'html';
     if (selectedFiles && selectedFiles.length) {
       updateSelectedFiles([]);
     }
     htmlZipInput.value = htmlText;
+    syncResourceTitleFromHtml(htmlText);
     dispatchInputEvent(htmlZipInput);
     // Keep the pasted HTML visible in the quick input.
   }
@@ -2194,10 +2401,6 @@
     var mode = resolveZipBuildMode();
     var flow = String(mode || '').split('-')[0];
     var archiveLabel = getArchiveLabelForCurrentBuild(mode);
-    if (zipDownloadTitleNode) {
-      zipDownloadTitleNode.textContent = t('zipper.step2.titleDynamic', { type: archiveLabel })
-        || t('zipper.step2.title');
-    }
     if (!buildZipButton) return;
     if (flow === 'html') {
       buildZipButton.textContent = t('zipper.html.build');
@@ -5963,6 +6166,11 @@
     });
   }
 
+  document.addEventListener('vwz:restriction-summary-change', function () {
+    syncPreviewRestrictionsVisibility();
+    renderResourceStatePanel();
+  });
+
   if (zipNameInput) {
     zipNameInput.addEventListener('input', function () {
       zipNameDirty = true;
@@ -5980,10 +6188,16 @@
       var hasHtml = !!(htmlZipInput.value && htmlZipInput.value.trim());
       if (hasHtml) {
         preferredZipBuildFlow = 'html';
+        if (!selectedFiles || !selectedFiles.length) {
+          syncResourceTitleFromHtml(htmlZipInput.value);
+        }
         UI.setHtmlZipStatus(t('zipper.html.status.ready'));
       } else {
         if (selectedFiles && selectedFiles.length) {
           preferredZipBuildFlow = 'files';
+        } else if (!resourceTitleDirty && resourceTitleInput) {
+          resourceTitleInput.value = '';
+          syncResourceTitleToggleState();
         }
         UI.setHtmlZipStatus(t('zipper.html.status.empty'));
       }
@@ -6200,6 +6414,7 @@
     if (!zipUrl) {
       return;
     }
+    setPublishRoute('b');
     setCreateLinkFeedback('');
     Nav.setActiveTab('home');
     Nav.setPublishModule('');
@@ -6218,8 +6433,37 @@
   if (input) {
     input.addEventListener('input', function () {
       updateLinkSubtitle();
+      if (input.value && input.value.trim()) {
+        setPublishRoute('b');
+      }
     });
   }
+
+  publishRouteCards.forEach(function (card) {
+    var route = card.getAttribute('data-publish-route-card');
+    if (!route) return;
+    var activate = function () {
+      setPublishRoute(route);
+    };
+    card.addEventListener('click', activate);
+    card.addEventListener('keydown', function (event) {
+      var key = event.key;
+      if (key !== 'Enter' && key !== ' ') return;
+      event.preventDefault();
+      activate();
+    });
+  });
+
+  publishRoutePanels.forEach(function (panel) {
+    var route = panel.getAttribute('data-publish-route');
+    if (!route) return;
+    panel.addEventListener('click', function () {
+      setPublishRoute(route);
+    });
+    panel.addEventListener('focusin', function () {
+      setPublishRoute(route);
+    });
+  });
 
   var params = new URLSearchParams(window.location.search);
   var urlParam = params.get('url');
@@ -6696,6 +6940,17 @@
 
   window.addEventListener('pageshow', function (event) {
     if (event.persisted && Manager && Manager.refreshManager) {
+      Manager.refreshManager();
+    }
+  });
+  window.addEventListener('focus', function () {
+    if (Manager && Manager.refreshManager) {
+      Manager.refreshManager();
+    }
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState !== 'visible') return;
+    if (Manager && Manager.refreshManager) {
       Manager.refreshManager();
     }
   });

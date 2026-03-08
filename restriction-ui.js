@@ -395,6 +395,9 @@
     updateRestrictionPeriodHint();
     updateQuickRestrictInfo();
     saveToStorage();
+    try {
+      document.dispatchEvent(new CustomEvent('vwz:restriction-summary-change'));
+    } catch (e) {}
     if (!get('restrictionSummary') || !get('restrictionSummaryItems')) return;
     var enabled = !!(get('restrictionToggle') && get('restrictionToggle').checked);
     get('restrictionSummaryItems').innerHTML = '';
