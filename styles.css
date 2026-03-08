@@ -1094,9 +1094,16 @@ textarea:focus-visible {
 }
 
 .tabs-utility {
+  display: flex;
+  align-items: center;
+}
+
+.tabs-secondary {
   margin-left: auto;
   display: flex;
   align-items: center;
+  gap: 12px;
+  padding-left: 8px;
 }
 
 .tab-button {
@@ -1248,10 +1255,15 @@ textarea:focus-visible {
     white-space: normal;
   }
 
-  .tabs-utility {
+  .tabs-secondary {
     margin-left: 0;
     width: 100%;
     justify-content: flex-end;
+    padding-left: 0;
+  }
+
+  .tabs-utility {
+    margin-left: 0;
   }
 
   .publish-link-form {

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;800&family=Spectral:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=39">
+  <link rel="stylesheet" href="styles.css?v=40">
 </head>
 <body>
 
@@ -132,35 +132,37 @@
           </span>
           <span class="tab-button__label" data-i18n="tab.manager">Gestor de recursos</span>
         </button>
-        <button
-          id="tab-help"
-          class="tab-button"
-          type="button"
-          role="tab"
-          aria-selected="false"
-          aria-controls="panel-help"
-          tabindex="-1"
-          data-tab="help"
-        >
-          <span class="tab-button__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-              <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
-              <path d="M9.6 9.2a2.6 2.6 0 0 1 5.2 0c0 1.6-2.6 2.2-2.6 3.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <circle cx="12" cy="17.2" r="1.1" fill="currentColor"/>
-            </svg>
-          </span>
-          <span class="tab-button__label" data-i18n="tab.help">Ayuda</span>
-        </button>
-        <div class="tabs-utility" data-new-resource-wrap hidden>
-          <button class="tab-button tab-button--utility" type="button" data-new-resource data-i18n-tooltip="publish.quick.newResourceTooltip">
+        <div class="tabs-secondary">
+          <button
+            id="tab-help"
+            class="tab-button"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-help"
+            tabindex="-1"
+            data-tab="help"
+          >
             <span class="tab-button__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-                <path d="M12 5v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M9.6 9.2a2.6 2.6 0 0 1 5.2 0c0 1.6-2.6 2.2-2.6 3.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="12" cy="17.2" r="1.1" fill="currentColor"/>
               </svg>
             </span>
-            <span class="tab-button__label" data-i18n="publish.quick.newResource">Recurso nuevo</span>
+            <span class="tab-button__label" data-i18n="tab.help">Ayuda</span>
           </button>
+          <div class="tabs-utility" data-new-resource-wrap hidden>
+            <button class="tab-button tab-button--utility" type="button" data-new-resource data-i18n-tooltip="publish.quick.newResourceTooltip">
+              <span class="tab-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                  <path d="M12 5v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span class="tab-button__label" data-i18n="publish.quick.newResource">Recurso nuevo</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -674,7 +676,7 @@
     <footer class="site-footer">
       <a class="footer-link" href="https://bilateria.org" target="_blank" rel="noopener">(c) 2026 Juan Jose de Haro</a>
       <span class="footer-sep">·</span>
-    <span class="footer-link" data-app-version>v3.5.0</span>
+    <span class="footer-link" data-app-version>v3.5.1</span>
       <span class="footer-sep">·</span>
       <a class="footer-link" href="https://github.com/visor-webzip/visor-webzip.github.io" target="_blank" rel="noopener">
         <svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
