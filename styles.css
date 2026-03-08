@@ -1696,6 +1696,25 @@ textarea:focus-visible {
   background: rgba(255, 255, 255, 0.88);
 }
 
+:root[data-theme="dark"] .manager-card[data-publish-choice][data-active-route] .publish-intro-card[data-route-state="inactive"] {
+  background: #0f1b33;
+  border-color: #36507a;
+}
+
+:root[data-theme="dark"] .manager-card[data-publish-choice][data-active-route="a"] .publish-intro-card--link[data-route-state="inactive"] {
+  background: #13372d;
+  border-color: #355f57;
+}
+
+:root[data-theme="dark"] .manager-card[data-publish-choice][data-active-route="b"] .publish-intro-card--upload[data-route-state="inactive"] {
+  background: #152c54;
+  border-color: #36507a;
+}
+
+:root[data-theme="dark"] .manager-card[data-publish-choice][data-active-route] .publish-intro-card[data-route-state="inactive"] .publish-intro-card__eyebrow {
+  box-shadow: none;
+}
+
 .publish-intro-card--upload {
   background: #f1f6ff;
   border-color: #cfe0ff;
