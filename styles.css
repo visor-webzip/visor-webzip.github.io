@@ -4475,6 +4475,15 @@ body[data-loading="true"][data-loading-mode="overlay"] .loading-screen {
     grid-template-columns: 1fr;
   }
 
+  .manager-card[data-publish-choice][data-active-route] .publish-intro-grid,
+  .manager-card[data-publish-choice][data-active-route="b"] .publish-intro-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .manager-card[data-publish-choice][data-active-route] .publish-intro-card[data-route-state="inactive"] {
+    justify-self: start;
+  }
+
   .publish-config-row--title {
     grid-template-columns: 1fr;
   }
