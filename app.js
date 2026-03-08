@@ -1853,6 +1853,18 @@
     // Keep the pasted HTML visible in the quick input.
   }
 
+  function syncQuickHtmlToZipper() {
+    if (!quickHtmlInput || !htmlZipInput) return;
+    var htmlText = String(quickHtmlInput.value || '');
+    if (htmlText.trim()) {
+      applyQuickHtmlToZipper();
+      return;
+    }
+    if (!htmlZipInput.value) return;
+    htmlZipInput.value = '';
+    dispatchInputEvent(htmlZipInput);
+  }
+
   function triggerQuickDownloadFromHtml(htmlText) {
     htmlText = String(htmlText || '').trim();
     if (!htmlText) {
@@ -6123,6 +6135,9 @@
   }
 
   if (quickHtmlInput) {
+    quickHtmlInput.addEventListener('input', function () {
+      syncQuickHtmlToZipper();
+    });
     quickHtmlInput.addEventListener('paste', function () {
       setTimeout(function () {
         if (quickHtmlInput && quickHtmlInput.value && quickHtmlInput.value.trim()) {
