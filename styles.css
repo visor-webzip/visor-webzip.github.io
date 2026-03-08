@@ -983,6 +983,18 @@ button:focus-visible {
   color: var(--accent);
   box-shadow: none;
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  min-height: 42px;
+  border-radius: 999px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
   transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
 }
 

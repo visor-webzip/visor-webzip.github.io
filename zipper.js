@@ -7,11 +7,26 @@
   }
 
   function getZipDefaultName() {
-    return t('zipper.zipName.default') || 'materiales';
+    return t('zipper.zipName.default') || 'recurso';
+  }
+
+  function toKebabCase(value) {
+    var text = String(value || '').trim();
+    if (!text) return '';
+    if (typeof text.normalize === 'function') {
+      text = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+    text = text
+      .toLowerCase()
+      .replace(/['"`]+/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .replace(/-+/g, '-');
+    return text;
   }
 
   function normalizeZipName(name) {
-    var value = (name || '').trim() || getZipDefaultName();
+    var value = toKebabCase(name) || toKebabCase(getZipDefaultName()) || 'recurso';
     if (!/\.zip$/i.test(value)) {
       value += '.zip';
     }
@@ -29,11 +44,11 @@
         return item.path && item.path.indexOf(root + '/') === 0;
       });
       if (sameRoot) {
-        return root;
+        return toKebabCase(root) || toKebabCase(getZipDefaultName()) || 'recurso';
       }
     }
     var filename = parts[parts.length - 1] || getZipDefaultName();
-    return filename.replace(/\.[^/.]+$/, '') || getZipDefaultName();
+    return toKebabCase(filename.replace(/\.[^/.]+$/, '')) || toKebabCase(getZipDefaultName()) || 'recurso';
   }
 
   function looksLikeHtmlDocument(text) {
@@ -60,6 +75,7 @@
   window.Zipper = {
     init: init,
     getZipDefaultName: getZipDefaultName,
+    toKebabCase: toKebabCase,
     normalizeZipName: normalizeZipName,
     deriveZipBaseName: deriveZipBaseName,
     looksLikeHtmlDocument: looksLikeHtmlDocument,

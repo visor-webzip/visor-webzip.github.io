@@ -196,10 +196,10 @@
                   <div class="dropzone dropzone--quick" data-quick-dropzone>
                     <div class="dropzone__title" data-i18n="publish.quick.files.dropTitle">Arrastra aquí la carpeta o los archivos</div>
                     <div class="dropzone__actions">
-                      <button class="ghost-button" type="button" data-quick-folder-button data-i18n="publish.quick.files.folder">Elegir carpeta</button>
-                      <button class="ghost-button" type="button" data-quick-file-button data-i18n="publish.quick.files.files">Elegir archivos</button>
-                      <input type="file" data-quick-folder-input webkitdirectory multiple hidden>
-                      <input type="file" data-quick-file-input multiple hidden>
+                      <label class="ghost-button" for="quick-folder-input" data-quick-folder-button data-i18n="publish.quick.files.folder">Elegir carpeta</label>
+                      <label class="ghost-button" for="quick-file-input" data-quick-file-button data-i18n="publish.quick.files.files">Elegir archivos</label>
+                      <input id="quick-folder-input" class="sr-only" type="file" data-quick-folder-input webkitdirectory multiple>
+                      <input id="quick-file-input" class="sr-only" type="file" data-quick-file-input multiple>
                     </div>
                   </div>
                 </div>

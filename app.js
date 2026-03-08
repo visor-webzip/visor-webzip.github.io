@@ -885,8 +885,29 @@
 
   function syncZipNameDefault() {
     if (zipNameInput && !zipNameDirty) {
-      zipNameInput.value = Zipper.getZipDefaultName();
+      zipNameInput.value = deriveZipNameFromCurrentState();
     }
+  }
+
+  function deriveZipNameFromCurrentState() {
+    var resourceTitle = getActiveResourceTitleValue();
+    if (resourceTitle) {
+      return Zipper.toKebabCase(resourceTitle) || Zipper.getZipDefaultName();
+    }
+    if (selectedFiles && selectedFiles.length) {
+      var derivedTitle = deriveResourceTitleFromSelection(selectedFiles);
+      if (derivedTitle) {
+        return Zipper.toKebabCase(derivedTitle) || Zipper.deriveZipBaseName(selectedFiles);
+      }
+      return Zipper.deriveZipBaseName(selectedFiles);
+    }
+    if (htmlZipInput && htmlZipInput.value && htmlZipInput.value.trim()) {
+      var htmlTitle = deriveTitleFromHtmlText(htmlZipInput.value);
+      if (htmlTitle) {
+        return Zipper.toKebabCase(htmlTitle) || Zipper.getZipDefaultName();
+      }
+    }
+    return Zipper.toKebabCase(Zipper.getZipDefaultName()) || 'recurso';
   }
 
   function deriveResourceTitleFromSelection(files) {
@@ -1684,11 +1705,11 @@
     if (!selectedFiles.length) {
       refreshPrimaryUploadSummary();
       UI.setZipStatus('');
-      if (zipNameInput && !zipNameDirty) {
-        zipNameInput.value = Zipper.getZipDefaultName();
-      }
       if (resourceTitleInput && !resourceTitleDirty) {
         resourceTitleInput.value = '';
+      }
+      if (zipNameInput && !zipNameDirty) {
+        zipNameInput.value = deriveZipNameFromCurrentState();
       }
       syncResourceTitleToggleState();
       updateBuildZipButtonLabel();
@@ -1696,11 +1717,11 @@
       return;
     }
     preferredZipBuildFlow = 'files';
-    if (zipNameInput && !zipNameDirty) {
-      zipNameInput.value = Zipper.deriveZipBaseName(selectedFiles);
-    }
     if (resourceTitleInput && !resourceTitleDirty) {
       resourceTitleInput.value = deriveResourceTitleFromSelection(selectedFiles);
+    }
+    if (zipNameInput && !zipNameDirty) {
+      zipNameInput.value = deriveZipNameFromCurrentState();
     }
     syncResourceTitleToggleState();
     refreshUploadSelectionSummary();
@@ -1815,6 +1836,7 @@
     if (!resourceTitleInput || resourceTitleDirty) return;
     resourceTitleInput.value = deriveTitleFromHtmlText(htmlText) || '';
     syncResourceTitleToggleState();
+    syncZipNameDefault();
   }
 
   function dispatchInputEvent(node) {
@@ -1888,7 +1910,7 @@
     }
     if (UI.showToast) UI.showToast(t('zipper.status.creating'));
     try {
-      var zipName = Zipper.normalizeZipName(zipNameInput ? zipNameInput.value : '');
+      var zipName = Zipper.normalizeZipName(zipNameInput ? zipNameInput.value : deriveZipNameFromCurrentState());
       var forceFolderViewer = !!(forceFolderViewerInput && forceFolderViewerInput.checked);
       var resourceTitle = getActiveResourceTitleValue();
       var files = { 'index.html': encodeUtf8(htmlText) };
@@ -2455,7 +2477,7 @@
       UI.setZipStatus(t('zipper.status.engineMissing'));
       return;
     }
-    var zipName = Zipper.normalizeZipName(zipNameInput ? zipNameInput.value : '');
+    var zipName = Zipper.normalizeZipName(zipNameInput ? zipNameInput.value : deriveZipNameFromCurrentState());
     var resourceTitle = getActiveResourceTitleValue();
     var forceFolderViewer = !!(forceFolderViewerInput && forceFolderViewerInput.checked);
     var singleSelected = selectedFiles.length === 1 ? selectedFiles[0] : null;
@@ -2621,7 +2643,7 @@
       UI.setZipStatus(t('zipper.status.engineMissing'));
       return;
     }
-    var zipName = Zipper.normalizeZipName(zipNameInput ? zipNameInput.value : '');
+    var zipName = Zipper.normalizeZipName(zipNameInput ? zipNameInput.value : deriveZipNameFromCurrentState());
     var forceFolderViewer = !!(forceFolderViewerInput && forceFolderViewerInput.checked);
     var resourceTitle = getActiveResourceTitleValue();
     UI.setHtmlZipStatus(t('zipper.html.status.creating'));
@@ -6124,7 +6146,7 @@
   if (quickFolderButton && quickFolderInput) {
     quickFolderButton.addEventListener('click', function () {
       quickFolderInput.value = '';
-      quickFolderInput.click();
+      focusZipperFlow('files');
     });
   }
   if (quickFileInput) {
@@ -6137,7 +6159,7 @@
   if (quickFileButton && quickFileInput) {
     quickFileButton.addEventListener('click', function () {
       quickFileInput.value = '';
-      quickFileInput.click();
+      focusZipperFlow('files');
     });
   }
 
@@ -6202,6 +6224,7 @@
   if (resourceTitleInput) {
     resourceTitleInput.addEventListener('input', function () {
       resourceTitleDirty = true;
+      syncZipNameDefault();
     });
   }
 
@@ -6220,6 +6243,7 @@
         } else if (!resourceTitleDirty && resourceTitleInput) {
           resourceTitleInput.value = '';
           syncResourceTitleToggleState();
+          syncZipNameDefault();
         }
         UI.setHtmlZipStatus(t('zipper.html.status.empty'));
       }
