@@ -78,6 +78,9 @@
         en: 'English',
         de: 'Deutsch'
       },
+      footer: {
+        issues: 'Problemas y sugerencias'
+      },
       tab: {
         home: 'Inicio',
         downloadZip: 'Opciones y descargas',
@@ -602,6 +605,9 @@
         en: 'English',
         de: 'Deutsch'
       },
+      footer: {
+        issues: 'Problemes i suggeriments'
+      },
       tab: {
         home: 'Inici',
         downloadZip: 'Opcions i descàrregues',
@@ -1116,6 +1122,9 @@
         eu: 'Euskara',
         en: 'English',
         de: 'Deutsch'
+      },
+      footer: {
+        issues: 'Problemas e suxestións'
       },
       tab: {
         home: 'Inicio',
@@ -1632,6 +1641,9 @@
         en: 'English',
         de: 'Deutsch'
       },
+      footer: {
+        issues: 'Arazoak eta iradokizunak'
+      },
       tab: {
         home: 'Hasiera',
         downloadZip: 'Aukerak eta deskargak',
@@ -2146,6 +2158,9 @@
         eu: 'Euskara',
         en: 'English',
         de: 'Deutsch'
+      },
+      footer: {
+        issues: 'Problems and suggestions'
       },
       tab: {
         home: 'Home',
@@ -2662,6 +2677,9 @@
         eu: 'Euskara',
         en: 'English',
         de: 'Deutsch'
+      },
+      footer: {
+        issues: 'Probleme und Vorschläge'
       },
       tab: {
         home: 'Start',

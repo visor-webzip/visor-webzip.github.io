@@ -810,6 +810,7 @@
       }
     });
     updateNewResourceVisibility();
+    syncZipperTabVisibility();
   }
 
   function resetPublishFlow() {
@@ -1571,6 +1572,12 @@
     return filesReady || htmlReady;
   }
 
+  function shouldShowDownloadPanel() {
+    var activeRoute = publishChoice ? (publishChoice.getAttribute('data-active-route') || '') : '';
+    if (activeRoute === 'b') return false;
+    return hasLoadedZipperContent();
+  }
+
   function updateNewResourceVisibility() {
     if (!newResourceWrap) return;
     var hasActiveRoute = !!(publishChoice && publishChoice.getAttribute('data-active-route'));
@@ -1582,7 +1589,7 @@
   }
 
   function syncZipperTabVisibility() {
-    var shouldShow = hasLoadedZipperContent();
+    var shouldShow = shouldShowDownloadPanel();
     if (downloadPanel) {
       if (shouldShow) {
         downloadPanel.removeAttribute('hidden');
