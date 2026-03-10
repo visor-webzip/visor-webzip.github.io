@@ -427,7 +427,62 @@ function normalizeDownloadUrl_(url) {
   if (driveId) {
     return 'https://drive.google.com/uc?export=download&id=' + driveId;
   }
+  var boxUrl = resolveBoxDownloadUrl_(url);
+  if (boxUrl) {
+    return boxUrl;
+  }
   return url;
+}
+
+function resolveBoxDownloadUrl_(url) {
+  var sharedName = extractBoxSharedName_(url);
+  if (!sharedName) return '';
+
+  var cache = CacheService.getScriptCache();
+  var cacheKey = 'box_dl_' + sharedName;
+  var cached = cache.get(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
+  var page = UrlFetchApp.fetch('https://app.box.com/s/' + encodeURIComponent(sharedName), {
+    muteHttpExceptions: true,
+    followRedirects: true
+  });
+  var code = page.getResponseCode();
+  if (code >= 400) {
+    throw new Error('Box respondio con HTTP ' + code + ' al abrir el enlace compartido.');
+  }
+
+  var html = page.getContentText();
+  var itemId = extractBoxItemIdFromHtml_(html);
+  if (!itemId) {
+    throw new Error('No se pudo resolver el identificador del archivo compartido de Box.');
+  }
+
+  var directUrl = 'https://app.box.com/index.php?rm=box_download_shared_file&shared_name='
+    + encodeURIComponent(sharedName)
+    + '&file_id=f_'
+    + encodeURIComponent(itemId);
+  cache.put(cacheKey, directUrl, CACHE_SECONDS);
+  return directUrl;
+}
+
+function extractBoxSharedName_(url) {
+  if (!url) return '';
+  var match = String(url).match(/https?:\/\/(?:app\.)?box\.com\/s\/([A-Za-z0-9]+)/i);
+  return match && match[1] ? match[1] : '';
+}
+
+function extractBoxItemIdFromHtml_(html) {
+  if (!html) return '';
+  var match = html.match(/"itemID":\s*([0-9]+)/);
+  if (match && match[1]) return match[1];
+  match = html.match(/"id":"?([0-9]+)"?/);
+  if (match && match[1]) return match[1];
+  match = html.match(/"authenticated_download_url":"https:\\\/\\\/public\.boxcloud\.com\\\/api\\\/2\.0\\\/files\\\/([0-9]+)\\\/content"/);
+  if (match && match[1]) return match[1];
+  return '';
 }
 
 function extractDriveId_(url) {

@@ -342,6 +342,18 @@
     return /drive\.google\.com/i.test(url);
   }
 
+  function isBoxUrl(url) {
+    if (!url) return false;
+    try {
+      var host = (new URL(url)).hostname || '';
+      host = host.toLowerCase();
+      if (host === 'box.com' || host === 'app.box.com' || /(^|\.)box\.com$/.test(host)) return true;
+    } catch (e) {
+      // ignore
+    }
+    return /(?:^|\/\/)(?:app\.)?box\.com\//i.test(url);
+  }
+
   function fetchZipBundleViaGas(zipUrl) {
     var endpoint = GAS_WEBAPP_URL + '?url=' + encodeURIComponent(zipUrl) + '&bundle=1&ts=' + Date.now();
     return fetch(endpoint, { cache: 'no-store' })
@@ -365,6 +377,9 @@
   }
 
   function fetchZipBundle(zipUrl) {
+    if (hasGas() && isBoxUrl(zipUrl)) {
+      return fetchZipBundleChunked(zipUrl);
+    }
     return fetchZipBundleDirect(zipUrl).catch(function (err) {
       if (!hasGas()) {
         throw err;

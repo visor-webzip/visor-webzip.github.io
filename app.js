@@ -2955,15 +2955,19 @@
     var isNextcloud = false;
     var host = '';
     var path = '';
+    var isBox = false;
     try {
       var parsed = new URL(url);
       host = parsed.hostname || '';
       path = parsed.pathname || '';
+      host = host.toLowerCase();
+      isBox = host === 'box.com' || host === 'app.box.com' || /(^|\.)box\.com$/.test(host);
     } catch (e) {
       // Ignore invalid URLs; fall back to simple checks.
       path = url;
+      isBox = /https?:\/\/(?:app\.)?box\.com\//i.test(url);
     }
-    var looksLikeNextcloud = path.indexOf('/s/') !== -1 && host.indexOf('drive.google.com') === -1;
+    var looksLikeNextcloud = path.indexOf('/s/') !== -1 && !isBox && host.indexOf('drive.google.com') === -1;
     if (isNextcloud || looksLikeNextcloud) {
       if (url.indexOf('/download') === -1 && url.indexOf('download=1') === -1) {
         var parts = url.split('#');
@@ -5548,10 +5552,17 @@
     };
     var normalizedZipUrl = normalizeZipUrl(zipUrl);
     var shouldUseNormalized = false;
-    if (normalizedZipUrl.indexOf('/s/') !== -1 || normalizedZipUrl.indexOf('nextcloud') !== -1) {
+    var zipHost = '';
+    try {
+      zipHost = ((new URL(zipUrl)).hostname || '').toLowerCase();
+    } catch (hostErr) {
+      zipHost = '';
+    }
+    var isBoxHost = zipHost === 'box.com' || zipHost === 'app.box.com' || /(^|\.)box\.com$/.test(zipHost);
+    if (!isBoxHost && (normalizedZipUrl.indexOf('/s/') !== -1 || normalizedZipUrl.indexOf('nextcloud') !== -1)) {
       shouldUseNormalized = true;
     }
-    if (zipUrl.indexOf('dropbox.com') !== -1) {
+    if (zipUrl.indexOf('dropbox.com') !== -1 && !isBoxHost) {
       shouldUseNormalized = true;
     }
     // GitHub "blob" pages are HTML. Use the raw URL when normalizeZipUrl() converted it.
