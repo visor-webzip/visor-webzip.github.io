@@ -69,6 +69,9 @@
   var quickFolderButton = document.querySelector('[data-quick-folder-button]');
   var quickFileButton = document.querySelector('[data-quick-file-button]');
   var quickHtmlInput = document.querySelector('[data-quick-html-input]');
+  var quickDropTitle = document.querySelector('[data-quick-drop-title]');
+  var quickDropFeedback = document.querySelector('[data-quick-drop-feedback]');
+  var quickDropFeedbackMessage = document.querySelector('[data-quick-drop-feedback-message]');
   var newResourceButton = document.querySelector('[data-new-resource]');
   var uploadStatus = document.querySelector('[data-upload-status]');
   var buildZipButton = document.querySelector('[data-build-zip]');
@@ -188,6 +191,7 @@
   var currentZipUrl = '';
   var currentIndexPath = '';
   var selectedFiles = [];
+  var quickDropHighlightTimer = null;
   var zipNameDirty = false;
   var resourceTitleDirty = false;
   var activeTitleEdit = null;
@@ -1541,7 +1545,7 @@
       updateBuildZipButtonLabel();
       return;
     }
-    UI.setUploadStatus(buildUploadSelectionSummary(selectedFiles), { html: true });
+    UI.setUploadStatus(buildUploadSelectionSummary(selectedFiles), { html: true, highlight: true });
     var singleSelected = selectedFiles.length === 1 ? selectedFiles[0] : null;
     var singlePath = singleSelected ? String(singleSelected.path || (singleSelected.file && singleSelected.file.name) || '') : '';
     var singleIsZipLike = !!singlePath && /\.(zip|elpx|h5p)$/i.test(singlePath);
@@ -1554,7 +1558,7 @@
     var texts = getUploadSummaryTexts();
     var archiveTypeLabel = getSingleArchiveTypeLabel(singlePath);
     var analyzingText = String(texts.analyzingZip || '').replace(/ZIP\/ELPX/g, archiveTypeLabel);
-    UI.setUploadStatus(buildUploadSelectionSummary(selectedFiles) + '<div class="summary-note">' + escapeHtml(analyzingText) + '</div>', { html: true });
+    UI.setUploadStatus(buildUploadSelectionSummary(selectedFiles) + '<div class="summary-note">' + escapeHtml(analyzingText) + '</div>', { html: true, highlight: true });
     detectZipLikeViewerType(singleSelected.file).then(function (viewerInfo) {
       if (requestId !== uploadSummaryRequestId) return;
       if (!selectedFiles || selectedFiles.length !== 1) return;
@@ -1562,18 +1566,66 @@
       var currentPath = String(currentSingle.path || (currentSingle.file && currentSingle.file.name) || '');
       if (currentPath !== singlePath) return;
       setSingleZipLikeInfo(singlePath, viewerInfo);
-      UI.setUploadStatus(buildUploadSelectionSummary(selectedFiles, viewerInfo), { html: true });
+      UI.setUploadStatus(buildUploadSelectionSummary(selectedFiles, viewerInfo), { html: true, highlight: true });
       updateBuildZipButtonLabel();
     }).catch(function () {
       if (requestId !== uploadSummaryRequestId) return;
       setSingleZipLikeInfo(singlePath, null);
-      UI.setUploadStatus(buildUploadSelectionSummary(selectedFiles), { html: true });
+      UI.setUploadStatus(buildUploadSelectionSummary(selectedFiles), { html: true, highlight: true });
       updateBuildZipButtonLabel();
     });
   }
 
+  function updateQuickDropzoneState() {
+    var hasFiles = !!(selectedFiles && selectedFiles.length);
+    if (quickDropzone) {
+      quickDropzone.classList.toggle('is-loaded', hasFiles);
+    }
+    if (quickDropTitle) {
+      quickDropTitle.textContent = t('publish.quick.files.dropTitle') || '';
+      if (hasFiles) {
+        quickDropTitle.setAttribute('hidden', '');
+      } else {
+        quickDropTitle.removeAttribute('hidden');
+      }
+    }
+    if (quickDropFeedback) {
+      if (hasFiles) {
+        quickDropFeedback.removeAttribute('hidden');
+      } else {
+        quickDropFeedback.setAttribute('hidden', '');
+      }
+    }
+    if (quickDropFeedbackMessage) {
+      quickDropFeedbackMessage.textContent = hasFiles
+        ? (t('zipper.status.filesReady', { count: selectedFiles.length }) || '')
+        : '';
+    }
+  }
+
+  function emphasizeLoadedResourcePanel() {
+    var target = downloadPanel || uploadStatus;
+    if (!target) return;
+    target.classList.add('is-just-loaded');
+    if (quickDropHighlightTimer) {
+      clearTimeout(quickDropHighlightTimer);
+    }
+    quickDropHighlightTimer = setTimeout(function () {
+      target.classList.remove('is-just-loaded');
+      quickDropHighlightTimer = null;
+    }, 2400);
+    setTimeout(function () {
+      try {
+        target.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      } catch (e) {
+        target.scrollIntoView(true);
+      }
+    }, 80);
+  }
+
   function refreshPrimaryUploadSummary() {
     updateNewResourceVisibility();
+    updateQuickDropzoneState();
     var filesReady = !!(selectedFiles && selectedFiles.length);
     var htmlReady = !!(htmlZipInput && htmlZipInput.value && htmlZipInput.value.trim());
     if (filesReady) {
@@ -1699,6 +1751,7 @@
   function updateSelectedFiles(files) {
     selectedFiles = files || [];
     updateNewResourceVisibility();
+    updateQuickDropzoneState();
     resetZipDownload();
     zipNameDirty = false;
     resourceTitleDirty = false;
@@ -1728,6 +1781,8 @@
     UI.setZipStatus('');
     updateBuildZipButtonLabel();
     syncZipperTabVisibility();
+    UI.showToast(t('zipper.status.filesReady', { count: selectedFiles.length }));
+    emphasizeLoadedResourcePanel();
   }
 
 

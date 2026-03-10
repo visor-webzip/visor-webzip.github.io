@@ -3065,9 +3065,69 @@ textarea:focus-visible {
   transform: translateY(-2px);
 }
 
+.dropzone.is-loaded {
+  border-color: #22c55e;
+  background: linear-gradient(135deg, rgba(240, 253, 244, 0.96), rgba(236, 253, 245, 0.98));
+}
+
 .dropzone__title {
   font-weight: 600;
   margin-bottom: 6px;
+}
+
+.dropzone__feedback {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  text-align: left;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(34, 197, 94, 0.18);
+}
+
+.dropzone__feedback-icon {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  position: relative;
+  box-shadow: 0 10px 24px rgba(34, 197, 94, 0.22);
+}
+
+.dropzone__feedback-icon::after {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 6px;
+  width: 7px;
+  height: 12px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(40deg);
+}
+
+.dropzone__feedback-copy {
+  display: grid;
+  gap: 2px;
+}
+
+.dropzone__feedback-title {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #166534;
+}
+
+.dropzone__feedback-message {
+  font-size: 0.9rem;
+  color: #14532d;
+}
+
+.dropzone__feedback-hint {
+  font-size: 0.84rem;
+  color: #3f6212;
 }
 
 .dropzone__hint {
@@ -3096,6 +3156,39 @@ textarea:focus-visible {
   border-radius: 10px;
   padding: 9px 11px;
   font-weight: 400;
+}
+
+.publish-download-panel.is-just-loaded,
+.upload-status.is-just-loaded {
+  animation: uploadPanelPulse 2.2s ease;
+}
+
+@keyframes uploadPanelPulse {
+  0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+  20% { box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+:root[data-theme="dark"] .dropzone.is-loaded {
+  border-color: #22c55e;
+  background: linear-gradient(135deg, rgba(20, 83, 45, 0.42), rgba(17, 94, 89, 0.35));
+}
+
+:root[data-theme="dark"] .dropzone__feedback {
+  background: rgba(15, 23, 42, 0.42);
+  border-color: rgba(74, 222, 128, 0.22);
+}
+
+:root[data-theme="dark"] .dropzone__feedback-title {
+  color: #bbf7d0;
+}
+
+:root[data-theme="dark"] .dropzone__feedback-message {
+  color: #dcfce7;
+}
+
+:root[data-theme="dark"] .dropzone__feedback-hint {
+  color: #bef264;
 }
 
 .upload-actions {

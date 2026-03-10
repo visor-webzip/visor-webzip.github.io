@@ -154,6 +154,7 @@
       } else {
         els.uploadStatus.textContent = message;
       }
+      els.uploadStatus.classList.toggle('is-highlight', !!opts.highlight);
     }
   }
 

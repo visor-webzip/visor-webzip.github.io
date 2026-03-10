@@ -127,6 +127,8 @@
           files: {
             title: 'Cargar archivos o carpetas',
             dropTitle: 'Arrastra aquí la carpeta o los archivos',
+            loadedTitle: 'Carga completada',
+            loadedHint: 'Puedes volver a arrastrar o elegir otros archivos, o continuar abajo para configurar el recurso.',
             dropHint: 'Se abrirá directamente la opción para crear el ZIP.',
             folder: 'Elegir carpeta',
             files: 'Elegir archivos'
@@ -656,6 +658,8 @@
           files: {
             title: 'Carregar fitxers o carpetes',
             dropTitle: 'Arrossega aquí la carpeta o els fitxers',
+            loadedTitle: 'Càrrega completada',
+            loadedHint: 'Pots tornar a arrossegar o triar altres fitxers, o continuar avall per configurar el recurs.',
             dropHint: "S\u2019obrirà directament l\u2019opció per crear el ZIP.",
             folder: 'Escollir carpeta',
             files: 'Escollir fitxers'
@@ -1176,6 +1180,8 @@
           files: {
             title: 'Cargar ficheiros ou cartafoles',
             dropTitle: 'Arrastra aquí o cartafol ou os ficheiros',
+            loadedTitle: 'Carga completada',
+            loadedHint: 'Podes volver arrastrar ou escoller outros ficheiros, ou continuar abaixo para configurar o recurso.',
             dropHint: 'Abrirase directamente a opción para crear o ZIP.',
             folder: 'Escoller cartafol',
             files: 'Escoller ficheiros'
@@ -1696,6 +1702,8 @@
           files: {
             title: 'Kargatu fitxategiak edo karpetak',
             dropTitle: 'Arrastatu hona karpeta edo fitxategiak',
+            loadedTitle: 'Karga osatu da',
+            loadedHint: 'Berriro arrastatu edo beste fitxategi batzuk aukeratu ditzakezu, edo beherago jarraitu baliabidea konfiguratzeko.',
             dropHint: 'ZIP sortzeko aukera zuzenean irekiko da.',
             folder: 'Aukeratu karpeta',
             files: 'Aukeratu fitxategiak'
@@ -2216,6 +2224,8 @@
           files: {
             title: 'Load files or folders',
             dropTitle: 'Drag the folder or files here',
+            loadedTitle: 'Upload complete',
+            loadedHint: 'You can drag or choose other files again, or continue below to configure the resource.',
             dropHint: 'The ZIP creation option will open directly.',
             folder: 'Choose folder',
             files: 'Choose files'
@@ -2737,6 +2747,8 @@
           files: {
             title: 'Dateien oder Ordner laden',
             dropTitle: 'Ordner oder Dateien hierher ziehen',
+            loadedTitle: 'Upload abgeschlossen',
+            loadedHint: 'Du kannst erneut ziehen oder andere Dateien auswählen oder unten mit der Konfiguration der Ressource fortfahren.',
             dropHint: 'Die ZIP-Erstellung wird direkt geöffnet.',
             folder: 'Ordner wählen',
             files: 'Dateien wählen'

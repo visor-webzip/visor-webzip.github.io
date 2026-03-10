@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;800&family=Spectral:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=41">
+  <link rel="stylesheet" href="styles.css?v=42">
 </head>
 <body>
 
@@ -194,7 +194,15 @@
                 <div class="publish-quick-card">
                   <h3 class="publish-quick-card__title" data-i18n="publish.quick.files.title">Cargar archivos o carpetas</h3>
                   <div class="dropzone dropzone--quick" data-quick-dropzone>
-                    <div class="dropzone__title" data-i18n="publish.quick.files.dropTitle">Arrastra aquí la carpeta o los archivos</div>
+                    <div class="dropzone__title" data-quick-drop-title data-i18n="publish.quick.files.dropTitle">Arrastra aquí la carpeta o los archivos</div>
+                    <div class="dropzone__feedback" data-quick-drop-feedback hidden>
+                      <span class="dropzone__feedback-icon" aria-hidden="true"></span>
+                      <div class="dropzone__feedback-copy">
+                        <div class="dropzone__feedback-title" data-i18n="publish.quick.files.loadedTitle">Carga completada</div>
+                        <div class="dropzone__feedback-message" data-quick-drop-feedback-message aria-live="polite"></div>
+                        <div class="dropzone__feedback-hint" data-i18n="publish.quick.files.loadedHint">Puedes volver a arrastrar o elegir otros archivos, o continuar abajo para configurar el recurso.</div>
+                      </div>
+                    </div>
                     <div class="dropzone__actions">
                       <label class="ghost-button" for="quick-folder-input" data-quick-folder-button data-i18n="publish.quick.files.folder">Elegir carpeta</label>
                       <label class="ghost-button" for="quick-file-input" data-quick-file-button data-i18n="publish.quick.files.files">Elegir archivos</label>
@@ -676,7 +684,7 @@
     <footer class="site-footer">
       <a class="footer-link" href="https://bilateria.org" target="_blank" rel="noopener">(c) 2026 Juan Jose de Haro</a>
       <span class="footer-sep">·</span>
-    <span class="footer-link" data-app-version>v3.6.0</span>
+    <span class="footer-link" data-app-version>v3.6.1</span>
       <span class="footer-sep">·</span>
       <a class="footer-link" href="https://github.com/visor-webzip/visor-webzip.github.io" target="_blank" rel="noopener">
         <svg class="footer-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
@@ -705,7 +713,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
   <script src="config.js"></script>
-		  <script src="i18n.js?v=42"></script>
+		  <script src="i18n.js?v=43"></script>
 	  <script src="restrictions.js?v=5"></script>
 	  <script src="ui.js?v=2"></script>
 	  <script src="downloads.js?v=3"></script>
@@ -716,6 +724,6 @@
 		  <script src="restriction-ui.js?v=15"></script>
 			  <script src="share.js?v=4"></script>
 	  <script src="nav.js?v=3"></script>
-			  <script src="app.js?v=86"></script>
+			  <script src="app.js?v=87"></script>
  </body>
  </html>
