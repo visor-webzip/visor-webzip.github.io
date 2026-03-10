@@ -81,7 +81,7 @@ function renderHome_() {
     '</style></head>' +
     '<body>' +
     '<h1>Visor ZIP</h1>' +
-    '<p class="note">Pega el enlace al ZIP (Drive/GitHub/Dropbox...). Se creara un enlace fijo para compartir con alumnos.</p>' +
+    '<p class="note">Pega el enlace al ZIP (Drive/GitHub/Dropbox/Box.com...). Se creara un enlace fijo para compartir con alumnos.</p>' +
     '<form id="f">' +
     '<input id="u" name="url" placeholder="https://..." required>' +
     '<button type="submit">Crear enlace</button>' +

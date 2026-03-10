@@ -170,11 +170,13 @@
       service: {
         drive: 'Google Drive',
         dropbox: 'Dropbox',
+        box: 'Box.com',
         nextcloud: 'Nextcloud',
         github: 'GitHub',
         other: 'Otros servicios',
         drivePlaceholder: 'https://drive.google.com/...',
         dropboxPlaceholder: 'https://www.dropbox.com/...',
+        boxPlaceholder: 'https://app.box.com/s/...',
         nextcloudPlaceholder: 'https://tu-servidor/s/...',
         githubPlaceholder: 'https://github.com/usuario/repo/archive/refs/heads/main.zip',
         otherPlaceholder: 'https://servidor.com/archivo.zip'
@@ -697,11 +699,13 @@
       service: {
         drive: 'Google Drive',
         dropbox: 'Dropbox',
+        box: 'Box.com',
         nextcloud: 'Nextcloud',
         github: 'GitHub',
         other: 'Altres serveis',
         drivePlaceholder: 'https://drive.google.com/...',
         dropboxPlaceholder: 'https://www.dropbox.com/...',
+        boxPlaceholder: 'https://app.box.com/s/...',
         nextcloudPlaceholder: 'https://el-teu-servidor/s/...',
         githubPlaceholder: 'https://github.com/usuari/repositori/archive/refs/heads/main.zip',
         otherPlaceholder: 'https://servidor.com/arxiu.zip'
@@ -1215,11 +1219,13 @@
       service: {
         drive: 'Google Drive',
         dropbox: 'Dropbox',
+        box: 'Box.com',
         nextcloud: 'Nextcloud',
         github: 'GitHub',
         other: 'Outros servizos',
         drivePlaceholder: 'https://drive.google.com/...',
         dropboxPlaceholder: 'https://www.dropbox.com/...',
+        boxPlaceholder: 'https://app.box.com/s/...',
         nextcloudPlaceholder: 'https://o-teu-servidor/s/...',
         githubPlaceholder: 'https://github.com/usuario/repositorio/archive/refs/heads/main.zip',
         otherPlaceholder: 'https://servidor.com/ficheiro.zip'
@@ -1733,11 +1739,13 @@
       service: {
         drive: 'Google Drive',
         dropbox: 'Dropbox',
+        box: 'Box.com',
         nextcloud: 'Nextcloud',
         github: 'GitHub',
         other: 'Beste zerbitzuak',
         drivePlaceholder: 'https://drive.google.com/...',
         dropboxPlaceholder: 'https://www.dropbox.com/...',
+        boxPlaceholder: 'https://app.box.com/s/...',
         nextcloudPlaceholder: 'https://zure-zerbitzaria/s/...',
         githubPlaceholder: 'https://github.com/erabiltzailea/errepositorioa/archive/refs/heads/main.zip',
         otherPlaceholder: 'https://zerbitzaria.com/fitxategia.zip'
@@ -2251,11 +2259,13 @@
       service: {
         drive: 'Google Drive',
         dropbox: 'Dropbox',
+        box: 'Box.com',
         nextcloud: 'Nextcloud',
         github: 'GitHub',
         other: 'Other services',
         drivePlaceholder: 'https://drive.google.com/...',
         dropboxPlaceholder: 'https://www.dropbox.com/...',
+        boxPlaceholder: 'https://app.box.com/s/...',
         nextcloudPlaceholder: 'https://your-server/s/...',
         githubPlaceholder: 'https://github.com/user/repo/archive/refs/heads/main.zip',
         otherPlaceholder: 'https://server.com/file.zip'
@@ -2770,11 +2780,13 @@
       service: {
         drive: 'Google Drive',
         dropbox: 'Dropbox',
+        box: 'Box.com',
         nextcloud: 'Nextcloud',
         github: 'GitHub',
         other: 'Andere Dienste',
         drivePlaceholder: 'https://drive.google.com/...',
         dropboxPlaceholder: 'https://www.dropbox.com/...',
+        boxPlaceholder: 'https://app.box.com/s/...',
         nextcloudPlaceholder: 'https://dein-server/s/...',
         githubPlaceholder: 'https://github.com/benutzer/repo/archive/refs/heads/main.zip',
         otherPlaceholder: 'https://server.com/datei.zip'
@@ -3120,4 +3132,80 @@
       units: ['B', 'KB', 'MB', 'GB']
     }
   };
+
+  function replaceI18nMentions_(value, replacements) {
+    if (typeof value === 'string') {
+      var next = value;
+      replacements.forEach(function (pair) {
+        next = next.split(pair[0]).join(pair[1]);
+      });
+      return next;
+    }
+    if (Array.isArray(value)) {
+      return value.map(function (item) {
+        return replaceI18nMentions_(item, replacements);
+      });
+    }
+    if (value && typeof value === 'object') {
+      Object.keys(value).forEach(function (key) {
+        value[key] = replaceI18nMentions_(value[key], replacements);
+      });
+    }
+    return value;
+  }
+
+  function applyBoxMentions_() {
+    var replacementsByLang = {
+      es: [
+        ['(Drive, Dropbox, Nextcloud, etc.)', '(Drive, Dropbox, Box.com, Nextcloud, etc.)'],
+        ['(Drive, Dropbox, etc.)', '(Drive, Dropbox, Box.com, etc.)'],
+        ['Drive, Dropbox, Nextcloud, GitHub…', 'Drive, Dropbox, Box.com, Nextcloud, GitHub…'],
+        ['Dropbox, Nextcloud y otros servicios', 'Dropbox, Box.com, Nextcloud y otros servicios'],
+        ['Nextcloud, Dropbox u otro servicio', 'Nextcloud, Dropbox, Box.com u otro servicio'],
+        ['Drive, Dropbox o Nextcloud', 'Drive, Dropbox, Box.com o Nextcloud']
+      ],
+      ca: [
+        ['(Drive, Dropbox, Nextcloud, etc.)', '(Drive, Dropbox, Box.com, Nextcloud, etc.)'],
+        ['(Drive, Dropbox, etc.)', '(Drive, Dropbox, Box.com, etc.)'],
+        ['Drive, Dropbox, Nextcloud, GitHub…', 'Drive, Dropbox, Box.com, Nextcloud, GitHub…'],
+        ['Dropbox, Nextcloud i altres serveis', 'Dropbox, Box.com, Nextcloud i altres serveis'],
+        ['Nextcloud, Dropbox o un altre servei', 'Nextcloud, Dropbox, Box.com o un altre servei']
+      ],
+      gl: [
+        ['(Drive, Dropbox, Nextcloud, etc.)', '(Drive, Dropbox, Box.com, Nextcloud, etc.)'],
+        ['(Drive, Dropbox, etc.)', '(Drive, Dropbox, Box.com, etc.)'],
+        ['Drive, Dropbox, Nextcloud, GitHub…', 'Drive, Dropbox, Box.com, Nextcloud, GitHub…'],
+        ['Dropbox, Nextcloud e outros servizos', 'Dropbox, Box.com, Nextcloud e outros servizos'],
+        ['Nextcloud, Dropbox ou outro servizo', 'Nextcloud, Dropbox, Box.com ou outro servizo']
+      ],
+      eu: [
+        ['(Drive, Dropbox, Nextcloud, etab.)', '(Drive, Dropbox, Box.com, Nextcloud, etab.)'],
+        ['(Drive, Dropbox, etab.)', '(Drive, Dropbox, Box.com, etab.)'],
+        ['Drive, Dropbox, Nextcloud, GitHub…', 'Drive, Dropbox, Box.com, Nextcloud, GitHub…'],
+        ['Dropbox, Nextcloud eta beste zerbitzu batzuek', 'Dropbox, Box.com, Nextcloud eta beste zerbitzu batzuek'],
+        ['Nextcloud, Dropbox edo beste zerbitzu batekin', 'Nextcloud, Dropbox, Box.com edo beste zerbitzu batekin']
+      ],
+      en: [
+        ['(Drive, Dropbox, Nextcloud, etc.)', '(Drive, Dropbox, Box.com, Nextcloud, etc.)'],
+        ['(Drive, Dropbox, etc.)', '(Drive, Dropbox, Box.com, etc.)'],
+        ['Drive, Dropbox, Nextcloud, GitHub…', 'Drive, Dropbox, Box.com, Nextcloud, GitHub…'],
+        ['Dropbox, Nextcloud and other services', 'Dropbox, Box.com, Nextcloud and other services'],
+        ['Nextcloud, Dropbox, or another service', 'Nextcloud, Dropbox, Box.com, or another service']
+      ],
+      de: [
+        ['(Drive, Dropbox, Nextcloud usw.)', '(Drive, Dropbox, Box.com, Nextcloud usw.)'],
+        ['(Drive, Dropbox usw.)', '(Drive, Dropbox, Box.com usw.)'],
+        ['Drive, Dropbox, Nextcloud, GitHub…', 'Drive, Dropbox, Box.com, Nextcloud, GitHub…'],
+        ['Dropbox, Nextcloud und andere Dienste', 'Dropbox, Box.com, Nextcloud und andere Dienste'],
+        ['Nextcloud, Dropbox oder einem anderen Dienst', 'Nextcloud, Dropbox, Box.com oder einem anderen Dienst']
+      ]
+    };
+
+    Object.keys(replacementsByLang).forEach(function (lang) {
+      if (!window.I18N[lang]) return;
+      replaceI18nMentions_(window.I18N[lang], replacementsByLang[lang]);
+    });
+  }
+
+  applyBoxMentions_();
 })();
