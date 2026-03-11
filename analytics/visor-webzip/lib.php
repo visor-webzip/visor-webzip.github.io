@@ -195,6 +195,7 @@ function analytics_get_period_config($range) {
   $midnight = mktime(0, 0, 0, intval($today['mon']), intval($today['mday']), intval($today['year']));
   switch ($range) {
     case 'today': return array('label' => 'Hoy', 'from' => $midnight, 'to' => $midnight + 86399, 'granularity' => 'hour');
+    case 'last24': return array('label' => 'Ultimas 24 horas', 'from' => time() - 86399, 'to' => time(), 'granularity' => 'hour');
     case 'week': return array('label' => 'Esta semana', 'from' => $midnight - ((intval(date('N')) - 1) * 86400), 'to' => $midnight + 86399, 'granularity' => 'day');
     case 'last7': return array('label' => 'Ultimos 7 dias', 'from' => $midnight - (6 * 86400), 'to' => $midnight + 86399, 'granularity' => 'day');
     case 'month': return array('label' => 'Este mes', 'from' => mktime(0, 0, 0, intval($today['mon']), 1, intval($today['year'])), 'to' => $midnight + 86399, 'granularity' => 'day');
