@@ -4165,6 +4165,14 @@ textarea:focus-visible {
   color: var(--ink);
 }
 
+.footer-analytics {
+  gap: 0;
+}
+
+.footer-analytics strong {
+  color: var(--accent-strong);
+}
+
 .footer-icon {
   width: 16px;
   height: 16px;

@@ -79,7 +79,12 @@
         de: 'Deutsch'
       },
       footer: {
-        issues: 'Problemas y sugerencias'
+        issues: 'Problemas y sugerencias',
+        analytics: {
+          visits: 'Visitas',
+          today: 'Hoy',
+          details: 'Estadísticas'
+        }
       },
       tab: {
         home: 'Inicio',
@@ -610,7 +615,12 @@
         de: 'Deutsch'
       },
       footer: {
-        issues: 'Problemes i suggeriments'
+        issues: 'Problemes i suggeriments',
+        analytics: {
+          visits: 'Visites',
+          today: 'Avui',
+          details: 'Estadístiques'
+        }
       },
       tab: {
         home: 'Inici',
@@ -1132,7 +1142,12 @@
         de: 'Deutsch'
       },
       footer: {
-        issues: 'Problemas e suxestións'
+        issues: 'Problemas e suxestións',
+        analytics: {
+          visits: 'Visitas',
+          today: 'Hoxe',
+          details: 'Estatísticas'
+        }
       },
       tab: {
         home: 'Inicio',
@@ -1654,7 +1669,12 @@
         de: 'Deutsch'
       },
       footer: {
-        issues: 'Arazoak eta iradokizunak'
+        issues: 'Arazoak eta iradokizunak',
+        analytics: {
+          visits: 'Bisitak',
+          today: 'Gaur',
+          details: 'Estatistikak'
+        }
       },
       tab: {
         home: 'Hasiera',
@@ -2176,7 +2196,12 @@
         de: 'Deutsch'
       },
       footer: {
-        issues: 'Problems and suggestions'
+        issues: 'Problems and suggestions',
+        analytics: {
+          visits: 'Visits',
+          today: 'Today',
+          details: 'Stats'
+        }
       },
       tab: {
         home: 'Home',
@@ -2699,7 +2724,12 @@
         de: 'Deutsch'
       },
       footer: {
-        issues: 'Probleme und Vorschläge'
+        issues: 'Probleme und Vorschläge',
+        analytics: {
+          visits: 'Besuche',
+          today: 'Heute',
+          details: 'Statistiken'
+        }
       },
       tab: {
         home: 'Start',

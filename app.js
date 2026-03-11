@@ -133,6 +133,10 @@
   var restrictionWarningWrap = document.querySelector('[data-restrict-warning-wrap]');
   var restrictionWarningMinutes = document.querySelector('[data-restrict-warning-minutes]');
   var restrictionWarningMessage = document.querySelector('[data-restrict-warning-message]');
+  var analyticsSummary = document.querySelector('[data-analytics-summary]');
+  var analyticsTotal = document.querySelector('[data-analytics-total]');
+  var analyticsToday = document.querySelector('[data-analytics-today]');
+  var analyticsLink = document.querySelector('[data-analytics-link]');
   var restrictionPeriodHint = document.querySelector('[data-restrict-period-hint]');
   var restrictionAllowShare = document.querySelector('[data-restrict-allow-share]');
   var restrictionAllowEmbed = document.querySelector('[data-restrict-allow-embed]');
@@ -350,12 +354,119 @@
   var MANAGER_SORT_DIR_KEY = 'visor-manager-sort-dir';
   var MANAGER_SORT_DEFAULT = 'date';
   var MANAGER_SORT_DIR_DEFAULT = 'desc';
+  var ANALYTICS_FALLBACK_ENDPOINT = 'https://bilateria.org/app/estadistica/visor-webzip/track.php';
+  var ANALYTICS_FALLBACK_STATS_URL = 'https://bilateria.org/app/estadistica/visor-webzip/admin-stats.php';
 
   var SERVICE_INFO = {
     default: {
       placeholderKey: 'service.otherPlaceholder'
     }
   };
+
+  function getMetaContent(name) {
+    var node = document.querySelector('meta[name="' + name + '"]');
+    if (!node) return '';
+    return String(node.getAttribute('content') || '').trim();
+  }
+
+  function getAnalyticsConfig() {
+    return {
+      endpoint: getMetaContent('analytics-endpoint') || ANALYTICS_FALLBACK_ENDPOINT,
+      statsUrl: getMetaContent('analytics-stats-url') || ANALYTICS_FALLBACK_STATS_URL,
+      siteId: getMetaContent('analytics-site-id') || 'visor-webzip'
+    };
+  }
+
+  function shouldTrackAnalytics() {
+    var protocol = String(window.location.protocol || '');
+    var host = String(window.location.hostname || '').toLowerCase();
+    if (protocol !== 'http:' && protocol !== 'https:') return false;
+    if (host === 'localhost' || host === '127.0.0.1' || host === '::1') return false;
+    if (/\.local$/.test(host)) return false;
+    return true;
+  }
+
+  function updateAnalyticsSummary(data) {
+    var total = parseInt(data && data.total, 10);
+    var today = parseInt(data && data.today, 10);
+    var cfg = getAnalyticsConfig();
+    if (!analyticsSummary || isNaN(total) || isNaN(today)) return;
+    if (analyticsTotal) {
+      analyticsTotal.textContent = String(total);
+    }
+    if (analyticsToday) {
+      analyticsToday.textContent = String(today);
+    }
+    if (analyticsLink && cfg.statsUrl) {
+      analyticsLink.setAttribute('href', cfg.statsUrl);
+    }
+    analyticsSummary.hidden = false;
+  }
+
+  function loadAnalyticsSummary() {
+    if (!shouldTrackAnalytics()) return;
+    var cfg = getAnalyticsConfig();
+    if (!cfg.endpoint) return;
+
+    var callbackName = '__visorAnalyticsCallback_' + String(new Date().getTime()) + '_' + String(Math.floor(Math.random() * 100000));
+    var pageParams = new URLSearchParams(window.location.search || '');
+    var query = new URLSearchParams();
+    var script = document.createElement('script');
+    var settled = false;
+    var timeoutId = 0;
+
+    function cleanupAnalytics() {
+      if (settled) return;
+      settled = true;
+      if (timeoutId) window.clearTimeout(timeoutId);
+      try { delete window[callbackName]; } catch (err) { window[callbackName] = null; }
+      if (script && script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    }
+
+    query.set('site', cfg.siteId);
+    query.set('callback', callbackName);
+    query.set('page_url', window.location.href);
+    query.set('referrer', document.referrer || '');
+
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function (key) {
+      var value = String(pageParams.get(key) || '').trim();
+      if (value) {
+        query.set(key, value);
+      }
+    });
+
+    window[callbackName] = function (payload) {
+      try {
+        updateAnalyticsSummary(payload || {});
+      } finally {
+        cleanupAnalytics();
+      }
+    };
+
+    script.async = true;
+    script.src = cfg.endpoint + (cfg.endpoint.indexOf('?') === -1 ? '?' : '&') + query.toString();
+    script.onerror = function () {
+      cleanupAnalytics();
+    };
+    timeoutId = window.setTimeout(cleanupAnalytics, 4000);
+    document.head.appendChild(script);
+  }
+
+  function scheduleAnalyticsLoad() {
+    if (!shouldTrackAnalytics()) return;
+    var run = function () { window.setTimeout(loadAnalyticsSummary, 0); };
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(run, { timeout: 2500 });
+      return;
+    }
+    if (document.readyState === 'complete') {
+      window.setTimeout(run, 0);
+      return;
+    }
+    window.addEventListener('load', run, { once: true });
+  }
 
   function normalizeLang(lang) {
     if (!lang) return 'es';
@@ -6597,6 +6708,7 @@
   applyThemeMode(getInitialThemeMode(), { persist: false });
   setLanguage(getInitialLang());
   updateServiceInfo();
+  scheduleAnalyticsLoad();
   updateRestrictZipAccordionState();
   syncZipperTabVisibility();
   var goTabButtons = document.querySelectorAll('[data-go-tab]');

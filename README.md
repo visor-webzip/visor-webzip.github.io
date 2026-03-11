@@ -82,3 +82,19 @@ Enlaces:
 - El indice/lateral del visor PDF usa el idioma activo de la interfaz (es, ca, gl, eu, en, de), incluyendo textos como el titulo de la lista y los botones de mostrar/ocultar.
 - El visor incluye ajustes de visibilidad por fechas (inicio/fin) y permisos durante el acceso (compartir, insertar y descargar).
 - El gestor de recursos permite revisar materiales guardados localmente, comprobar actualizaciones y forzar recarga del ZIP cuando haya cambios en la nube.
+
+## Estadisticas de visitas
+
+El proyecto puede integrarse con un contador propio en IONOS:
+
+- resumen visible en el pie
+- panel privado por aplicacion
+- almacenamiento sin cookies ni IP
+- top referrers, origenes y campanas UTM
+
+Backend base de esta app:
+
+- `analytics/visor-webzip/track.php`
+- `analytics/visor-webzip/admin-stats.php`
+- `analytics/visor-webzip/lib.php`
+- `analytics/visor-webzip/config.sample.php`
