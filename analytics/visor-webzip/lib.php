@@ -174,7 +174,7 @@ function analytics_load_events_between($from_ts, $to_ts) {
         while (!feof($fp)) {
           $line = fgets($fp, 8192);
           if ($line === false) break;
-          $line = trim($line);
+          $line = rtrim($line, "\r\n");
           if ($line === '') continue;
           $parts = explode("\t", $line);
           if (count($parts) < 9) continue;
@@ -261,9 +261,20 @@ function analytics_summary_counts() {
   return array('total' => isset($map['total']) ? intval($map['total']) : 0, 'today' => isset($map[$today]) ? intval($map[$today]) : 0);
 }
 
+function analytics_global_auth_md5() {
+  $default = '6184cc7a2b2ddb8b4aad60f50df60f72';
+  $path = dirname(dirname(__FILE__)) . '/.auth.php';
+  if (!file_exists($path)) return $default;
+  $loaded = @include $path;
+  if (!is_array($loaded) || !isset($loaded['password_md5'])) return $default;
+  $hash = strtolower(trim((string) $loaded['password_md5']));
+  if (!preg_match('/^[a-f0-9]{32}$/', $hash)) return $default;
+  return $hash;
+}
+
 function analytics_require_login() {
   session_start();
-  if (isset($_COOKIE['analytics_global_auth']) && $_COOKIE['analytics_global_auth'] === '6184cc7a2b2ddb8b4aad60f50df60f72') return;
+  if (isset($_COOKIE['analytics_global_auth']) && $_COOKIE['analytics_global_auth'] === analytics_global_auth_md5()) return;
   if (isset($_SESSION['analytics_global_ok']) && $_SESSION['analytics_global_ok'] === '1') return;
   if (isset($_SESSION['analytics_ok']) && $_SESSION['analytics_ok'] === '1') return;
   $error = '';

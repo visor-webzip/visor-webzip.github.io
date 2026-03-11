@@ -356,6 +356,7 @@
   var MANAGER_SORT_DIR_DEFAULT = 'desc';
   var ANALYTICS_FALLBACK_ENDPOINT = 'https://bilateria.org/app/estadistica/visor-webzip/track.php';
   var ANALYTICS_FALLBACK_STATS_URL = 'https://bilateria.org/app/estadistica/visor-webzip/admin-stats.php';
+  var ANALYTICS_VISIT_COOLDOWN_MS = 30 * 60 * 1000;
 
   var SERVICE_INFO = {
     default: {
@@ -375,6 +376,27 @@
       statsUrl: getMetaContent('analytics-stats-url') || ANALYTICS_FALLBACK_STATS_URL,
       siteId: getMetaContent('analytics-site-id') || 'visor-webzip'
     };
+  }
+
+  function getAnalyticsVisitStorageKey(siteId) {
+    return 'analytics:last-visit:' + siteId;
+  }
+
+  function shouldCountAnalyticsVisit(siteId) {
+    try {
+      var rawValue = window.localStorage.getItem(getAnalyticsVisitStorageKey(siteId)) || '';
+      var lastVisit = parseInt(rawValue, 10);
+      if (!isNaN(lastVisit) && Date.now() - lastVisit < ANALYTICS_VISIT_COOLDOWN_MS) return false;
+    } catch (err) {
+      return true;
+    }
+    return true;
+  }
+
+  function rememberAnalyticsVisit(siteId) {
+    try {
+      window.localStorage.setItem(getAnalyticsVisitStorageKey(siteId), String(Date.now()));
+    } catch (err) {}
   }
 
   function shouldTrackAnalytics() {
@@ -414,6 +436,7 @@
     var script = document.createElement('script');
     var settled = false;
     var timeoutId = 0;
+    var shouldCountVisit = shouldCountAnalyticsVisit(cfg.siteId);
 
     function cleanupAnalytics() {
       if (settled) return;
@@ -429,6 +452,7 @@
     query.set('callback', callbackName);
     query.set('page_url', window.location.href);
     query.set('referrer', document.referrer || '');
+    if (!shouldCountVisit) query.set('summary_only', '1');
 
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function (key) {
       var value = String(pageParams.get(key) || '').trim();
@@ -440,6 +464,7 @@
     window[callbackName] = function (payload) {
       try {
         updateAnalyticsSummary(payload || {});
+        if (shouldCountVisit && payload && payload.ok) rememberAnalyticsVisit(cfg.siteId);
       } finally {
         cleanupAnalytics();
       }
