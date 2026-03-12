@@ -4183,6 +4183,14 @@ textarea:focus-visible {
   color: #cbd5e1;
 }
 
+.footer-note {
+  flex-basis: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ink-muted);
+}
+
 .modal[hidden] {
   display: none;
 }
