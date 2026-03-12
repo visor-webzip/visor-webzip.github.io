@@ -4184,11 +4184,29 @@ textarea:focus-visible {
 }
 
 .footer-note {
-  flex-basis: 100%;
-  text-align: center;
+  display: block;
   font-size: 0.8rem;
   line-height: 1.45;
   color: var(--ink-muted);
+  margin-top: 6px;
+}
+
+.footer-disclosure {
+  flex-basis: 100%;
+  text-align: center;
+}
+
+.footer-disclosure summary {
+  display: inline-block;
+  cursor: pointer;
+  color: var(--ink-muted);
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+  list-style: none;
+}
+
+.footer-disclosure summary::-webkit-details-marker {
+  display: none;
 }
 
 .modal[hidden] {

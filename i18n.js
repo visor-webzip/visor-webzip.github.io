@@ -80,6 +80,7 @@
       },
       footer: {
         issues: 'Problemas y sugerencias',
+        analyticsLink: 'Privacidad',
         analyticsNotice: 'Esta aplicación recoge únicamente estadísticas de uso agregadas con un sistema propio para conocer su utilización y mejorar la herramienta. No se almacenan direcciones IP ni se usan cookies de analítica para los visitantes.',
         analytics: {
           visits: 'Visitas',
@@ -617,6 +618,7 @@
       },
       footer: {
         issues: 'Problemes i suggeriments',
+        analyticsLink: 'Privadesa',
         analyticsNotice: 'Aquesta aplicació recull únicament estadístiques d’ús agregades amb un sistema propi per conèixer-ne la utilització i millorar l’eina. No s’emmagatzemen adreces IP ni s’utilitzen cookies d’analítica per als visitants.',
         analytics: {
           visits: 'Visites',
@@ -1145,6 +1147,7 @@
       },
       footer: {
         issues: 'Problemas e suxestións',
+        analyticsLink: 'Privacidade',
         analyticsNotice: 'Esta aplicación recolle unicamente estatísticas de uso agregadas cun sistema propio para coñecer a súa utilización e mellorar a ferramenta. Non se almacenan enderezos IP nin se usan cookies de analítica para as persoas visitantes.',
         analytics: {
           visits: 'Visitas',
@@ -1673,6 +1676,7 @@
       },
       footer: {
         issues: 'Arazoak eta iradokizunak',
+        analyticsLink: 'Pribatutasuna',
         analyticsNotice: 'Aplikazio honek erabileraren estatistika agregatuak baino ez ditu biltzen sistema propio baten bidez, erabilera ezagutu eta tresna hobetzeko. Ez da IP helbiderik gordetzen eta ez da analitika-cookie-rik erabiltzen bisitarientzat.',
         analytics: {
           visits: 'Bisitak',
@@ -2201,6 +2205,7 @@
       },
       footer: {
         issues: 'Problems and suggestions',
+        analyticsLink: 'Privacy',
         analyticsNotice: 'This application only collects aggregated usage statistics with an in-house system to understand how it is used and improve the tool. No IP addresses are stored and no analytics cookies are used for visitors.',
         analytics: {
           visits: 'Visits',
@@ -2730,6 +2735,7 @@
       },
       footer: {
         issues: 'Probleme und Vorschläge',
+        analyticsLink: 'Datenschutz',
         analyticsNotice: 'Diese Anwendung erfasst ausschließlich aggregierte Nutzungsstatistiken mit einem eigenen System, um ihre Nutzung zu verstehen und das Werkzeug zu verbessern. Es werden keine IP-Adressen gespeichert und für Besucher werden keine Analyse-Cookies verwendet.',
         analytics: {
           visits: 'Besuche',

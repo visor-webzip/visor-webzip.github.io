@@ -210,8 +210,24 @@ function analytics_build_series($rows, $range) {
   $series = array();
   $cursor = $cfg['from'];
   if ($cfg['granularity'] === 'hour') {
-    for ($hour = 0; $hour < 24; $hour++) $series[sprintf('%02d', $hour)] = 0;
-    foreach ($rows as $row) $series[sprintf('%02d', intval($row['hour']))]++;
+    if ($range === 'last24') {
+      $start_hour = intval(floor($cfg['to'] / 3600)) * 3600 - (23 * 3600);
+      $hour_keys = array();
+      for ($slot = 0; $slot < 24; $slot++) {
+        $bucket_ts = $start_hour + ($slot * 3600);
+        $key = date('H', $bucket_ts);
+        $hour_keys[$bucket_ts] = $key;
+        $series[$key] = 0;
+      }
+      foreach ($rows as $row) {
+        $bucket_ts = intval(floor(intval($row['ts']) / 3600)) * 3600;
+        if (!isset($hour_keys[$bucket_ts])) continue;
+        $series[$hour_keys[$bucket_ts]]++;
+      }
+    } else {
+      for ($hour = 0; $hour < 24; $hour++) $series[sprintf('%02d', $hour)] = 0;
+      foreach ($rows as $row) $series[sprintf('%02d', intval($row['hour']))]++;
+    }
   } elseif ($cfg['granularity'] === 'month') {
     while ($cursor <= $cfg['to']) {
       $series[date('Y-m', $cursor)] = 0;
