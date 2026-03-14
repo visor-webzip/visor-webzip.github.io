@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;800&family=Spectral:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=43">
+  <link rel="stylesheet" href="styles.css?v=44">
 </head>
 <body>
 
@@ -700,7 +700,12 @@
       <span class="footer-sep">·</span>
       <a class="footer-link" href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">AGPLv3</a>
       <span class="footer-sep">·</span>
-      <button class="footer-link footer-button" type="button" data-privacy-open data-i18n="footer.analyticsLink">Privacidad</button>
+      <span class="footer-popover-wrap">
+        <a class="footer-link" href="#" data-privacy-open data-i18n="footer.analyticsLink" aria-expanded="false">Privacidad</a>
+        <span class="footer-popover" data-privacy-popover hidden>
+          <span class="footer-note footer-note--popover" data-i18n="footer.analyticsNotice">Esta aplicación recoge únicamente estadísticas de uso agregadas con un sistema propio para conocer su utilización y mejorar la herramienta. No se almacenan direcciones IP ni se usan cookies de analítica para los visitantes.</span>
+        </span>
+      </span>
       <span class="footer-link footer-analytics" data-analytics-summary hidden style="display:none">
         <span class="footer-sep">·</span>
         <span data-i18n="footer.analytics.visits">Visitas</span>&nbsp;<strong data-analytics-total>-</strong>
@@ -710,19 +715,6 @@
     </footer>
   </main>
   <div class="global-toast" data-global-toast hidden></div>
-
-  <div class="modal" data-privacy-modal hidden>
-    <div class="modal__overlay" data-privacy-close></div>
-    <div class="modal__card modal__card--narrow" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
-      <div class="modal__header">
-        <h2 id="privacy-title" tabindex="-1" data-i18n="footer.analyticsLink">Privacidad</h2>
-        <button class="modal__close" type="button" data-privacy-close data-i18n-aria-label="common.close">×</button>
-      </div>
-      <div class="modal__content">
-        <p class="manager-subtitle footer-note footer-note--modal" data-i18n="footer.analyticsNotice">Esta aplicación recoge únicamente estadísticas de uso agregadas con un sistema propio para conocer su utilización y mejorar la herramienta. No se almacenan direcciones IP ni se usan cookies de analítica para los visitantes.</p>
-      </div>
-    </div>
-  </div>
 
   <div class="embed-shell" data-embed-shell hidden>
     <iframe class="embed-frame" data-embed-frame title="Contenido" allow="fullscreen"></iframe>
@@ -748,6 +740,6 @@
 		  <script src="restriction-ui.js?v=15"></script>
 			  <script src="share.js?v=4"></script>
 	  <script src="nav.js?v=3"></script>
-			  <script src="app.js?v=88"></script>
+			  <script src="app.js?v=89"></script>
  </body>
  </html>

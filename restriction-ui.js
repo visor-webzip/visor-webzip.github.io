@@ -193,6 +193,48 @@
     return normalized;
   }
 
+  function toInputDateTimeValue(value) {
+    if (!value) return '';
+    var date = new Date(value);
+    if (isNaN(date.getTime())) return '';
+    return toLocalIso(date);
+  }
+
+  function hasExplicitStart(data) {
+    if (!data || !data.startAt) return false;
+    var startMs = Date.parse(data.startAt);
+    if (isNaN(startMs)) return false;
+    var createdMs = Date.parse(data.createdAt || '');
+    if (isNaN(createdMs)) return true;
+    return Math.abs(startMs - createdMs) > 60 * 1000;
+  }
+
+  function loadRestrictionsPayload(data) {
+    if (!data || !data.enabled) return false;
+    if (get('restrictionToggle')) get('restrictionToggle').checked = true;
+    if (get('restrictionHasStart')) get('restrictionHasStart').checked = hasExplicitStart(data);
+    if (get('restrictionStartInput')) {
+      get('restrictionStartInput').value = hasExplicitStart(data) ? toInputDateTimeValue(data.startAt) : '';
+    }
+    if (get('restrictionNoEnd')) get('restrictionNoEnd').checked = !data.neverExpires && !!data.endAt;
+    if (get('restrictionEndInput')) {
+      get('restrictionEndInput').value = (!data.neverExpires && data.endAt) ? toInputDateTimeValue(data.endAt) : '';
+    }
+    if (get('restrictionLiveEnd')) get('restrictionLiveEnd').checked = !!data.enforceEndDuringView;
+    if (get('restrictionWarningMinutes')) {
+      get('restrictionWarningMinutes').value = data.warningMinutes !== undefined ? String(data.warningMinutes) : '5';
+    }
+    if (get('restrictionWarningMessage')) {
+      get('restrictionWarningMessage').value = data.warningMessage || (t('settings.warningMessageDefault') || 'El tiempo de acceso se agota en {minutes} minutos.');
+    }
+    if (get('restrictionAllowShare')) get('restrictionAllowShare').checked = !!data.allowShare;
+    if (get('restrictionAllowEmbed')) get('restrictionAllowEmbed').checked = !!data.allowEmbed;
+    if (get('restrictionAllowDownload')) get('restrictionAllowDownload').checked = !!data.allowDownload;
+    applyRestrictionUiState();
+    updateRestrictionSummary();
+    return true;
+  }
+
 
   function applyRestrictionUiState() {
     var enabled = !!(get('restrictionToggle') && get('restrictionToggle').checked);
@@ -575,6 +617,7 @@
     init: init,
     setLang: setLang,
     applyRestrictionUiState: applyRestrictionUiState,
+    loadRestrictionsPayload: loadRestrictionsPayload,
     updateRestrictionDefaults: updateRestrictionDefaults,
     buildRestrictionsPayload: buildRestrictionsPayload,
     updateRestrictionSummary: updateRestrictionSummary,

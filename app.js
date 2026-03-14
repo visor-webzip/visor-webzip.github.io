@@ -116,8 +116,7 @@
   var updateCheckBarWrap = document.querySelector('[data-update-check-bar-wrap]');
   var updateCheckBar = document.querySelector('[data-update-check-bar]');
   var privacyOpen = document.querySelector('[data-privacy-open]');
-  var privacyModal = document.querySelector('[data-privacy-modal]');
-  var privacyCloseButtons = document.querySelectorAll('[data-privacy-close]');
+  var privacyPopover = document.querySelector('[data-privacy-popover]');
   var restrictionToggle = document.querySelector('[data-restrict-toggle]');
   var restrictionToggleProxy = document.querySelector('[data-restrict-toggle-proxy]');
   var restrictionEditButton = document.querySelector('[data-restrict-edit-button]');
@@ -1698,6 +1697,20 @@
     var archiveTypeLabel = getSingleArchiveTypeLabel(singlePath);
     var analyzingText = String(texts.analyzingZip || '').replace(/ZIP\/ELPX/g, archiveTypeLabel);
     UI.setUploadStatus(buildUploadSelectionSummary(selectedFiles) + '<div class="summary-note">' + escapeHtml(analyzingText) + '</div>', { html: true, highlight: true });
+    extractZipLikeRestrictions(singleSelected.file).then(function (detectedRestrictions) {
+      if (requestId !== uploadSummaryRequestId) return;
+      if (!selectedFiles || selectedFiles.length !== 1) return;
+      var currentSingle = selectedFiles[0];
+      var currentPath = String(currentSingle.path || (currentSingle.file && currentSingle.file.name) || '');
+      if (currentPath !== singlePath) return;
+      if (!detectedRestrictions || !RestrictionUI || !RestrictionUI.loadRestrictionsPayload) return;
+      RestrictionUI.loadRestrictionsPayload(detectedRestrictions);
+      if (restrictionToggleProxy && restrictionToggle) {
+        restrictionToggleProxy.checked = !!restrictionToggle.checked;
+      }
+      syncRestrictionEditButtonVisibility();
+      renderResourceStatePanel();
+    });
     detectZipLikeViewerType(singleSelected.file).then(function (viewerInfo) {
       if (requestId !== uploadSummaryRequestId) return;
       if (!selectedFiles || selectedFiles.length !== 1) return;
@@ -1882,6 +1895,18 @@
         viewerType: onlyDocuments ? 'documents' : 'files',
         isScorm12: isScorm12
       };
+    }).catch(function () {
+      return null;
+    });
+  }
+
+  function extractZipLikeRestrictions(file) {
+    if (!file || !window.fflate || !window.fflate.unzipSync) {
+      return Promise.resolve(null);
+    }
+    return file.arrayBuffer().then(function (buffer) {
+      var entries = window.fflate.unzipSync(new Uint8Array(buffer));
+      return Restrictions.extractRestrictions(entries, decodeUtf8) || null;
     }).catch(function () {
       return null;
     });
@@ -3778,17 +3803,19 @@
     updateCheckModal.setAttribute('hidden', '');
   }
 
-  function closePrivacyModal() {
-    if (!privacyModal) return;
-    privacyModal.setAttribute('hidden', '');
+  function closePrivacyPopover() {
+    if (!privacyPopover) return;
+    privacyPopover.setAttribute('hidden', '');
+    if (privacyOpen) {
+      privacyOpen.setAttribute('aria-expanded', 'false');
+    }
   }
 
-  function openPrivacyModal() {
-    if (!privacyModal) return;
-    privacyModal.removeAttribute('hidden');
-    var title = privacyModal.querySelector('#privacy-title');
-    if (title && title.focus) {
-      try { title.focus(); } catch (e) {}
+  function openPrivacyPopover() {
+    if (!privacyPopover) return;
+    privacyPopover.removeAttribute('hidden');
+    if (privacyOpen) {
+      privacyOpen.setAttribute('aria-expanded', 'true');
     }
   }
 
@@ -6274,20 +6301,35 @@
       }
     });
   }
-  if (privacyOpen && privacyModal) {
-    privacyOpen.addEventListener('click', function () {
-      openPrivacyModal();
+  if (privacyOpen && privacyPopover) {
+    privacyOpen.addEventListener('click', function (event) {
+      event.preventDefault();
+      if (privacyPopover.hasAttribute('hidden')) {
+        openPrivacyPopover();
+      } else {
+        closePrivacyPopover();
+      }
     });
-    if (privacyCloseButtons && privacyCloseButtons.length) {
-      privacyCloseButtons.forEach(function (button) {
-        button.addEventListener('click', function () {
-          closePrivacyModal();
-        });
-      });
-    }
     document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && !privacyModal.hasAttribute('hidden')) {
-        closePrivacyModal();
+      if (event.key === 'Escape' && !privacyPopover.hasAttribute('hidden')) {
+        closePrivacyPopover();
+      }
+    });
+    document.addEventListener('click', function (event) {
+      if (privacyPopover.hasAttribute('hidden')) return;
+      var target = event.target;
+      if (privacyOpen.contains(target) || privacyPopover.contains(target)) return;
+      closePrivacyPopover();
+    });
+    document.addEventListener('focusin', function (event) {
+      if (privacyPopover.hasAttribute('hidden')) return;
+      var target = event.target;
+      if (privacyOpen.contains(target) || privacyPopover.contains(target)) return;
+      closePrivacyPopover();
+    });
+    window.addEventListener('resize', function () {
+      if (!privacyPopover.hasAttribute('hidden')) {
+        closePrivacyPopover();
       }
     });
   }
