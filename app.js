@@ -115,6 +115,9 @@
   var updateCheckProgress = document.querySelector('[data-update-check-progress]');
   var updateCheckBarWrap = document.querySelector('[data-update-check-bar-wrap]');
   var updateCheckBar = document.querySelector('[data-update-check-bar]');
+  var privacyOpen = document.querySelector('[data-privacy-open]');
+  var privacyModal = document.querySelector('[data-privacy-modal]');
+  var privacyCloseButtons = document.querySelectorAll('[data-privacy-close]');
   var restrictionToggle = document.querySelector('[data-restrict-toggle]');
   var restrictionToggleProxy = document.querySelector('[data-restrict-toggle-proxy]');
   var restrictionEditButton = document.querySelector('[data-restrict-edit-button]');
@@ -3775,6 +3778,20 @@
     updateCheckModal.setAttribute('hidden', '');
   }
 
+  function closePrivacyModal() {
+    if (!privacyModal) return;
+    privacyModal.setAttribute('hidden', '');
+  }
+
+  function openPrivacyModal() {
+    if (!privacyModal) return;
+    privacyModal.removeAttribute('hidden');
+    var title = privacyModal.querySelector('#privacy-title');
+    if (title && title.focus) {
+      try { title.focus(); } catch (e) {}
+    }
+  }
+
   function setUpdateCheckStatus(text) {
     if (updateCheckStatus) {
       updateCheckStatus.textContent = text;
@@ -6254,6 +6271,23 @@
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape' && !updateCheckModal.hasAttribute('hidden')) {
         closeUpdateCheckModal();
+      }
+    });
+  }
+  if (privacyOpen && privacyModal) {
+    privacyOpen.addEventListener('click', function () {
+      openPrivacyModal();
+    });
+    if (privacyCloseButtons && privacyCloseButtons.length) {
+      privacyCloseButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          closePrivacyModal();
+        });
+      });
+    }
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && !privacyModal.hasAttribute('hidden')) {
+        closePrivacyModal();
       }
     });
   }

@@ -4161,6 +4161,15 @@ textarea:focus-visible {
   text-decoration: none;
 }
 
+.footer-button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
 .footer-link:hover {
   color: var(--ink);
 }
@@ -4191,22 +4200,11 @@ textarea:focus-visible {
   margin-top: 6px;
 }
 
-.footer-disclosure {
-  flex-basis: 100%;
-  text-align: center;
-}
-
-.footer-disclosure summary {
-  display: inline-block;
-  cursor: pointer;
-  color: var(--ink-muted);
-  text-decoration: underline;
-  text-underline-offset: 0.12em;
-  list-style: none;
-}
-
-.footer-disclosure summary::-webkit-details-marker {
-  display: none;
+.footer-note--modal {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink);
 }
 
 .modal[hidden] {
