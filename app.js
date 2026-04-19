@@ -6820,6 +6820,7 @@
   var params = new URLSearchParams(window.location.search);
   var urlParam = params.get('url');
   var shortParam = params.get('key') || params.get('short') || params.get('s');
+  var initialTabParam = String(params.get('tab') || '').toLowerCase();
   if (urlParam) {
     ignoreRestrictionsForShare = false;
   }
@@ -6907,6 +6908,9 @@
       });
     });
     Nav.setPublishModule('');
+    if (!urlParam && !shortParam && initialTabParam) {
+      openTab(initialTabParam === 'manager' ? 'manager' : 'home');
+    }
   }
   if (managerList) {
     managerList.addEventListener('click', function (event) {

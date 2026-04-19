@@ -172,12 +172,12 @@
         }
       };
       function getHomeHref() {
-        if (!isLocalSiteUrl) return '/';
+        if (!isLocalSiteUrl) return '/?tab=manager';
         var marker = '/site/';
         var idx = path.indexOf(marker);
-        if (idx === -1) return '/';
+        if (idx === -1) return '/?tab=manager';
         var base = path.slice(0, idx + 1);
-        return base || '/';
+        return (base || '/') + '?tab=manager';
       }
       var text = copy[lang] || copy.es;
       if (!isLocalSiteUrl) {
