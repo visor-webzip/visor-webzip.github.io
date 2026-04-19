@@ -7302,8 +7302,12 @@
     startFromUrl(urlParam);
   } else {
     setEmbedMode(false, '');
-    Nav.setActiveTab('home');
-    Nav.setPublishModule('');
+    if (initialTabParam === 'manager') {
+      Nav.setActiveTab('manager');
+    } else {
+      Nav.setActiveTab('home');
+      Nav.setPublishModule('');
+    }
     UI.setLoading(false);
   }
 
