@@ -98,7 +98,7 @@
     <p id="body">Para abrir este material necesitas que te envíen el enlace de compartir del visor, normalmente uno que incluye <strong>?url=...</strong> o <strong>?key=...</strong>.</p>
     <ul id="tips">
       <li>Si este enlace te lo ha enviado otra persona, pídele la URL correcta para compartir.</li>
-      <li>Si abriste antes el recurso en este navegador, vuelve al enlace original del visor para recargarlo.</li>
+      <li>Si tú guardaste este material antes en este navegador, vuelve a la página principal del visor y ábrelo otra vez con el enlace correcto.</li>
     </ul>
     <div class="actions">
       <a class="button button--primary" href="/" id="home-link">Ir al visor</a>
@@ -116,7 +116,7 @@
           body: 'Para abrir este material necesitas la URL de compartir correcta. Pide el enlace generado con el botón Compartir del visor, normalmente uno que incluye ?url=... o ?key=....',
           tips: [
             'Si este enlace te lo ha enviado otra persona, pídele la URL correcta para compartir.',
-            'Si abriste antes el recurso en este navegador, vuelve al enlace original del visor para recargarlo.'
+            'Si tú guardaste este material antes en este navegador, vuelve a la página principal del visor y ábrelo otra vez con el enlace correcto.'
           ],
           home: 'Ir al visor'
         },
@@ -126,7 +126,7 @@
           body: 'Per obrir aquest material necessites l’URL correcta per compartir. Demana l’enllaç generat amb el botó Compartir del visor, normalment un que inclou ?url=... o ?key=....',
           tips: [
             'Si aquest enllaç te l’ha enviat una altra persona, demana-li la URL correcta per compartir.',
-            'Si ja havies obert el recurs en aquest navegador, torna a l’enllaç original del visor per recarregar-lo.'
+            'Si tu havies desat aquest material abans en aquest navegador, torna a la pàgina principal del visor i obre’l de nou amb l’enllaç correcte.'
           ],
           home: 'Anar al visor'
         },
@@ -136,7 +136,7 @@
           body: 'Para abrir este material necesitas a URL correcta para compartir. Pide a ligazón xerada co botón Compartir do visor, normalmente unha que inclúe ?url=... ou ?key=....',
           tips: [
             'Se esta ligazón cha enviou outra persoa, pídelle a URL correcta para compartir.',
-            'Se xa abriras o recurso neste navegador, volve á ligazón orixinal do visor para recargalo.'
+            'Se ti gardaras este material antes neste navegador, volve á páxina principal do visor e ábreo outra vez coa ligazón correcta.'
           ],
           home: 'Ir ao visor'
         },
@@ -146,7 +146,7 @@
           body: 'Material hau irekitzeko partekatzeko URL zuzena behar duzu. Eskatu ikuslearen Partekatu botoiarekin sortutako esteka, normalean ?url=... edo ?key=... daramana.',
           tips: [
             'Beste norbaitek bidali badizu esteka hau, eskatu partekatzeko URL zuzena.',
-            'Baliabidea lehenago nabigatzaile honetan ireki bazenuen, itzuli ikuslearen jatorrizko estekara berriro kargatzeko.'
+            'Material hau lehenago nabigatzaile honetan gorde bazenuen, itzuli ikuslearen orri nagusira eta ireki berriro esteka zuzenarekin.'
           ],
           home: 'Joan ikuslerara'
         },
@@ -156,7 +156,7 @@
           body: 'To open this material you need the correct sharing URL. Ask for the link generated with the viewer\'s Share button, usually one that includes ?url=... or ?key=....',
           tips: [
             'If someone sent you this link, ask them for the proper sharing URL.',
-            'If you opened this resource before in this browser, go back to the original viewer link and load it again.'
+            'If you previously saved this material in this browser, go back to the main viewer page and open it again with the correct link.'
           ],
           home: 'Open viewer'
         },
@@ -166,11 +166,19 @@
           body: 'Um dieses Material zu öffnen, brauchst du die richtige Freigabe-URL. Bitte um den Link, der mit der Schaltfläche Teilen im Viewer erzeugt wurde, normalerweise mit ?url=... oder ?key=....',
           tips: [
             'Wenn dir jemand diesen Link geschickt hat, bitte um die richtige Freigabe-URL.',
-            'Wenn du die Ressource früher in diesem Browser geöffnet hast, gehe zum ursprünglichen Viewer-Link zurück und lade sie erneut.'
+            'Wenn du dieses Material früher in diesem Browser gespeichert hast, gehe zur Startseite des Viewers zurück und öffne es erneut mit dem richtigen Link.'
           ],
           home: 'Zum Viewer'
         }
       };
+      function getHomeHref() {
+        if (!isLocalSiteUrl) return '/';
+        var marker = '/site/';
+        var idx = path.indexOf(marker);
+        if (idx === -1) return '/';
+        var base = path.slice(0, idx + 1);
+        return base || '/';
+      }
       var text = copy[lang] || copy.es;
       if (!isLocalSiteUrl) {
         text = copy[lang] || copy.es;
@@ -205,6 +213,7 @@
       document.getElementById('lead').textContent = text.lead;
       document.getElementById('body').textContent = text.body;
       document.getElementById('home-link').textContent = text.home;
+      document.getElementById('home-link').setAttribute('href', getHomeHref());
       var tips = document.getElementById('tips');
       tips.innerHTML = '';
       text.tips.forEach(function (item) {
