@@ -3597,6 +3597,7 @@ textarea:focus-visible {
   align-items: center;
   gap: 10px;
   white-space: nowrap;
+  flex-wrap: wrap;
 }
 
 .setting-control input[type="range"] {
@@ -3620,6 +3621,17 @@ textarea:focus-visible {
 .setting-suffix {
   font-size: 0.85rem;
   color: var(--ink-muted);
+}
+
+.setting-toggle {
+  min-height: auto;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+.setting-control input[type="number"]:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 .manager-settings-actions {

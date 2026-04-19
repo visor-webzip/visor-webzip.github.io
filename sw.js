@@ -110,6 +110,32 @@ function restrictedHtmlResponse() {
   });
 }
 
+function notCachedHtmlResponse() {
+  var html = '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
+    + '<title>Enlace local no válido</title><style>'
+    + 'body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f6f8fc;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:16px;}'
+    + '.card{max-width:640px;width:min(100%,640px);background:#fff;border:1px solid #dbe4f0;border-radius:16px;padding:24px 22px;box-shadow:0 18px 45px rgba(15,23,42,0.12);}'
+    + '.eyebrow{display:inline-block;margin-bottom:10px;padding:4px 10px;border-radius:999px;background:#e8eefc;color:#31507f;font-size:.82rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase;}'
+    + '.title{font-size:1.75rem;line-height:1.1;font-weight:800;margin:0 0 12px;}'
+    + '.body{margin:0 0 12px;color:#334155;font-size:1.02rem;line-height:1.5;}'
+    + '.list{margin:0 0 18px;padding-left:20px;color:#334155;line-height:1.5;}'
+    + '.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}'
+    + '.button{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;border:1px solid #cbd5e1;background:#fff;color:#0f172a;text-decoration:none;font-weight:600;}'
+    + '.button--primary{background:#2563eb;border-color:#2563eb;color:#fff;}'
+    + '</style></head><body><div class="card"><div class="eyebrow">Visor Web-ZIP</div><h1 class="title" id="title">Este enlace no se puede abrir aquí</h1><p class="body" id="lead">La dirección que has usado es una URL local del navegador donde se guardó el recurso. No es la URL correcta para compartir.</p><p class="body" id="body">Para abrir este material necesitas la URL de compartir correcta. Pide el enlace generado con el botón Compartir del visor, normalmente uno que incluye <strong>?url=...</strong> o <strong>?key=...</strong>.</p><ul class="list" id="tips"><li>Si este enlace te lo ha enviado otra persona, pídele la URL correcta para compartir.</li><li>Si abriste antes el recurso en este navegador, vuelve al enlace original del visor para recargarlo.</li></ul><div class="actions"><a class="button button--primary" href="./" id="home-link">Ir al visor</a></div></div><script>(function(){function normalizeLang(l){if(!l)return\"es\";l=String(l).toLowerCase().split(/[-_]/)[0];return[\"es\",\"ca\",\"gl\",\"eu\",\"en\",\"de\"].indexOf(l)!==-1?l:\"es\";}var lang=normalizeLang((function(){try{return localStorage.getItem(\"visor-lang\");}catch(e){return null;}})()||navigator.language||\"es\");var copy={es:{title:\"Este enlace no se puede abrir aquí\",lead:\"La dirección que has usado es una URL local del navegador donde se guardó el recurso. No es la URL correcta para compartir.\",body:\"Para abrir este material necesitas la URL de compartir correcta. Pide el enlace generado con el botón Compartir del visor, normalmente uno que incluye ?url=... o ?key=....\",tips:[\"Si este enlace te lo ha enviado otra persona, pídele la URL correcta para compartir.\",\"Si abriste antes el recurso en este navegador, vuelve al enlace original del visor para recargarlo.\"],home:\"Ir al visor\"},ca:{title:\"Aquest enllaç no es pot obrir aquí\",lead:\"L’adreça que has fet servir és una URL local del navegador on es va desar el recurs. No és la URL correcta per compartir.\",body:\"Per obrir aquest material necessites l’URL correcta per compartir. Demana l’enllaç generat amb el botó Compartir del visor, normalment un que inclou ?url=... o ?key=....\",tips:[\"Si aquest enllaç te l’ha enviat una altra persona, demana-li la URL correcta per compartir.\",\"Si ja havies obert el recurs en aquest navegador, torna a l’enllaç original del visor per recarregar-lo.\"],home:\"Anar al visor\"},gl:{title:\"Esta ligazón non se pode abrir aquí\",lead:\"O enderezo que usaches é unha URL local do navegador onde se gardou o recurso. Non é a URL correcta para compartir.\",body:\"Para abrir este material necesitas a URL correcta para compartir. Pide a ligazón xerada co botón Compartir do visor, normalmente unha que inclúe ?url=... ou ?key=....\",tips:[\"Se esta ligazón cha enviou outra persoa, pídelle a URL correcta para compartir.\",\"Se xa abriras o recurso neste navegador, volve á ligazón orixinal do visor para recargalo.\"],home:\"Ir ao visor\"},eu:{title:\"Esteka hau ezin da hemen ireki\",lead:\"Erabili duzun helbidea baliabidea gorde zen nabigatzaileko URL lokala da. Ez da partekatzeko URL zuzena.\",body:\"Material hau irekitzeko partekatzeko URL zuzena behar duzu. Eskatu ikuslearen Partekatu botoiarekin sortutako esteka, normalean ?url=... edo ?key=... daramana.\",tips:[\"Beste norbaitek bidali badizu esteka hau, eskatu partekatzeko URL zuzena.\",\"Baliabidea lehenago nabigatzaile honetan ireki bazenuen, itzuli ikuslearen jatorrizko estekara berriro kargatzeko.\"],home:\"Joan ikuslerara\"},en:{title:\"This link cannot be opened here\",lead:\"The address you used is a local browser URL where the resource was stored. It is not the correct sharing URL.\",body:\"To open this material you need the correct sharing URL. Ask for the link generated with the Share button in the viewer, usually one that includes ?url=... or ?key=....\",tips:[\"If someone sent you this link, ask them for the proper sharing URL.\",\"If you opened this resource before in this browser, go back to the original viewer link and load it again.\"],home:\"Open viewer\"},de:{title:\"Dieser Link kann hier nicht geöffnet werden\",lead:\"Die verwendete Adresse ist eine lokale Browser-URL, unter der die Ressource gespeichert wurde. Sie ist nicht die richtige Freigabe-URL.\",body:\"Um dieses Material zu öffnen, brauchst du die richtige Freigabe-URL. Bitte um den Link, der mit der Schaltfläche Teilen im Viewer erzeugt wurde, normalerweise mit ?url=... oder ?key=....\",tips:[\"Wenn dir jemand diesen Link geschickt hat, bitte um die richtige Freigabe-URL.\",\"Wenn du die Ressource früher in diesem Browser geöffnet hast, gehe zum ursprünglichen Viewer-Link zurück und lade sie erneut.\"],home:\"Zum Viewer\"}};var text=copy[lang]||copy.es;document.documentElement.lang=lang;document.getElementById(\"title\").textContent=text.title;document.getElementById(\"lead\").textContent=text.lead;document.getElementById(\"body\").textContent=text.body;document.getElementById(\"home-link\").textContent=text.home;var tips=document.getElementById(\"tips\");tips.innerHTML=\"\";text.tips.forEach(function(item){var li=document.createElement(\"li\");li.textContent=item;tips.appendChild(li);});})();</script></body></html>';
+  return new Response(new Blob([html], { type: 'text/html' }), {
+    status: 404,
+    headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' }
+  });
+}
+
+function notCachedTextResponse() {
+  return new Response('This local URL is not valid in this browser. Ask for the share URL.', {
+    status: 404,
+    headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' }
+  });
+}
+
 self.addEventListener('install', function (event) {
   event.waitUntil(self.skipWaiting());
 });
@@ -149,7 +175,11 @@ function handleSiteRequest(url, scopePath) {
     }
     return getFile(siteId, decodeURIComponent(resolvedPath)).then(function (record) {
       if (!record || !record.blob) {
-        return new Response('Not cached', { status: 404 });
+        var type = guessMimeType(resolvedPath);
+        if (type && type.indexOf('text/html') === 0) {
+          return notCachedHtmlResponse();
+        }
+        return notCachedTextResponse();
       }
       var type = record.type || guessMimeType(resolvedPath);
       if (isLiveEndExpired(site)) {

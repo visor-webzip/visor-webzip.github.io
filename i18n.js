@@ -232,7 +232,8 @@
           days: {
             label: 'Días para borrar recursos antiguos',
             help: 'Si un recurso no se abre en este periodo, se eliminará automáticamente.',
-            suffix: 'días'
+            suffix: 'días',
+            never: 'No caducan'
           },
           reset: 'Restaurar valores por defecto',
           resetHelp: 'Vuelve a 70% y 30 días y aplica la limpieza.'
@@ -770,7 +771,8 @@
           days: {
             label: 'Dies per esborrar recursos antics',
             help: 'Si un recurs no s’obre en aquest període, s’eliminarà automàticament.',
-            suffix: 'dies'
+            suffix: 'dies',
+            never: 'No caduquen'
           },
           reset: 'Restaurar valors per defecte',
           resetHelp: 'Torna a 70% i 30 dies i aplica la neteja.'
@@ -1299,7 +1301,8 @@
           days: {
             label: 'Días para borrar recursos antigos',
             help: 'Se un recurso non se abre neste período, eliminarase automaticamente.',
-            suffix: 'días'
+            suffix: 'días',
+            never: 'Non caducan'
           },
           reset: 'Restaurar valores por defecto',
           resetHelp: 'Volver a 70% e 30 días e aplicar a limpeza.'
@@ -1828,7 +1831,8 @@
           days: {
             label: 'Baliabide zaharrak ezabatzeko egunak',
             help: 'Baliabide bat epe honetan irekitzen ez bada, automatikoki ezabatuko da.',
-            suffix: 'egun'
+            suffix: 'egun',
+            never: 'Ez dira iraungitzen'
           },
           reset: 'Lehenetsitako balioak berrezarri',
           resetHelp: '70% eta 30 egunetara itzuli eta garbiketa aplikatu.'
@@ -2357,7 +2361,8 @@
           days: {
             label: 'Days before removing old resources',
             help: 'If a resource is not opened within this period, it will be removed automatically.',
-            suffix: 'days'
+            suffix: 'days',
+            never: 'Never expire'
           },
           reset: 'Restore default values',
           resetHelp: 'Back to 70% and 30 days and apply cleanup.'
@@ -2887,7 +2892,8 @@
           days: {
             label: 'Tage bis zum Löschen alter Ressourcen',
             help: 'Wenn eine Ressource in diesem Zeitraum nicht geöffnet wird, wird sie automatisch gelöscht.',
-            suffix: 'Tage'
+            suffix: 'Tage',
+            never: 'Nie ablaufen'
           },
           reset: 'Standardwerte wiederherstellen',
           resetHelp: 'Zurück zu 70% und 30 Tagen und Bereinigung anwenden.'

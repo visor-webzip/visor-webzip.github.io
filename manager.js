@@ -71,10 +71,14 @@
 
 
   function cleanupOldSites() {
-    var cutoff = Date.now() - ctx('getCleanupDays')() * 24 * 60 * 60 * 1000;
+    var cleanupDays = ctx('getCleanupDays')();
+    var cutoff = isFinite(cleanupDays)
+      ? Date.now() - cleanupDays * 24 * 60 * 60 * 1000
+      : null;
     return Storage.getAllSites().then(function (sites) {
       var oldIds = sites.filter(function (site) {
         if (site && site.temporaryPreview) return true;
+        if (cutoff === null) return false;
         return site.updatedAt && site.updatedAt < cutoff;
       }).map(function (site) { return site.id; });
       if (!oldIds.length) return;

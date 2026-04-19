@@ -99,6 +99,7 @@
   var cleanupThresholdInput = document.querySelector('[data-cleanup-threshold]');
   var cleanupThresholdValue = document.querySelector('[data-cleanup-threshold-value]');
   var cleanupDaysInput = document.querySelector('[data-cleanup-days]');
+  var cleanupNeverInput = document.querySelector('[data-cleanup-never]');
   var resetCleanupButton = document.querySelector('[data-reset-cleanup]');
   var managerSortSelect = document.querySelector('[data-manager-sort]');
   var managerSettingsOpenButton = document.querySelector('[data-manager-settings-open]');
@@ -350,6 +351,7 @@
   var themeMediaQuery = null;
   var CLEANUP_THRESHOLD_KEY = 'visor-cleanup-threshold';
   var CLEANUP_DAYS_KEY = 'visor-cleanup-days';
+  var CLEANUP_DAYS_NEVER = 'never';
   var CLEANUP_THRESHOLD_DEFAULT = 70;
   var CLEANUP_DAYS_DEFAULT = 30;
   var MANAGER_SORT_KEY = 'visor-manager-sort';
@@ -539,9 +541,36 @@
     return Math.min(95, Math.max(40, value));
   }
 
+  function getStoredCleanupDaysRaw() {
+    try {
+      var raw = localStorage.getItem(CLEANUP_DAYS_KEY);
+      return raw == null ? '' : String(raw).trim().toLowerCase();
+    } catch (err) {
+      return '';
+    }
+  }
+
   function getCleanupDays() {
+    if (getStoredCleanupDaysRaw() === CLEANUP_DAYS_NEVER) {
+      return Infinity;
+    }
     var value = getStoredNumber(CLEANUP_DAYS_KEY, CLEANUP_DAYS_DEFAULT);
     return Math.min(365, Math.max(7, value));
+  }
+
+  function syncCleanupDaysControl(value) {
+    var isNever = value === Infinity;
+    if (cleanupNeverInput) {
+      cleanupNeverInput.checked = isNever;
+    }
+    if (cleanupDaysInput) {
+      cleanupDaysInput.disabled = isNever;
+      if (!isNever) {
+        cleanupDaysInput.value = String(value);
+      } else if (!cleanupDaysInput.value) {
+        cleanupDaysInput.value = String(CLEANUP_DAYS_DEFAULT);
+      }
+    }
   }
 
   function setCleanupThreshold(value) {
@@ -558,13 +587,12 @@
   }
 
   function setCleanupDays(value) {
+    var isNever = value === Infinity || String(value || '').toLowerCase() === CLEANUP_DAYS_NEVER;
     var normalized = Math.min(365, Math.max(7, Number(value) || CLEANUP_DAYS_DEFAULT));
     try {
-      localStorage.setItem(CLEANUP_DAYS_KEY, String(normalized));
+      localStorage.setItem(CLEANUP_DAYS_KEY, isNever ? CLEANUP_DAYS_NEVER : String(normalized));
     } catch (err) {}
-    if (cleanupDaysInput) {
-      cleanupDaysInput.value = String(normalized);
-    }
+    syncCleanupDaysControl(isNever ? Infinity : normalized);
   }
 
   function getInitialLang() {
@@ -7006,7 +7034,19 @@
   }
   if (cleanupDaysInput) {
     cleanupDaysInput.addEventListener('change', function () {
+      if (cleanupNeverInput && cleanupNeverInput.checked) return;
       setCleanupDays(cleanupDaysInput.value);
+      Manager.cleanupOldSites();
+      Manager.refreshManager();
+    });
+  }
+  if (cleanupNeverInput) {
+    cleanupNeverInput.addEventListener('change', function () {
+      if (cleanupNeverInput.checked) {
+        setCleanupDays(CLEANUP_DAYS_NEVER);
+      } else {
+        setCleanupDays(cleanupDaysInput && cleanupDaysInput.value ? cleanupDaysInput.value : CLEANUP_DAYS_DEFAULT);
+      }
       Manager.cleanupOldSites();
       Manager.refreshManager();
     });
