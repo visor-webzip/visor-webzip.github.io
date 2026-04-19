@@ -4775,6 +4775,100 @@ body[data-loading="true"][data-loading-mode="overlay"] .loading-screen {
   }
 }
 
+@media (max-height: 930px) and (min-width: 721px) {
+  main {
+    padding: 16px 24px 24px;
+    gap: 10px;
+  }
+
+  header {
+    padding: 18px 22px;
+  }
+
+  .title-row {
+    gap: 10px;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 3vw, 2.55rem);
+  }
+
+  .app-mark {
+    width: 80px;
+    height: 80px;
+  }
+
+  .header-subtitle {
+    line-height: 1.3;
+  }
+
+  .tabs {
+    gap: 10px;
+    padding: 6px 10px;
+  }
+
+  .tabs-secondary {
+    gap: 10px;
+  }
+
+  .tab-panel {
+    padding: 12px 12px 10px;
+  }
+
+  .tab-panel.is-active {
+    gap: 12px;
+  }
+
+  .publish-intro-grid {
+    gap: 12px;
+    margin: 0 0 8px;
+  }
+
+  .publish-intro-card {
+    padding: 10px 12px;
+  }
+
+  .publish-intro-card__text,
+  .publish-choice-card__note,
+  .publish-choice-card--link .publish-choice-card__note {
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+
+  .publish-choice-columns {
+    gap: 14px;
+  }
+
+  .publish-choice-card,
+  .publish-choice-card--upload {
+    min-height: 0;
+    padding: 14px;
+  }
+
+  .publish-choice-card__title,
+  .publish-quick-card__title {
+    font-size: 0.98rem;
+  }
+
+  .publish-quick-actions {
+    gap: 12px;
+  }
+
+  .publish-quick-card {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .dropzone--quick {
+    min-height: 118px;
+    padding: 16px;
+  }
+
+  .publish-quick-html {
+    min-height: 64px;
+  }
+}
+
 /* Final dark-mode contrast overrides (kept at end to win cascade). */
 :root[data-theme="dark"] .icon-button {
   background: #16233c;
