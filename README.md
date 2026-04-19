@@ -2,7 +2,7 @@
 
 ![Release](https://img.shields.io/github/v/release/visor-webzip/visor-webzip.github.io?label=version&sort=semver)
 
-Versión actual: v3.6.7
+Versión actual: v3.6.8
 
 Este proyecto permite mostrar contenidos web (eXeLearning, recursos IA, webs interactivas, etc.) empaquetados en un ZIP, sin tener que publicar en un hosting tradicional.
 
