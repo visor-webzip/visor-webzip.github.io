@@ -296,10 +296,17 @@ function injectOverlayResponse(blob, payload) {
       'if(btnUpdate){btnUpdate.addEventListener("click",function(){setDismissed(false);hide();getSite(overlay.getAttribute("data-site-id")).then(function(site){if(!site||!site.url)return;var base=getBasePath();var target=base+"?url="+encodeURIComponent(site.url)+"&view=full&force=1";if(site.indexPath){target+="&entry="+encodeURIComponent(site.indexPath);}location.assign(target);});});}',
       '})();</script>'
     ].join('');
-    if (html.indexOf('</body>') !== -1) {
-      html = html.replace('</body>', overlay + '</body>');
+    var lowerHtml = html.toLowerCase();
+    var htmlCloseIdx = lowerHtml.lastIndexOf('</html>');
+    if (htmlCloseIdx !== -1) {
+      html = html.slice(0, htmlCloseIdx) + overlay + html.slice(htmlCloseIdx);
     } else {
-      html += overlay;
+      var bodyCloseIdx = lowerHtml.lastIndexOf('</body>');
+      if (bodyCloseIdx !== -1) {
+        html = html.slice(0, bodyCloseIdx) + overlay + html.slice(bodyCloseIdx);
+      } else {
+        html += overlay;
+      }
     }
     return new Response(new Blob([html], { type: 'text/html' }), {
       status: 200,
