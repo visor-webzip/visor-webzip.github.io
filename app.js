@@ -153,6 +153,7 @@
   var restrictionZipLock = document.querySelector('[data-restrict-zip-lock]');
   var restrictionZipEnable = document.querySelector('[data-restrict-zip-enable]');
   var restrictionCountdown = document.querySelector('[data-restrict-countdown]');
+  var restrictionResetButton = document.querySelector('[data-restrict-reset]');
   var appVersionNode = document.querySelector('[data-app-version]');
   var downloadPanel = document.querySelector('[data-download-panel]');
   var downloadDivider = document.querySelector('[data-download-divider]');
@@ -6755,6 +6756,19 @@
           if (restrictionToggle && restrictionToggle.focus) restrictionToggle.focus();
         } catch (e) {}
       }, 0);
+    });
+  }
+  if (restrictionResetButton) {
+    restrictionResetButton.addEventListener('click', function () {
+      if (!RestrictionUI || !RestrictionUI.resetDefaults) return;
+      RestrictionUI.resetDefaults();
+      if (restrictionToggleProxy && restrictionToggle) {
+        restrictionToggleProxy.checked = !!restrictionToggle.checked;
+      }
+      syncRestrictionEditButtonVisibility();
+      updateRestrictZipAccordionState();
+      syncPreviewRestrictionsVisibility();
+      renderResourceStatePanel();
     });
   }
 
