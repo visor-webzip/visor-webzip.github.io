@@ -23,8 +23,12 @@ No automated tests. Manual verification: open via local server, paste a ZIP URL,
   - `?url=...&bundle=1` — returns full ZIP as base64.
   - `?url=...&bundle=1&meta=1` — returns metadata (`size`, `acceptRanges`, `name`) for chunked download.
   - `?url=...&bundle=1&part=N&chunkSize=...` — returns a chunk of the ZIP via HTTP Range.
+  - `?short=1&url=...` — creates (or reuses) a short-link token for a ZIP URL.
+  - `?short=<token>` — resolves a token back to its URL.
 - `gas/appsscript.json` — Apps Script manifest.
 - The deployed web app URL goes in `config.js` → `GAS_WEBAPP_URL`.
+
+**Short-link storage:** tokens (SHA-256 of the URL, first 12 chars) map to URLs in a `shortlinks.json` file inside the `ZipWebSites` Drive folder, with per-token caching on reads and `LockService` on writes. Tokens created before this change live in `ScriptProperties` (`short_<token>`) and are still read as a fallback, so previously shared links keep working. ⚠️ Do not delete, move or rename `shortlinks.json` — that breaks every short link. When redeploying, always update the existing web-app deployment ("New version") so `GAS_WEBAPP_URL` stays valid; never create a new deployment.
 
 ### Frontend (GitHub Pages, repo root)
 
