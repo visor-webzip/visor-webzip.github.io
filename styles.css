@@ -2301,14 +2301,14 @@ textarea:focus-visible {
 .publish-actions-row {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  gap: 12px 16px;
+  gap: 12px 14px;
   min-width: 0;
 }
 
 .publish-actions-row > button {
-  flex: 0 1 260px;
+  flex: 0 1 auto;
   min-width: 0;
   max-width: 100%;
   min-height: 44px;
@@ -2320,23 +2320,35 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 12px 16px;
+  gap: 12px 14px;
   min-width: 0;
 }
 
+.publish-actions-primary [data-preview-resource] {
+  flex: 0 1 auto;
+}
+
 .publish-actions-row > [data-preview-resource],
-.publish-actions-row > [data-preview-resource]:hover,
-.publish-actions-row > [data-preview-resource]:active {
-  border: 1px solid rgba(37, 99, 235, 0.18);
-  background: rgba(255, 255, 255, 0.92);
+.publish-actions-primary > [data-preview-resource] {
+  min-height: 44px;
+  padding: 10px 22px;
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  background: var(--accent-wash);
   color: var(--accent);
-  box-shadow: none;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.1);
   transform: none;
 }
 
-.publish-actions-row > [data-preview-resource]:hover {
-  border-color: rgba(37, 99, 235, 0.35);
-  background: var(--accent-wash);
+.publish-actions-row > [data-preview-resource]:hover,
+.publish-actions-primary > [data-preview-resource]:hover {
+  border-color: rgba(37, 99, 235, 0.4);
+  background: rgba(37, 99, 235, 0.16);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.16);
+}
+
+.publish-actions-row > [data-preview-resource]:active,
+.publish-actions-primary > [data-preview-resource]:active {
+  transform: translateY(1px);
 }
 
 .preview-toggle {
@@ -2477,15 +2489,16 @@ textarea:focus-visible {
 }
 
 :root[data-theme="dark"] .publish-actions-row > [data-preview-resource],
-:root[data-theme="dark"] .publish-actions-row > [data-preview-resource]:hover,
-:root[data-theme="dark"] .publish-actions-row > [data-preview-resource]:active {
-  background: rgba(17, 27, 47, 0.88);
-  border-color: #355179;
+:root[data-theme="dark"] .publish-actions-primary > [data-preview-resource] {
+  background: #1a2d52;
+  border-color: #3f5d8a;
   color: #cfe0f8;
+  box-shadow: 0 6px 16px rgba(8, 15, 30, 0.35);
 }
 
-:root[data-theme="dark"] .publish-actions-row > [data-preview-resource]:hover {
-  background: #1a2d52;
+:root[data-theme="dark"] .publish-actions-row > [data-preview-resource]:hover,
+:root[data-theme="dark"] .publish-actions-primary > [data-preview-resource]:hover {
+  background: #213a66;
   border-color: #4a6590;
 }
 
