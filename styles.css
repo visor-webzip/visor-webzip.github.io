@@ -2316,20 +2316,7 @@ textarea:focus-visible {
   border-radius: 999px;
 }
 
-.publish-actions-primary {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px 14px;
-  min-width: 0;
-}
-
-.publish-actions-primary [data-preview-resource] {
-  flex: 0 1 auto;
-}
-
-.publish-actions-row > [data-preview-resource],
-.publish-actions-primary > [data-preview-resource] {
+.publish-actions-row > [data-preview-resource] {
   min-height: 44px;
   padding: 10px 22px;
   border: 1px solid rgba(37, 99, 235, 0.22);
@@ -2339,16 +2326,19 @@ textarea:focus-visible {
   transform: none;
 }
 
-.publish-actions-row > [data-preview-resource]:hover,
-.publish-actions-primary > [data-preview-resource]:hover {
+.publish-actions-row > [data-preview-resource]:hover {
   border-color: rgba(37, 99, 235, 0.4);
   background: rgba(37, 99, 235, 0.16);
   box-shadow: 0 8px 18px rgba(37, 99, 235, 0.16);
 }
 
-.publish-actions-row > [data-preview-resource]:active,
-.publish-actions-primary > [data-preview-resource]:active {
+.publish-actions-row > [data-preview-resource]:active {
   transform: translateY(1px);
+}
+
+.publish-actions-row > .preview-toggle {
+  flex: 1 1 100%;
+  min-width: 0;
 }
 
 .preview-toggle {
@@ -2488,16 +2478,14 @@ textarea:focus-visible {
   color: #c5d0df;
 }
 
-:root[data-theme="dark"] .publish-actions-row > [data-preview-resource],
-:root[data-theme="dark"] .publish-actions-primary > [data-preview-resource] {
+:root[data-theme="dark"] .publish-actions-row > [data-preview-resource] {
   background: #1a2d52;
   border-color: #3f5d8a;
   color: #cfe0f8;
   box-shadow: 0 6px 16px rgba(8, 15, 30, 0.35);
 }
 
-:root[data-theme="dark"] .publish-actions-row > [data-preview-resource]:hover,
-:root[data-theme="dark"] .publish-actions-primary > [data-preview-resource]:hover {
+:root[data-theme="dark"] .publish-actions-row > [data-preview-resource]:hover {
   background: #213a66;
   border-color: #4a6590;
 }
@@ -4700,8 +4688,7 @@ body[data-loading="true"][data-loading-mode="overlay"] .loading-screen {
     grid-template-columns: 1fr;
   }
 
-  .publish-actions-row,
-  .publish-actions-primary {
+  .publish-actions-row {
     flex-direction: column;
     align-items: stretch;
   }
