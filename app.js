@@ -787,7 +787,7 @@
         restrictRange: restrictRange,
         restrictionCountdown: restrictionCountdown,
         openAllowedResource: function () {
-          var hasUrl = urlParam || shortParam;
+          var hasUrl = urlParam || packedParam || shortParam;
           if (!hasUrl) return;
           var entryParam = params.get('entry') || params.get('index') || params.get('path') || '';
           var viewParam = (params.get('view') || '').toLowerCase();
@@ -3374,11 +3374,79 @@
     return base;
   }
 
-  var shortLinkCache = {};
   var shortResolveCache = {};
 
-  function buildShortShareLink(token, fullView, entryPath) {
-    var base = appBase() + '?key=' + encodeURIComponent(token);
+  // Codifica/decodifica la URL del ZIP directamente en el enlace (?d=...), sin
+  // depender del backend ni de un índice de tokens en Drive. La URL viaja
+  // comprimida con deflate-raw (cuando el navegador lo admite) y en base64url.
+  function bytesToBase64url(bytes) {
+    var binary = '';
+    for (var i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+
+  function base64urlToBytes(str) {
+    var base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+    var binary = atob(base64);
+    var bytes = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return bytes;
+  }
+
+  // El primer carácter del token indica el modo: 'c' comprimido, 'u' sin comprimir.
+  function packZipUrl(zipUrl) {
+    var bytes = new TextEncoder().encode(JSON.stringify(zipUrl));
+    if (typeof CompressionStream === 'function') {
+      var cs = new CompressionStream('deflate-raw');
+      var writer = cs.writable.getWriter();
+      writer.write(bytes);
+      writer.close();
+      return new Response(cs.readable).arrayBuffer().then(function (buffer) {
+        return 'c' + bytesToBase64url(new Uint8Array(buffer));
+      });
+    }
+    return Promise.resolve('u' + bytesToBase64url(bytes));
+  }
+
+  function unpackZipUrl(packed) {
+    if (!packed) {
+      return Promise.reject(new Error(t('error.loadZip')));
+    }
+    var flag = packed.charAt(0);
+    var bytes;
+    try {
+      bytes = base64urlToBytes(packed.slice(1));
+    } catch (err) {
+      return Promise.reject(new Error(t('error.loadZip')));
+    }
+    if (flag === 'u') {
+      try {
+        return Promise.resolve(JSON.parse(new TextDecoder().decode(bytes)));
+      } catch (err) {
+        return Promise.reject(new Error(t('error.loadZip')));
+      }
+    }
+    if (flag === 'c') {
+      if (typeof DecompressionStream !== 'function') {
+        return Promise.reject(new Error(t('error.loadZip')));
+      }
+      var ds = new DecompressionStream('deflate-raw');
+      var writer = ds.writable.getWriter();
+      writer.write(bytes);
+      writer.close();
+      return new Response(ds.readable).text().then(function (text) {
+        return JSON.parse(text);
+      });
+    }
+    return Promise.reject(new Error(t('error.loadZip')));
+  }
+
+  function buildPackedShareLink(packed, fullView, entryPath) {
+    var base = appBase() + '?d=' + packed;
     if (fullView) {
       base += '&view=full';
     }
@@ -3388,25 +3456,8 @@
     return base;
   }
 
-  function createShortToken(zipUrl) {
-    if (!GAS_WEBAPP_URL) {
-      return Promise.reject(new Error(t('error.configMissing')));
-    }
-    if (shortLinkCache[zipUrl]) {
-      return Promise.resolve(shortLinkCache[zipUrl]);
-    }
-    var endpoint = GAS_WEBAPP_URL + '?short=1&format=json&url=' + encodeURIComponent(zipUrl);
-    return fetch(endpoint, { method: 'GET' })
-      .then(function (resp) { return resp.json(); })
-      .then(function (data) {
-        if (!data || !data.token) {
-          throw new Error(t('error.loadZip'));
-        }
-        shortLinkCache[zipUrl] = data.token;
-        return data.token;
-      });
-  }
-
+  // Resuelve los enlaces cortos antiguos (?key=token) creados antes de la
+  // migración: el token sigue almacenado en el backend (shortlinks.json).
   function resolveShortToken(token) {
     if (!GAS_WEBAPP_URL) {
       return Promise.reject(new Error(t('error.configMissing')));
@@ -3428,9 +3479,9 @@
 
   function buildShareLinkAsync(zipUrl, fullView, entryPath) {
     if (!zipUrl) return Promise.resolve('');
-    return createShortToken(zipUrl)
-      .then(function (token) {
-        return buildShortShareLink(token, fullView, entryPath);
+    return packZipUrl(zipUrl)
+      .then(function (packed) {
+        return buildPackedShareLink(packed, fullView, entryPath);
       })
       .catch(function () {
         return buildShareLink(zipUrl, fullView, entryPath);
@@ -6833,6 +6884,7 @@
 
   var params = new URLSearchParams(window.location.search);
   var urlParam = params.get('url');
+  var packedParam = params.get('d');
   var shortParam = params.get('key') || params.get('short') || params.get('s');
   var initialTabParam = String(params.get('tab') || '').toLowerCase();
   if (urlParam) {
@@ -6922,7 +6974,7 @@
       });
     });
     Nav.setPublishModule('');
-    if (!urlParam && !shortParam && initialTabParam) {
+    if (!urlParam && !packedParam && !shortParam && initialTabParam) {
       openTab(initialTabParam === 'manager' ? 'manager' : 'home');
     }
   }
@@ -7304,7 +7356,15 @@
   Manager.cleanupOldSites();
   Manager.refreshManager();
   refreshFooterVersion();
-  if (!urlParam && shortParam) {
+  if (!urlParam && packedParam) {
+    UI.setLoading(true);
+    unpackZipUrl(packedParam).then(function (resolvedUrl) {
+      startFromUrl(resolvedUrl);
+    }).catch(function (err) {
+      UI.setLoading(false);
+      UI.setStatus(formatUserError(err));
+    });
+  } else if (!urlParam && shortParam) {
     UI.setLoading(true);
     resolveShortToken(shortParam).then(function (resolvedUrl) {
       startFromUrl(resolvedUrl);
