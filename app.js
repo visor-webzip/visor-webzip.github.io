@@ -136,10 +136,6 @@
   var restrictionWarningWrap = document.querySelector('[data-restrict-warning-wrap]');
   var restrictionWarningMinutes = document.querySelector('[data-restrict-warning-minutes]');
   var restrictionWarningMessage = document.querySelector('[data-restrict-warning-message]');
-  var analyticsSummary = document.querySelector('[data-analytics-summary]');
-  var analyticsTotal = document.querySelector('[data-analytics-total]');
-  var analyticsToday = document.querySelector('[data-analytics-today]');
-  var analyticsLink = document.querySelector('[data-analytics-link]');
   var restrictionPeriodHint = document.querySelector('[data-restrict-period-hint]');
   var restrictionAllowShare = document.querySelector('[data-restrict-allow-share]');
   var restrictionAllowEmbed = document.querySelector('[data-restrict-allow-embed]');
@@ -413,23 +409,6 @@
     return true;
   }
 
-  function updateAnalyticsSummary(data) {
-    var total = parseInt(data && data.total, 10);
-    var today = parseInt(data && data.today, 10);
-    var cfg = getAnalyticsConfig();
-    if (!analyticsSummary || isNaN(total) || isNaN(today)) return;
-    if (analyticsTotal) {
-      analyticsTotal.textContent = String(total);
-    }
-    if (analyticsToday) {
-      analyticsToday.textContent = String(today);
-    }
-    if (analyticsLink && cfg.statsUrl) {
-      analyticsLink.setAttribute('href', cfg.statsUrl);
-    }
-    analyticsSummary.hidden = false;
-  }
-
   function loadAnalyticsSummary() {
     if (!shouldTrackAnalytics()) return;
     var cfg = getAnalyticsConfig();
@@ -468,7 +447,6 @@
 
     window[callbackName] = function (payload) {
       try {
-        updateAnalyticsSummary(payload || {});
         if (shouldCountVisit && payload && payload.ok) rememberAnalyticsVisit(cfg.siteId);
       } finally {
         cleanupAnalytics();
@@ -487,15 +465,22 @@
   function scheduleAnalyticsLoad() {
     if (!shouldTrackAnalytics()) return;
     var run = function () { window.setTimeout(loadAnalyticsSummary, 0); };
-    if (typeof window.requestIdleCallback === 'function') {
-      window.requestIdleCallback(run, { timeout: 2500 });
-      return;
-    }
+    // Un <script async> inyectado antes de que se dispare «load» retrasa ese
+    // evento hasta que la peticion termina. Si el servidor de estadisticas se
+    // cuelga, «load» no llegaria a dispararse nunca. Por eso se espera siempre
+    // a «load» antes de programar nada.
+    var programar = function () {
+      if (typeof window.requestIdleCallback === 'function') {
+        window.requestIdleCallback(run, { timeout: 2500 });
+      } else {
+        window.setTimeout(run, 0);
+      }
+    };
     if (document.readyState === 'complete') {
-      window.setTimeout(run, 0);
+      programar();
       return;
     }
-    window.addEventListener('load', run, { once: true });
+    window.addEventListener('load', programar, { once: true });
   }
 
   function normalizeLang(lang) {
