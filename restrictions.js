@@ -62,7 +62,8 @@
       en: 'en-US',
       de: 'de-DE',
       it: 'it-IT',
-      fr: 'fr-FR'
+      fr: 'fr-FR',
+      pt: 'pt-PT'
     };
     return map[lang] || lang;
   }

@@ -78,7 +78,8 @@
         en: 'English',
         de: 'Deutsch',
         it: 'Italiano',
-        fr: 'Français'
+        fr: 'Français',
+        pt: 'Português'
       },
       footer: {
         issues: 'Problemas y sugerencias',
@@ -619,7 +620,8 @@
         en: 'English',
         de: 'Deutsch',
         it: 'Italiano',
-        fr: 'Français'
+        fr: 'Français',
+        pt: 'Português'
       },
       footer: {
         issues: 'Problemes i suggeriments',
@@ -1151,7 +1153,8 @@
         en: 'English',
         de: 'Deutsch',
         it: 'Italiano',
-        fr: 'Français'
+        fr: 'Français',
+        pt: 'Português'
       },
       footer: {
         issues: 'Problemas e suxestións',
@@ -1683,7 +1686,8 @@
         en: 'English',
         de: 'Deutsch',
         it: 'Italiano',
-        fr: 'Français'
+        fr: 'Français',
+        pt: 'Português'
       },
       footer: {
         issues: 'Arazoak eta iradokizunak',
@@ -2215,7 +2219,8 @@
         en: 'English',
         de: 'Deutsch',
         it: 'Italiano',
-        fr: 'Français'
+        fr: 'Français',
+        pt: 'Português'
       },
       footer: {
         issues: 'Problems and suggestions',
@@ -2748,7 +2753,8 @@
         en: 'English',
         de: 'Deutsch',
         it: 'Italiano',
-        fr: 'Français'
+        fr: 'Français',
+        pt: 'Português'
       },
       footer: {
         issues: 'Probleme und Vorschläge',
@@ -3281,7 +3287,8 @@
         en: 'English',
         de: 'Deutsch',
         it: 'Italiano',
-        fr: 'Français'
+        fr: 'Français',
+        pt: 'Português'
       },
       footer: {
         issues: 'Problemi e suggerimenti',
@@ -3814,7 +3821,8 @@
         en: 'English',
         de: 'Deutsch',
         it: 'Italiano',
-        fr: 'Français'
+        fr: 'Français',
+        pt: 'Português'
       },
       footer: {
         issues: 'Problèmes et suggestions',
@@ -4268,6 +4276,540 @@
         delete: 'Supprimer'
       },
       units: ['B', 'KB', 'MB', 'GB']
+    },
+    pt: {
+      page: { title: 'Visualizador Web-ZIP' },
+      loading: {
+        title: 'A carregar o material',
+        message: 'A preparar...',
+        eta: 'Tempo estimado de descarregamento: --',
+        etaPrefix: 'Tempo estimado de descarregamento: ',
+        downloadedPrefix: 'Descarregado: ',
+        note: 'Nas próximas vezes, a visualização será instantânea.'
+      },
+      header: {
+        eyebrow: 'Materiais em ZIP',
+        title: 'Visualizador Web-ZIP',
+        help: 'Ajuda',
+        settings: 'Definições',
+        settingsHint: 'Configurar a disponibilidade do recurso',
+        language: 'Idioma',
+        languageHint: 'Mudar de idioma',
+        theme: 'Tema',
+        themeHint: 'Mudar de tema',
+        themeAuto: 'Automático',
+        themeLight: 'Claro',
+        themeDark: 'Escuro',
+        subtitle: 'Cria, pré-visualiza e partilha recursos educativos digitais. Partilha o link e o teu recurso poderá ser aberto diretamente em qualquer navegador.'
+      },
+      settings: {
+        title: 'Definições de visibilidade',
+        languageTitle: 'Idioma',
+        restrictTitle: 'Acesso por datas',
+        restrictHint: 'Aqui podes definir quando o recurso estará visível e que ações estarão disponíveis no gestor de recursos.',
+        restrictToggle: 'Limitar o acesso',
+        startLabel: 'Início',
+        endLabel: 'Fim',
+        hasStart: 'Ativar a data de início da visibilidade do recurso',
+        neverExpires: 'Ativar a data de fim da visibilidade do recurso',
+        enforceEndDuringView: 'Desativar a visualização do recurso ao chegar à data de fim enquanto está aberto',
+        warningMinutesLabel: 'Aviso prévio em minutos (0 para não avisar)',
+        warningMessageLabel: 'Mensagem de aviso',
+        warningMessagePlaceholder: 'O tempo de acesso termina em {minutes} minutos.',
+        warningMessageDefault: 'O tempo de acesso termina em {minutes} minutos.',
+        periodHint: 'O recurso só estará visível dentro deste intervalo.',
+        periodHintLiveEndOn: 'A visualização será desativada ao chegar à data de fim.',
+        periodHintLiveEndOff: 'A visualização não será desativada automaticamente ao chegar à data de fim.',
+        periodHintWarningOn: 'Aparecerá um aviso {minutes} minutos antes.',
+        periodHintWarningOff: 'Não haverá aviso prévio.',
+        summaryLiveEndOn: 'Desativa-se na data de fim',
+        summaryLiveEndOff: 'Sem desativação automática',
+        summaryWarningOn: 'Aviso: {minutes} min antes',
+        summaryWarningOff: 'Sem aviso prévio',
+        summaryNoRestrictions: 'Recurso sem restrições de visibilidade.',
+        summaryAllowedActions: 'Ações permitidas no gestor de recursos: {actions}',
+        summaryNoActions: 'nenhuma',
+        summaryBlockedActions: 'Não serão permitidas: {actions}',
+        summaryNoBlockedActions: 'nenhuma',
+        datesTitle: 'Período de visibilidade',
+        actionsTitle: 'Ações disponíveis enquanto o recurso está visível',
+        allowShare: 'Partilhar',
+        allowEmbed: 'Incorporar',
+        allowDownload: 'Descarregar'
+      },
+      restrictionModal: {
+        title: 'Acesso restrito',
+        body: 'Este recurso não está disponível neste momento.',
+        rangeStart: 'Disponível a partir de: {date}',
+        rangeEnd: 'Até: {date}',
+        rangeNoStart: 'Sem data de início',
+        rangeNoEnd: 'Sem data de fim',
+        countdown: 'Disponível em: {time}'
+      },
+      lang: {
+        label: 'Idioma',
+        es: 'Español',
+        ca: 'Català',
+        gl: 'Galego',
+        eu: 'Euskara',
+        en: 'English',
+        de: 'Deutsch',
+        it: 'Italiano',
+        fr: 'Français',
+        pt: 'Português'
+      },
+      footer: {
+        issues: 'Problemas e sugestões',
+        analyticsLink: 'Privacidade',
+        analyticsNotice: 'Esta aplicação recolhe apenas estatísticas de utilização agregadas com um sistema próprio, para conhecer o seu uso e melhorar a ferramenta. Não são guardados endereços IP nem utilizados cookies de análise para os visitantes.',
+        analytics: {
+          visits: 'Visitas',
+          today: 'Hoje',
+          details: 'Estatísticas'
+        }
+      },
+      tab: {
+        home: 'Início',
+        downloadZip: 'Opções e descarregamentos',
+        manager: 'Gestor de recursos',
+        help: 'Ajuda'
+      },
+      publish: {
+        title: 'Publicar um recurso',
+        subtitle: 'Escolhe como queres começar.',
+        back: 'Voltar ao início',
+        choice: {
+          zipper: {
+            title: 'Criar um ZIP (web, PDF ou DOCX)',
+            note: 'Cria um ZIP a partir de ficheiros locais ou de HTML. Também pode incluir ficheiros PDF e DOCX.',
+            restrictHint: 'Também podes aplicar limites de acesso por datas.'
+          },
+          main: {
+            title: 'Criar link',
+            subtitle: 'Já tenho o {type} na nuvem',
+            subtitleAny: 'Já tenho um ZIP, ELPX ou H5P na nuvem com link',
+            types: {
+              any: 'ZIP, ELPX ou H5P',
+              zip: 'ZIP',
+              elpx: 'ELPX',
+              h5p: 'H5P'
+            },
+            note: 'Cola o link público e cria o link do visualizador.',
+            secondaryHtml: 'Se usas um ficheiro .elpx do eXeLearning, também o podes abrir aqui <span class="info-dot" data-i18n-aria-label="publish.choice.main.elpxTooltip" aria-label="O que é ELPX?">?<span class="info-dot__tooltip" role="tooltip" data-i18n-html="publish.choice.main.elpxTooltipHtml">Um ficheiro .elpx é um projeto do eXeLearning que internamente usa o formato ZIP, o que permite ao visualizador aceder ao seu conteúdo e mostrá-lo corretamente.</span></span>',
+            elpxTooltip: 'O que é ELPX?',
+            elpxTooltipHtml: 'Um ficheiro .elpx é um projeto do eXeLearning que internamente usa o formato ZIP, o que permite ao visualizador aceder ao seu conteúdo e mostrá-lo corretamente.'
+          }
+        },
+        flow: {
+          uploadTitle: 'Carregar recurso'
+        },
+        quick: {
+          optionALabel: 'Opção A',
+          optionAText: 'Se o teu recurso está no teu computador (ficheiros e pastas), o copiaste de uma IA (código HTML), ou se precisas de aplicar datas ou outras restrições, carrega-o ou cola-o aqui.',
+          optionBLabel: 'Opção B',
+          optionBText: 'Se já tens um ZIP, ELPX ou H5P partilhado na nuvem (Drive, Dropbox, Nextcloud, etc.) com link público, cola aqui diretamente o endereço.',
+          intro: 'Escolhe uma destas duas opções:<br><br><strong>Opção A:</strong> Se o teu recurso educativo digital está em pastas, ficheiros ou código HTML, ou se precisas de definir datas de acesso ou outras restrições, carrega-o primeiro na zona superior.<br><br><strong>Opção B:</strong> Se já tens um ZIP, ELPX ou H5P com link público no teu serviço de armazenamento na nuvem (Drive, Dropbox, Nextcloud, etc.) e não precisas de o modificar, cola esse endereço na «Opção B».',
+          newResource: 'Reiniciar',
+          newResourceTooltip: 'Reinicia a aplicação para adicionar novos recursos ou mudar para a outra opção.',
+          files: {
+            title: 'Carregar ficheiros ou pastas',
+            dropTitle: 'Arrasta a pasta ou os ficheiros para aqui',
+            loadedTitle: 'Carregamento concluído',
+            loadedHint: 'Podes arrastar ou escolher outros ficheiros novamente, ou continuar abaixo para configurar o recurso.',
+            dropHint: 'A opção de criação do ZIP abrirá diretamente.',
+            folder: 'Escolher pasta',
+            files: 'Escolher ficheiros'
+          },
+          html: {
+            title: 'Tens código HTML? Cola-o aqui',
+            placeholder: '<!doctype html>...',
+            apply: 'Usar este HTML'
+          },
+          fastDownload: 'Descarregamento rápido',
+          fastDownloadDetail: 'ignorar as opções e descarregar o recurso com as seguintes restrições:',
+          fastDownloadTooltip: 'Gera o ficheiro e descarrega-o diretamente, sem passar pelo ecrã de opções nem pela pré-visualização. As restrições de visibilidade configuradas nas definições são aplicadas automaticamente ao ficheiro descarregado.',
+          changeRestrictions: 'Alterar as restrições'
+        }
+      },
+      tabs: {
+        label: 'Secções'
+      },
+      main: {
+        subtitle: 'Se o teu recurso já está em formato ZIP, ELPX, H5P ou SCORM 1.2 (em ZIP) e está alojado num serviço com <strong>link público</strong> (Drive, Dropbox, etc.), cola aqui o link para gerar o link do visualizador.',
+        form: {
+          title: 'Já tenho um ZIP, ELPX ou H5P na nuvem com link',
+          step: 'Cola o link público do ZIP (ou .elpx/.h5p) na Opção B e clica em «Criar link».',
+          placeholder: 'Cola aqui o link público do ZIP, .elpx ou .h5p (também válido se incluir PDF ou DOCX)',
+          submit: 'Criar link'
+        },
+        output: {
+          title: 'Link para partilhar',
+          step: 'Partilha este link para que outras pessoas possam ver o teu recurso.',
+          placeholder: 'Link para partilhar',
+          copy: 'Copiar link',
+          qr: 'QR',
+          copyTooltip: 'Copiar link',
+          qrTooltip: 'QR (ideal para projetar ou imprimir)',
+          embedTooltip: 'Incorporar num site web (gera um iframe pronto a colar)',
+          openTooltip: 'Abrir pré-visualização',
+          embed: 'Incorporar num site web',
+          open: 'Abrir pré-visualização'
+        }
+      },
+      service: {
+        drive: 'Google Drive',
+        dropbox: 'Dropbox',
+        box: 'Box.com',
+        nextcloud: 'Nextcloud',
+        github: 'GitHub',
+        other: 'Outros serviços',
+        drivePlaceholder: 'https://drive.google.com/...',
+        dropboxPlaceholder: 'https://www.dropbox.com/...',
+        boxPlaceholder: 'https://app.box.com/s/...',
+        nextcloudPlaceholder: 'https://o-teu-servidor/s/...',
+        githubPlaceholder: 'https://github.com/utilizador/repo/archive/refs/heads/main.zip',
+        otherPlaceholder: 'https://servidor.com/ficheiro.zip'
+      },
+      manager: {
+        title: 'Recursos guardados',
+        subtitle: 'Gere o espaço usado pelos materiais armazenados neste navegador.',
+        deleteAll: 'Eliminar todos os recursos',
+        deleteAllConfirm: 'Tens a certeza de que queres eliminar todos os recursos guardados neste navegador? Esta ação não pode ser desfeita.',
+        deleteAllHelp: 'Elimina todos os recursos guardados neste navegador.',
+        savedAt: 'Guardado:',
+        checkUpdates: 'Procurar atualizações',
+        checkUpdatesHelp: 'Verifica se os ZIP mudaram na nuvem.',
+        checkUpdatesModalTitle: 'Procurar atualizações',
+        checkingUpdates: 'A procurar atualizações...',
+        checkUpdatesNote: 'Podes fechar esta janela. A verificação continuará em segundo plano.',
+        checkUpdatesProgress: '{done} de {total}',
+        checkUpdatesDoneSummary: 'Atualizações: {changed} de {total}.',
+        checkUpdatesNone: 'Não há recursos guardados.',
+        checkUpdatesDone: 'Verificação concluída.',
+        checkUpdatesUnavailable: 'Não é possível verificar sem o backend configurado.',
+        stats: {
+          used: 'Espaço usado',
+          total: 'Espaço total',
+          count: 'Recursos guardados'
+        },
+        sort: {
+          label: 'Ordenar por',
+          title: 'Título',
+          date: 'Data',
+          start: 'Início',
+          size: 'Tamanho',
+          dirAsc: 'Crescente',
+          dirDesc: 'Decrescente',
+          dirHelp: 'Alterar o sentido da ordenação.'
+        },
+        settings: {
+          open: 'Definições de limpeza',
+          modalTitle: 'Definições de limpeza',
+          usage: {
+            label: 'Limite de utilização antes de limpar',
+            help: 'Se esta percentagem da quota for excedida, os recursos mais antigos são eliminados.'
+          },
+          days: {
+            label: 'Dias antes de eliminar os recursos antigos',
+            help: 'Se um recurso não for aberto durante este período, será eliminado automaticamente.',
+            suffix: 'dias',
+            never: 'Nunca expiram'
+          },
+          reset: 'Restaurar os valores predefinidos',
+          resetHelp: 'Voltar a 70% e 30 dias e aplicar a limpeza.'
+        },
+        actions: {
+          view: 'Ver',
+          share: 'Partilhar',
+          qr: 'QR',
+          embed: 'Incorporar num site web',
+          edit: 'Editar o título',
+          download: 'Descarregar o ficheiro',
+          update: 'Atualizar',
+          updating: 'A atualizar...',
+          updated: 'Atualizado'
+        },
+        editPrompt: 'Título do recurso',
+        empty: 'Não há recursos guardados neste navegador.',
+        siteNoUrl: 'Site sem URL',
+        noDate: 'sem data'
+      },
+      badges: {
+        scheduled: 'Programado',
+        opening: 'Início: {date}',
+        closing: 'Fim: {date}',
+        updateAvailable: 'Atualização disponível',
+        updatedAt: 'Atualizado: {date}'
+      },
+      updates: {
+        title: 'Nova versão disponível',
+        body: 'Este recurso mudou na nuvem. Podes atualizá-lo agora.',
+        action: 'Atualizar',
+        dismiss: 'Agora não'
+      },
+      zipper: {
+        title: 'Criar ZIP para o visualizador',
+        summary: {
+          title: 'Resumo do conteúdo carregado'
+        },
+        options: {
+          title: 'Opções',
+          availabilityLabel: 'Configurar a disponibilidade do recurso',
+          availabilityEdit: 'Alterar as definições',
+          availabilityInfo: 'Definir quando o recurso estará visível e que ações estarão disponíveis no gestor de recursos.'
+        },
+        panel: {
+          configTitle: 'Definições do recurso',
+          stateTitle: 'Estado do recurso',
+          actionsTitle: 'Ações',
+          startLabel: 'Início',
+          endLabel: 'Fim',
+          permissionsLabel: 'Permissões',
+          startImmediate: 'Imediato',
+          noEnd: 'Sem data de fim',
+          stateAvailable: 'Recurso disponível',
+          stateAvailableHelp: 'O recurso pode ser aberto agora mesmo.',
+          stateAvailableUntil: 'Disponível até {date}.',
+          stateScheduled: 'À espera de abrir',
+          stateScheduledHelp: 'Abrirá a {date}.',
+          stateClosed: 'Recurso não disponível',
+          stateClosedHelp: 'A disponibilidade terminou a {date}.'
+        },
+        accordion: {
+          filesTitle: 'O teu recurso é feito de ficheiros ou já tens um ZIP/ELPX/H5P? Carrega-o aqui'
+        },
+        subtitle: {
+          item1: 'Para publicar o teu recurso, coloca todos os ficheiros numa pasta e comprime-a num ficheiro <strong>.zip</strong>. Pode conter páginas web e/ou um ou mais ficheiros <strong>PDF</strong>.',
+          item2: 'Se o teu recurso foi criado com o <strong>eXeLearning 3 ou posterior</strong>, podes usar diretamente o ficheiro <strong>.elpx</strong>.',
+          item3: 'Se usas o <strong>eXeLearning 2.x</strong>, exporta o projeto para <strong>ZIP</strong> a partir do programa e continua com <strong>«Já tenho um ZIP»</strong>.'
+        },
+        exe: {
+          tooltip: 'eXeLearning: na versão 3+ podes usar diretamente um .elpx (já é um ZIP). Versão 2.x: Ficheiro > Exportar > Site web > Ficheiro ZIP comprimido. Versão 3.x: Ficheiro > Descarregar como > Site web.',
+          tooltipHtml: '<strong>eXeLearning:</strong><br>• Versão 3+: podes usar diretamente o ficheiro <code>.elpx</code> (já é um ZIP).<br>• Versão 2.x: Ficheiro &gt; Exportar &gt; Site web &gt; Ficheiro ZIP comprimido.<br>• Versão 3.x: Ficheiro &gt; Descarregar como &gt; Site web.'
+        },
+        step1: {
+          title: 'Adiciona os teus ficheiros',
+          note: 'Arrasta a pasta ou seleciona os ficheiros com os botões.'
+        },
+        dropzone: {
+          title: 'Larga a pasta ou os ficheiros aqui',
+          hint: 'As pastas internas são mantidas.',
+          folder: 'Escolher pasta',
+          files: 'Escolher ficheiros'
+        },
+        status: {
+          empty: 'Não há ficheiros selecionados.',
+          filesReady: 'Ficheiros encontrados: {count}.',
+          ready: 'Tudo pronto para criar o ZIP.',
+          readyHint: 'Prepara o ZIP para obter o teu ficheiro.',
+          selectFirst: 'Seleciona primeiro ficheiros ou uma pasta.',
+          previewSelectFirst: 'Para pré-visualizar, seleciona ficheiros ou cola HTML.',
+          previewPreparing: 'A preparar a pré-visualização local...',
+          previewOpened: 'Pré-visualização aberta num novo separador.',
+          previewFailed: 'Não foi possível abrir a pré-visualização.',
+          engineMissing: 'Não foi possível carregar o motor de ZIP.',
+          creating: 'A criar o ZIP...',
+          downloaded: 'ZIP descarregado. Carrega o ZIP na tua nuvem, partilha-o para que todos o possam ver e cola o link na Opção B.',
+          failed: 'Não foi possível criar o ZIP. Verifica os ficheiros.',
+          created: {
+            html: 'ZIP criado: visualizador web HTML pronto. Carrega o ZIP na tua nuvem, partilha-o para que todos o possam ver e cola o link na Opção B.',
+            documents: 'ZIP criado: visualizador de documentos pronto. Carrega o ZIP na tua nuvem, partilha-o para que todos o possam ver e cola o link na Opção B.',
+            files: 'ZIP criado: visualizador de ficheiros pronto. Carrega o ZIP na tua nuvem, partilha-o para que todos o possam ver e cola o link na Opção B.'
+          }
+        },
+        step2: {
+          title: 'Descarregar o ZIP',
+          titleDynamic: 'Descarregar o {type}',
+          detail: 'Será descarregado um ficheiro que poderás carregar no Drive, Dropbox, Nextcloud, etc.',
+          forceFolderLabel: 'Forçar o visualizador de pastas',
+          forceFolderNote: 'Se ativares esta opção, o ZIP abrirá em modo explorador de ficheiros: verás o conteúdo como ficheiros organizados em pastas, mesmo quando inclui HTML ou documentos.',
+          forceFolderTooltip: 'Mais informação',
+          forceFolderTooltipHtml: 'Se ativares esta opção, o ZIP abrirá em modo explorador de ficheiros: verás o conteúdo como ficheiros organizados em pastas, mesmo quando inclui HTML ou documentos.<br><br>Se não a ativares, a aplicação deteta automaticamente que tipo de visualizador usar.<br><br>Se não tens a certeza, deixa-a desativada.'
+        },
+        zipName: {
+          label: 'Nome do ZIP',
+          placeholder: 'o_meu_recurso',
+          default: 'o_meu_recurso'
+        },
+        resourceTitle: {
+          label: 'Título do recurso',
+          placeholder: 'Deixa vazio para usar o título do recurso',
+          toggleLabel: 'Definir um título para o recurso (título atual: {title})',
+          currentEmpty: 'sem título'
+        },
+        build: 'Criar e descarregar o ZIP',
+        buildDynamic: 'Criar e descarregar {type}',
+        html: {
+          title: 'Não tens ficheiros mas tens o código HTML? Cola-o aqui',
+          note: 'Cola o HTML completo e o visualizador criará um ZIP com um <code>index.html</code> pronto a descarregar.',
+          placeholder: '<!doctype html>...',
+          build: 'Criar ZIP a partir do HTML',
+          status: {
+            ready: 'Tudo pronto para criar o ZIP a partir do teu HTML.',
+            reactDetected: 'Este conteúdo parece React/JSX (não HTML). Copia o prompt e cola-o no teu chat de IA para o converter em HTML.',
+            empty: '',
+            creating: 'A criar o ZIP...',
+            downloaded: 'ZIP descarregado. Carrega o ZIP na tua nuvem, partilha-o para que todos o possam ver e cola o link na Opção B.',
+            failed: 'Não foi possível criar o ZIP. Verifica o HTML.'
+          }
+        },
+        restrict: {
+          title: 'Já tens um ZIP, ELPX ou H5P e queres adicionar restrições de visibilidade? Carrega-o aqui',
+          note: 'Carrega o teu ZIP, ELPX ou H5P e o visualizador adicionará as restrições. Depois carrega-o no Drive, Dropbox, etc.',
+          lockedText: 'Para usar esta opção, ativa primeiro o limite de visibilidade do recurso.',
+          lockedAction: 'Ativar o limite',
+          lockedStatus: '',
+          pick: 'Selecionar ZIP',
+          apply: 'Aplicar restrições e descarregar',
+          status: {
+            ready: '',
+            working: 'A aplicar as restrições...',
+            done: '{type} pronto com as restrições. Carrega-o na tua nuvem, partilha-o para que todos o possam ver e cola o link na Opção B.',
+            saved: '{type} guardado. Carrega-o na tua nuvem, partilha-o para que todos o possam ver e cola o link na Opção B.',
+            failed: 'Não foi possível modificar o ZIP. Verifica o ficheiro.'
+          },
+
+          summaryTitle: 'Acesso limitado por datas'
+        },
+        help: {
+          inline: 'Se já criaste um ficheiro ZIP, ELPX ou H5P e o partilhaste num serviço com link público, vai à Opção B.',
+          previewTitle: 'Pré-visualizar o recurso antes de o descarregar (opcional)',
+          nextStepText: 'O passo seguinte é carregar o teu ficheiro na nuvem com um link público. Depois, na Opção B, cola esse link e cria o link para partilhar.',
+          previewAction: 'Pré-visualizar',
+          previewApplyRestrictions: 'Aplicar as restrições na pré-visualização',
+          previewApplyRestrictionsNote: 'Ativa-a para verificar como o recurso abre e fecha em função das datas configuradas.',
+          previewHideResource: 'Pré-visualizar como recurso não visível',
+          previewOpeningBlocked: 'Este recurso não está visível neste momento na pré-visualização. Desativa esta opção se queres ver como ficará quando estiver aberto. Deixa-a ativada se queres ver como fica quando não está visível.',
+          previewApplyRestrictionsInfo: 'Mais informação',
+          previewApplyRestrictionsInfoHtml: 'Usa-a para verificar como o recurso abre e fecha em função das datas configuradas.',
+          goTab: 'Vai à Opção B para colar o link público'
+        }
+      },
+      html: {
+        title: 'Escolher o HTML inicial',
+        subtitle: 'Não foi encontrado o index.html. Seleciona o ficheiro HTML que queres abrir primeiro.',
+        confirm: 'Usar este HTML'
+      },
+      embed: {
+        title: 'Incorporar num site web',
+        subtitle: 'Copia e cola este código HTML no teu site web para incorporar o teu recurso.',
+        copy: 'Copiar o código',
+        fallback: {
+          title: 'Não é possível abrir incorporado',
+          subtitle: 'O teu navegador ou a página que o aloja está a bloquear o armazenamento necessário. Abre o recurso num novo separador.',
+          open: 'Abrir num novo separador'
+        }
+      },
+      reactPrompt: {
+        title: 'Isto parece React',
+        subtitle: 'Este conteúdo parece React/JSX (não HTML). Copia este prompt e cola-o no teu chat de IA para que o converta em HTML.',
+        prompt: 'Converte este código React/JSX num único `index.html` que funcione ao abri-lo diretamente no navegador (apenas HTML, CSS e JavaScript). Devolve apenas o conteúdo completo do ficheiro HTML.',
+        copy: 'Copiar o prompt'
+      },
+      about: {
+        title: 'Ajuda',
+        intro: 'Guia rápido para publicar, partilhar e gerir recursos no visualizador.',
+        can: {
+          title: 'O que podes carregar',
+          item1: 'ZIP com páginas web estáticas e os seus recursos (ficheiros HTML, imagens, áudio, vídeo, PDF, etc.).',
+          item2: 'Materiais criados com o eXeLearning ou outras ferramentas que exportem para web.',
+          item3: 'Qualquer material criado com IA (documentos, infografias, etc.) que possas descarregar como página web (HTML).',
+          item4: 'Pastas com um ficheiro HTML principal (normalmente <code>index.html</code>).'
+        },
+        cant: {
+          title: 'O que não funciona ou pode falhar',
+          item1: 'Sites web que precisam de servidor (formulários que guardam dados, bases de dados, PHP, etc.).',
+          item2: 'Links externos que exigem autenticação ou permissões especiais.',
+          item3: 'ZIP vazios, danificados ou incompletos que não podem ser abertos corretamente.'
+        },
+        how: {
+          title: 'Como funciona',
+          step1: 'Prepara o teu recurso como uma pasta com páginas web (HTML) e comprime-a num ZIP. Podes fazê-lo com a opção «Criar um ZIP».',
+          step2: 'Carrega o ZIP num serviço com link público (Google Drive, Dropbox, Nextcloud, GitHub…).',
+          step3: 'Partilha o ficheiro para que qualquer pessoa com o link o possa ver.',
+          step4: 'Copia o URL e cola-o no campo «Cola aqui o link público».',
+          step5: 'O link para partilhar é permanente, por isso podes distribuí-lo aos teus alunos.'
+        },
+        drive: {
+          title: 'Importante sobre o Google Drive',
+          note: 'O Google Drive limita os descarregamentos diretos de ficheiros grandes (cerca de 25 MB). Se o teu ZIP exceder esse tamanho, pode falhar. O Dropbox, o Nextcloud e outros serviços costumam permitir ficheiros maiores sem esse limite.'
+        },
+        body: '<nav class="about-index" data-help-nav aria-label="Índice da ajuda"><p class="about-index__title">Índice</p><ul><li><a href="#help-goal">Objetivo</a></li><li><a href="#help-route">Percurso rápido para partilhar</a></li><li><a href="#help-share-link">Que link devo partilhar?</a></li><li><a href="#help-tabs">Separadores de trabalho</a></li><li><a href="#help-viewer">Que visualizador é criado automaticamente</a></li><li><a href="#help-options">Opções antes de descarregar</a></li><li><a href="#help-availability">Disponibilidade e ações</a></li><li><a href="#help-manager">Gestor de recursos</a></li><li><a href="#help-faq">FAQ: privacidade e dados</a></li></ul></nav><section aria-labelledby="help-goal"><h3 class="about-section-title" id="help-goal" tabindex="-1">Objetivo</h3><p>Partilhar recursos com os teus alunos de forma simples: prepara o material, gera o link e distribui-o.</p></section><section aria-labelledby="help-route"><h3 class="about-section-title" id="help-route" tabindex="-1">Percurso rápido para partilhar</h3><ol class="about-steps"><li>Na <strong>Opção A</strong>, carrega o teu recurso (pastas, ficheiros ou ZIP/ELPX/H5P) ou cola o código HTML.</li><li>Revê o resumo e, se for necessário, ajusta as <strong>Opções</strong> (título, disponibilidade e forçar o visualizador de pastas).</li><li>Nas <strong>Opções</strong>, cria o ficheiro final. Depois carrega-o na tua nuvem com link público e, na <strong>Opção B</strong>, cola esse endereço.</li></ol><p>Se já tens o ZIP, ELPX ou H5P na nuvem com link público, vai à <strong>Opção B</strong> e cola o endereço.</p></section><section aria-labelledby="help-share-link"><h3 class="about-section-title" id="help-share-link" tabindex="-1">Que link devo partilhar?</h3><p>Partilha sempre o link final gerado por esta aplicação. É o link do visualizador que aparece quando terminas a <strong>Opção B</strong>, ou aquele que podes copiar mais tarde no <strong>Gestor de recursos</strong>.</p><p>Não partilhes o endereço que vês na barra do navegador enquanto o material está aberto. Esse endereço pode ser um URL local guardado apenas neste navegador e neste dispositivo, por isso pode falhar para outra pessoa mesmo que funcione para ti.</p><p>Se já abriste esse material neste navegador e precisas de o encontrar outra vez, procura-o no <strong>Gestor de recursos</strong>. Mas quando o enviares a alunos ou a outras pessoas, usa sempre o link de partilha do visualizador.</p></section><section aria-labelledby="help-tabs"><h3 class="about-section-title" id="help-tabs" tabindex="-1">Separadores de trabalho</h3><ul><li><strong>Início</strong>: contém as duas partes do percurso: <strong>Opção A</strong> e <strong>Opção B</strong>.</li><li><strong>Gestor de recursos</strong>: abre, copia, incorpora, atualiza e elimina os recursos guardados neste navegador.</li></ul></section><section aria-labelledby="help-viewer"><h3 class="about-section-title" id="help-viewer" tabindex="-1">Que visualizador é criado automaticamente</h3><p>A aplicação deteta o conteúdo e escolhe o visualizador mais adequado:</p><ul><li><strong>Visualizador web</strong>: para recursos com páginas HTML e pacotes SCORM 1.2.</li><li><strong>Visualizador H5P</strong>: para conteúdos <code>.h5p</code>, tanto autónomos como dentro de ZIP/ELPX/H5P.</li><li><strong>Visualizador de documentos</strong>: para ficheiros PDF, DOCX, TXT, MD e CSV (incluindo a representação de fórmulas em Markdown).</li><li><strong>Visualizador de pastas</strong>: para percorrer pastas e ficheiros de qualquer tipo.</li></ul><p>Podes ver a aplicação a funcionar com estes exemplos:</p><ul><li><a href="https://visor-webzip.github.io/?key=NO9-KQ_Vkmi6&view=full&entry=__vwz_folder_index.html" target="_blank" rel="noopener">Visualizador de pastas</a></li><li><a href="https://visor-webzip.github.io/?key=crBAg-o4BARB&view=full&entry=tetris%2Findex.html" target="_blank" rel="noopener">Visualizador web</a></li><li><a href="https://visor-webzip.github.io/?key=z3loPNMOj1pW&view=full&entry=__vwz_docs_index.html" target="_blank" rel="noopener">Visualizador de documentos</a></li><li><a href="https://visor-webzip.github.io/?key=sFUKNJkh0Joq&view=full&entry=__vwz_h5p_index.html" target="_blank" rel="noopener">Visualizador H5P</a></li></ul><p>Também recomendamos abrir o <strong>Gestor de recursos</strong> para verificar que ações estão disponíveis em cada exemplo (partilhar, incorporar, descarregar ou atualizar).</p></section><section aria-labelledby="help-options"><h3 class="about-section-title" id="help-options" tabindex="-1">Opções antes de descarregar</h3><ul><li><strong>Definir um título para o recurso</strong>: opcional, para personalizar como aparece.</li><li><strong>Configurar a disponibilidade do recurso</strong>: opcional, para decidir quando pode ser aberto e que ações são permitidas.</li><li><strong>Forçar o visualizador de pastas</strong>: útil se queres que seja sempre mostrado como um explorador de ficheiros.</li><li><strong>Pré-visualizar</strong>: abre uma vista local temporária para verificar o resultado antes de carregar.</li></ul></section><section aria-labelledby="help-availability"><h3 class="about-section-title" id="help-availability" tabindex="-1">Disponibilidade e ações</h3><p>Nas <strong>Opções</strong> podes ativar a disponibilidade por datas e definir o início, um fim opcional e as ações do gestor (partilhar, incorporar, descarregar) enquanto o recurso está acessível.</p><p>Se carregares um ZIP, ELPX ou H5P já existente, também podes adicionar ou alterar estas restrições e pré-visualizar o resultado antes de gerar o link final.</p></section><section aria-labelledby="help-manager"><h3 class="about-section-title" id="help-manager" tabindex="-1">Gestor de recursos</h3><p>O gestor guarda os recursos neste navegador. A partir dele podes abri-los, partilhá-los, incorporá-los, atualizá-los quando o ficheiro na nuvem mudar e eliminá-los quando já não forem necessários.</p></section><section aria-labelledby="help-faq"><h3 class="about-section-title" id="help-faq" tabindex="-1">FAQ: privacidade e dados</h3><ul><li><strong>Onde são guardados os recursos?</strong> No armazenamento local do navegador de cada dispositivo.</li><li><strong>Os meus recursos são carregados no GitHub ou nesta aplicação?</strong> Não. És tu que alojas o ZIP/ELPX/H5P no teu armazenamento na nuvem. O visualizador apenas o descarrega e o abre no navegador.</li><li><strong>São enviados dados a terceiros?</strong> Não. Apenas o descarregamento do ZIP/ELPX/H5P a partir do link público que indicaste.</li><li><strong>O que acontece se apagar os dados do navegador ou mudar de dispositivo?</strong> Os recursos locais desaparecem nesse navegador/dispositivo.</li><li><strong>Quem pode ver o recurso?</strong> Qualquer pessoa com o link do visualizador e acesso ao link público do ficheiro.</li><li><strong>Como se atualiza um recurso?</strong> Substitui o ficheiro na nuvem sem eliminar o anterior; qualquer utilizador que abra o link partilhado receberá uma notificação para atualizar o recurso.</li></ul></section>'
+      },
+      error: {
+        driveTooLarge: 'O ficheiro é demasiado grande e o Google Drive limita os descarregamentos. Tenta com o Nextcloud, o Dropbox ou outro serviço.',
+        loadZip: 'Não foi possível carregar o ZIP.',
+        corruptZip: 'O ficheiro ZIP/ELPX/H5P está danificado ou incompleto.',
+        restricted: 'Este recurso já não está disponível devido às restrições de datas.',
+        embedNotAllowed: 'Não é permitido incorporar este recurso.',
+        popupBlocked: 'O navegador bloqueou a janela de pré-visualização. Permite as janelas emergentes para este site e tenta novamente.',
+        noHtmlSelected: 'Não foi selecionado nenhum HTML.',
+        htmlPickerOpen: 'Não foi possível abrir o seletor de HTML.',
+        serviceWorkerUnavailable: 'Service worker não disponível.',
+        sha1Unavailable: 'SHA-1 não disponível neste navegador.',
+        configMissing: 'Configura o GAS_WEBAPP_URL no config.js.',
+        needHtmlFile: 'O ZIP precisa de pelo menos um ficheiro .html.',
+        offlineNotAllowed: 'Este navegador não permite o visualizador offline.',
+        fflateMissing: 'Não foi possível carregar o motor de ZIP (fflate).',
+        zipNoWebFiles: 'O ZIP não contém ficheiros web.',
+        noSpace: 'Não há espaço suficiente no navegador.'
+      },
+      status: {
+        preparing: 'A preparar...',
+        preparingZip: 'A preparar o ZIP...',
+        connecting: 'A ligar',
+        downloadingZip: 'A descarregar o ZIP...',
+        restrictedReady: 'Este recurso tem restrições de datas. O link está pronto.',
+        unpacking: 'A descompactar...',
+        saving: 'A guardar no navegador...',
+        copySuccess: 'Link copiado.'
+      },
+      documentViewer: {
+        documentsTitle: 'Documentos',
+        hideList: 'Ocultar a lista',
+        showList: 'Mostrar a lista',
+        loadingPdf: 'A carregar o PDF...',
+        failedPdf: 'Não foi possível mostrar este PDF.',
+        downloadPdf: 'Descarregar o PDF',
+        prevPage: 'Anterior',
+        nextPage: 'Seguinte',
+        zoomIn: 'Ampliar',
+        zoomOut: 'Reduzir',
+        fitWidth: 'Ajustar à largura',
+        pageLabel: 'Página {current} / {total}',
+        missingPdfEngine: 'Não foi possível carregar o visualizador de PDF.',
+        loadingDocx: 'A carregar o DOCX...',
+        failedDocx: 'Não foi possível mostrar este DOCX.',
+        downloadDocx: 'Descarregar o DOCX',
+        missingDocxEngine: 'Não foi possível carregar o visualizador de DOCX.'
+      },
+      folderViewer: {
+        title: 'Modo de pastas',
+        subtitle: 'Percorre pastas e subpastas com ícones por tipo de ficheiro.',
+        searchPlaceholder: 'Procurar ficheiros...',
+        searchResults: 'Resultados da procura',
+        selectAll: 'Selecionar os visíveis',
+        clearSelection: 'Limpar a seleção',
+        openSelected: 'Abrir os selecionados',
+        downloadAll: 'Descarregar tudo',
+        downloadSelected: 'Descarregar a seleção',
+        downloadVisible: 'Descarregar a lista visível',
+        noResults: 'Não há ficheiros para mostrar.',
+        selectedCount: '{count} selecionados',
+        openFile: 'Abrir',
+        downloadFile: 'Descarregar',
+        contextOpen: 'Abrir',
+        contextDownload: 'Descarregar',
+        contextDownloadVisible: 'Descarregar a lista visível',
+        folder: 'Pasta',
+        filesWord: 'ficheiros'
+      },
+      common: {
+        close: 'Fechar',
+        cancel: 'Cancelar',
+        delete: 'Eliminar'
+      },
+      units: ['B', 'KB', 'MB', 'GB']
     }
   };
 
@@ -4350,6 +4892,13 @@
         ['Drive, Dropbox, Nextcloud, GitHub…', 'Drive, Dropbox, Box.com, Nextcloud, GitHub…'],
         ['Dropbox, Nextcloud et d’autres services', 'Dropbox, Box.com, Nextcloud et d’autres services'],
         ['Nextcloud, Dropbox ou un autre service', 'Nextcloud, Dropbox, Box.com ou un autre service']
+      ],
+      pt: [
+        ['(Drive, Dropbox, Nextcloud, etc.)', '(Drive, Dropbox, Box.com, Nextcloud, etc.)'],
+        ['(Drive, Dropbox, etc.)', '(Drive, Dropbox, Box.com, etc.)'],
+        ['Drive, Dropbox, Nextcloud, GitHub…', 'Drive, Dropbox, Box.com, Nextcloud, GitHub…'],
+        ['O Dropbox, o Nextcloud e outros serviços', 'O Dropbox, o Box.com, o Nextcloud e outros serviços'],
+        ['o Nextcloud, o Dropbox ou outro serviço', 'o Nextcloud, o Dropbox, o Box.com ou outro serviço']
       ]
     };
 

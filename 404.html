@@ -189,6 +189,16 @@
             'Si vous aviez enregistré ce matériel auparavant dans ce navigateur, revenez à la page principale de la visionneuse et ouvrez-le de nouveau avec le lien correct.'
           ],
           home: 'Aller à la visionneuse'
+        },
+        pt: {
+          title: 'Este link não pode ser aberto aqui',
+          lead: 'O endereço que usaste é um URL local do navegador onde o recurso foi guardado. Não é o URL correto para partilhar.',
+          body: 'Para abrir este material precisas do URL de partilha correto. Pede o link gerado com o botão Partilhar do visualizador.',
+          tips: [
+            'Se este link te foi enviado por outra pessoa, pede-lhe o URL correto para partilhar.',
+            'Se guardaste este material antes neste navegador, volta à página principal do visualizador e abre-o outra vez com o link correto.'
+          ],
+          home: 'Ir para o visualizador'
         }
       };
       function getHomeHref() {
@@ -210,7 +220,8 @@
           en: 'Page not found',
           de: 'Seite nicht gefunden',
           it: 'Pagina non trovata',
-          fr: 'Page introuvable'
+          fr: 'Page introuvable',
+          pt: 'Página não encontrada'
         })[lang] || 'Página no encontrada';
         text.lead = ({
           es: 'Esta dirección no existe en el sitio publicado.',
@@ -220,7 +231,8 @@
           en: 'This address does not exist in the published site.',
           de: 'Diese Adresse existiert auf der veröffentlichten Website nicht.',
           it: 'Questo indirizzo non esiste nel sito pubblicato.',
-          fr: 'Cette adresse n’existe pas sur le site publié.'
+          fr: 'Cette adresse n’existe pas sur le site publié.',
+          pt: 'Este endereço não existe no site publicado.'
         })[lang] || 'Esta dirección no existe en el sitio publicado.';
         text.body = ({
           es: 'Si buscabas un recurso, vuelve al visor y ábrelo desde allí.',
@@ -230,7 +242,8 @@
           en: 'If you were looking for a resource, return to the viewer and open it from there.',
           de: 'Wenn du nach einer Ressource gesucht hast, gehe zum Viewer zurück und öffne sie von dort.',
           it: 'Se cercavi una risorsa, torna al visore e aprila da lì.',
-          fr: 'Si vous cherchiez une ressource, revenez à la visionneuse et ouvrez-la depuis là.'
+          fr: 'Si vous cherchiez une ressource, revenez à la visionneuse et ouvrez-la depuis là.',
+          pt: 'Se procuravas um recurso, volta ao visualizador e abre-o a partir de lá.'
         })[lang] || 'Si buscabas un recurso, vuelve al visor y ábrelo desde allí.';
         text.tips = [];
       }
