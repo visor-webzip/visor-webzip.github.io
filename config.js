@@ -71,6 +71,12 @@ var GAS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxTxNMhU6Dsxfnwbtq
       link: 'See deployment instructions',
       close: 'Close notice'
     },
+    fr: {
+      lead: 'Configuration requise.',
+      body: 'Cette copie de Visor Web-ZIP ne s\'exécute pas sur le site officiel : le téléchargement des ressources est donc désactivé afin de ne pas utiliser le compte Google d\'une autre personne. Déployez votre propre Google Apps Script et indiquez son URL dans <code>GAS_WEBAPP_URL</code> (config.js).',
+      link: 'Voir les instructions de déploiement',
+      close: 'Fermer l\'avis'
+    },
     it: {
       lead: 'Configurazione necessaria.',
       body: 'Questa copia del Visore Web-ZIP non è in esecuzione nel sito ufficiale, quindi il download delle risorse è disattivato per non usare l\'account Google di un\'altra persona. Distribuisci il tuo Google Apps Script e inserisci il suo URL in <code>GAS_WEBAPP_URL</code> (config.js).',

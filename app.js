@@ -236,7 +236,8 @@
           eu: 'eu-ES',
           en: 'en-US',
           de: 'de-DE',
-          it: 'it-IT'
+          it: 'it-IT',
+          fr: 'fr-FR'
         };
         var locale = map[lang] || lang || 'es-ES';
         var formatter = new Intl.DateTimeFormat(locale, {
@@ -1559,6 +1560,23 @@
         actionDocuments: 'Verrà creato uno ZIP con visore di documenti.',
         actionFolders: 'Verrà creato uno ZIP con visore di cartelle.',
         actionForcedFolder: 'Visore di cartelle forzato: verrà creato uno ZIP con visore di cartelle.'
+      },
+      fr: {
+        filesReady: 'Fichiers trouvés : {count}.',
+        typesDetected: 'Types détectés :',
+        actionLabel: 'Action :',
+        actionZipLike: 'ZIP/ELPX/H5P détecté : vous pouvez le prévisualiser et, si vous le souhaitez, appliquer des restrictions d\'affichage.',
+        actionZipLikeWithType: 'ZIP/ELPX/H5P détecté ({viewer}) : vous pouvez le prévisualiser et, si vous le souhaitez, appliquer des restrictions d\'affichage.',
+        actionZipLikeWithTypeScorm12: 'SCORM 1.2 détecté ({viewer}) : vous pouvez le prévisualiser et, si vous le souhaitez, appliquer des restrictions d\'affichage.',
+        analyzingZip: 'Analyse du ZIP/ELPX/H5P...',
+        viewerWeb: 'visionneuse web',
+        viewerDocuments: 'visionneuse de documents',
+        viewerFiles: 'visionneuse de fichiers',
+        zipLikeNoChanges: 'ZIP/ELPX/H5P chargé sans modifications. Vous pouvez le prévisualiser et, si vous le souhaitez, appliquer des restrictions d\'affichage.',
+        actionWeb: 'Un ZIP avec visionneuse web sera créé.',
+        actionDocuments: 'Un ZIP avec visionneuse de documents sera créé.',
+        actionFolders: 'Un ZIP avec visionneuse de dossiers sera créé.',
+        actionForcedFolder: 'Visionneuse de dossiers forcée : un ZIP avec visionneuse de dossiers sera créé.'
       }
     };
     return map[lang] || map.es;
@@ -5183,6 +5201,16 @@
         download: 'Scaricare l\'H5P',
         hideList: 'Nascondere l\'elenco',
         showList: 'Mostrare l\'elenco'
+      },
+      fr: {
+        title: 'Contenus H5P',
+        loading: 'Chargement du H5P...',
+        failed: 'Impossible d\'afficher ce contenu H5P.',
+        missing: 'Impossible de charger le moteur H5P.',
+        missingLibraries: 'Ce fichier H5P ne contient pas les bibliothèques nécessaires. Exportez le H5P sous forme de paquet complet.',
+        download: 'Télécharger le H5P',
+        hideList: 'Masquer la liste',
+        showList: 'Afficher la liste'
       }
     };
     return map[lang] || map.es;

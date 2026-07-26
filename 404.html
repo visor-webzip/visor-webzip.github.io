@@ -179,6 +179,16 @@
             'Se sei tu ad aver salvato prima questo materiale in questo browser, torna alla pagina principale del visore e aprilo di nuovo con il link corretto.'
           ],
           home: 'Andare al visore'
+        },
+        fr: {
+          title: 'Ce lien ne peut pas être ouvert ici',
+          lead: 'L’adresse que vous avez utilisée est une URL locale du navigateur où la ressource a été enregistrée. Ce n’est pas l’URL correcte à partager.',
+          body: 'Pour ouvrir ce matériel, il vous faut l’URL de partage correcte. Demandez le lien généré avec le bouton Partager de la visionneuse.',
+          tips: [
+            'Si quelqu’un vous a envoyé ce lien, demandez-lui l’URL correcte à partager.',
+            'Si vous aviez enregistré ce matériel auparavant dans ce navigateur, revenez à la page principale de la visionneuse et ouvrez-le de nouveau avec le lien correct.'
+          ],
+          home: 'Aller à la visionneuse'
         }
       };
       function getHomeHref() {
@@ -199,7 +209,8 @@
           eu: 'Orria ez da aurkitu',
           en: 'Page not found',
           de: 'Seite nicht gefunden',
-          it: 'Pagina non trovata'
+          it: 'Pagina non trovata',
+          fr: 'Page introuvable'
         })[lang] || 'Página no encontrada';
         text.lead = ({
           es: 'Esta dirección no existe en el sitio publicado.',
@@ -208,7 +219,8 @@
           eu: 'Helbide hau ez dago argitaratutako gunean.',
           en: 'This address does not exist in the published site.',
           de: 'Diese Adresse existiert auf der veröffentlichten Website nicht.',
-          it: 'Questo indirizzo non esiste nel sito pubblicato.'
+          it: 'Questo indirizzo non esiste nel sito pubblicato.',
+          fr: 'Cette adresse n’existe pas sur le site publié.'
         })[lang] || 'Esta dirección no existe en el sitio publicado.';
         text.body = ({
           es: 'Si buscabas un recurso, vuelve al visor y ábrelo desde allí.',
@@ -217,7 +229,8 @@
           eu: 'Baliabide baten bila bazenbiltzan, itzuli ikuslerara eta ireki handik.',
           en: 'If you were looking for a resource, return to the viewer and open it from there.',
           de: 'Wenn du nach einer Ressource gesucht hast, gehe zum Viewer zurück und öffne sie von dort.',
-          it: 'Se cercavi una risorsa, torna al visore e aprila da lì.'
+          it: 'Se cercavi una risorsa, torna al visore e aprila da lì.',
+          fr: 'Si vous cherchiez une ressource, revenez à la visionneuse et ouvrez-la depuis là.'
         })[lang] || 'Si buscabas un recurso, vuelve al visor y ábrelo desde allí.';
         text.tips = [];
       }

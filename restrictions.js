@@ -61,7 +61,8 @@
       eu: 'eu-ES',
       en: 'en-US',
       de: 'de-DE',
-      it: 'it-IT'
+      it: 'it-IT',
+      fr: 'fr-FR'
     };
     return map[lang] || lang;
   }
