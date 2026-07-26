@@ -60,7 +60,8 @@
       gl: 'gl-ES',
       eu: 'eu-ES',
       en: 'en-US',
-      de: 'de-DE'
+      de: 'de-DE',
+      it: 'it-IT'
     };
     return map[lang] || lang;
   }

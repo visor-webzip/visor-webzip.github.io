@@ -2,7 +2,7 @@
 
 ![Release](https://img.shields.io/github/v/release/visor-webzip/visor-webzip.github.io?label=version&sort=semver)
 
-Versión actual: v3.7.0
+Versión actual: v3.7.1
 
 Este proyecto permite mostrar contenidos web (eXeLearning, recursos IA, webs interactivas, etc.) empaquetados en un ZIP, sin tener que publicar en un hosting tradicional.
 
@@ -79,7 +79,7 @@ Enlaces:
 - Si el ZIP contiene solo PDF:
   - con un unico PDF, se abre directamente;
   - con varios PDF, se genera un indice con lista lateral replegable.
-- El indice/lateral del visor PDF usa el idioma activo de la interfaz (es, ca, gl, eu, en, de), incluyendo textos como el titulo de la lista y los botones de mostrar/ocultar.
+- El indice/lateral del visor PDF usa el idioma activo de la interfaz (es, ca, gl, eu, en, de, it), incluyendo textos como el titulo de la lista y los botones de mostrar/ocultar.
 - El visor incluye ajustes de visibilidad por fechas (inicio/fin) y permisos durante el acceso (compartir, insertar y descargar).
 - El gestor de recursos permite revisar materiales guardados localmente, comprobar actualizaciones y forzar recarga del ZIP cuando haya cambios en la nube.
 

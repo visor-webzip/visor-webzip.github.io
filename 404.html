@@ -169,6 +169,16 @@
             'Wenn du dieses Material früher in diesem Browser gespeichert hast, gehe zur Startseite des Viewers zurück und öffne es erneut mit dem richtigen Link.'
           ],
           home: 'Zum Viewer'
+        },
+        it: {
+          title: 'Questo link non si può aprire qui',
+          lead: 'L’indirizzo che hai usato è un URL locale del browser in cui è stata salvata la risorsa. Non è l’URL corretto da condividere.',
+          body: 'Per aprire questo materiale ti serve l’URL di condivisione corretto. Chiedi il link generato con il pulsante Condividere del visore.',
+          tips: [
+            'Se questo link te l’ha inviato un’altra persona, chiedile l’URL corretto da condividere.',
+            'Se sei tu ad aver salvato prima questo materiale in questo browser, torna alla pagina principale del visore e aprilo di nuovo con il link corretto.'
+          ],
+          home: 'Andare al visore'
         }
       };
       function getHomeHref() {
@@ -188,7 +198,8 @@
           gl: 'Páxina non atopada',
           eu: 'Orria ez da aurkitu',
           en: 'Page not found',
-          de: 'Seite nicht gefunden'
+          de: 'Seite nicht gefunden',
+          it: 'Pagina non trovata'
         })[lang] || 'Página no encontrada';
         text.lead = ({
           es: 'Esta dirección no existe en el sitio publicado.',
@@ -196,7 +207,8 @@
           gl: 'Este enderezo non existe no sitio publicado.',
           eu: 'Helbide hau ez dago argitaratutako gunean.',
           en: 'This address does not exist in the published site.',
-          de: 'Diese Adresse existiert auf der veröffentlichten Website nicht.'
+          de: 'Diese Adresse existiert auf der veröffentlichten Website nicht.',
+          it: 'Questo indirizzo non esiste nel sito pubblicato.'
         })[lang] || 'Esta dirección no existe en el sitio publicado.';
         text.body = ({
           es: 'Si buscabas un recurso, vuelve al visor y ábrelo desde allí.',
@@ -204,7 +216,8 @@
           gl: 'Se buscabas un recurso, volve ao visor e ábreo desde alí.',
           eu: 'Baliabide baten bila bazenbiltzan, itzuli ikuslerara eta ireki handik.',
           en: 'If you were looking for a resource, return to the viewer and open it from there.',
-          de: 'Wenn du nach einer Ressource gesucht hast, gehe zum Viewer zurück und öffne sie von dort.'
+          de: 'Wenn du nach einer Ressource gesucht hast, gehe zum Viewer zurück und öffne sie von dort.',
+          it: 'Se cercavi una risorsa, torna al visore e aprila da lì.'
         })[lang] || 'Si buscabas un recurso, vuelve al visor y ábrelo desde allí.';
         text.tips = [];
       }
